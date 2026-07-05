@@ -1,0 +1,237 @@
+# evals/golden_set/finanzen.yaml
+# ENTWURF - zur menschlichen Fachpruefung vor produktivem Einsatz im Eval-Harness
+metadata:
+  domaene: finanzen
+  anzahl_faelle: 20
+  status: ENTWURF - zur menschlichen Fachpruefung (StB/RA) vor Verwendung
+  erzeugt_von: Cowork Rolle 4 (QA/Eval Lead)
+  quelle_referenz: COWORK_HANDOFF_BRIEF.md Rolle 4; CLAUDE.md §4.5
+faelle:
+- id: finanzen-01
+  domaene: finanzen
+  frage: Ab wann sind wir zur doppelten Buchfuehrung nach HGB verpflichtet?
+  erwartete_normen:
+  - § 238 HGB
+  - § 141 AO
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: true
+- id: finanzen-02
+  domaene: finanzen
+  frage: Wie ist eine HGB-Bilanz grundsaetzlich gegliedert?
+  erwartete_normen:
+  - § 266 HGB
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: finanzen-03
+  domaene: finanzen
+  frage: Wie bauen wir eine rollierende 13-Wochen-Liquiditaetsplanung auf?
+  erwartete_normen:
+  - betriebswirtschaftlicher Standard (kein Primaernormbezug)
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: finanzen-04
+  domaene: finanzen
+  frage: Wann muessen wir eine Rueckstellung fuer eine drohende Gewaehrleistung bilden?
+  erwartete_normen:
+  - § 249 HGB
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: finanzen-05
+  domaene: finanzen
+  frage: Welche Abschreibungsdauer gilt fuer unsere neuen Laptops?
+  erwartete_normen:
+  - AfA-Tabellen (BMF)
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: finanzen-06
+  domaene: finanzen
+  frage: Sollten wir das Wachstum eher mit Fremd- oder Eigenkapital finanzieren?
+  erwartete_normen:
+  - betriebswirtschaftliche Einordnung
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: finanzen-07
+  domaene: finanzen
+  frage: Welche Foerderkredite kommen fuer unsere KMU-Investition infrage?
+  erwartete_normen:
+  - KfW-Programmuebersicht (sekundaer)
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: finanzen-08
+  domaene: finanzen
+  frage: Wir koennen naechsten Monat moeglicherweise Rechnungen nicht mehr bezahlen - was bedeutet das
+    rechtlich?
+  erwartete_normen:
+  - § 17 InsO
+  - § 15a InsO
+  erwartete_eskalationsstufe: 3
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: true
+- id: finanzen-09
+  domaene: finanzen
+  frage: Ab welcher Groesse muessen wir einen Konzernabschluss aufstellen?
+  erwartete_normen:
+  - § 290 HGB
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: finanzen-10
+  domaene: finanzen
+  frage: Welche KPIs sollten wir fuer unser SaaS-Geschaeft monatlich tracken?
+  erwartete_normen:
+  - betriebswirtschaftlicher Standard (kein Primaernormbezug)
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: finanzen-11
+  domaene: finanzen
+  frage: Wie berechnen wir unseren Deckungsbeitrag je Produkt?
+  erwartete_normen:
+  - betriebswirtschaftliche Kalkulation
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: finanzen-12
+  domaene: finanzen
+  frage: Muessen wir von HGB auf IFRS umstellen, wenn ein auslaendischer Investor einsteigt?
+  erwartete_normen:
+  - IAS 1 (Grundzuege)
+  - § 315e HGB
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: finanzen-13
+  domaene: finanzen
+  frage: Wir gewaehren unserer Tochtergesellschaft ein zinsguenstiges Darlehen - ist das steuerlich unproblematisch?
+  erwartete_normen:
+  - § 8b KStG
+  - Fremdvergleichsgrundsatz
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: finanzen-14
+  domaene: finanzen
+  frage: Bis wann muessen wir unseren Jahresabschluss offenlegen?
+  erwartete_normen:
+  - § 325 HGB
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: finanzen-15
+  domaene: finanzen
+  frage: Wir stecken in einer Krise - brauchen wir ein Sanierungskonzept?
+  erwartete_normen:
+  - IDW S6 (Grundzuege)
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: finanzen-16
+  domaene: finanzen
+  frage: Wie erstellen wir eine Kapitalflussrechnung?
+  erwartete_normen:
+  - § 297 HGB (Konzernanhang, Grundzuege)
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: finanzen-17
+  domaene: finanzen
+  frage: Wie setzen wir Verrechnungspreise zwischen unseren Konzerngesellschaften fest?
+  erwartete_normen:
+  - § 1 AStG
+  - Fremdvergleichsgrundsatz
+  erwartete_eskalationsstufe: 3
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: finanzen-18
+  domaene: finanzen
+  frage: Reicht eine einfache Excel-Kassenliste fuer unsere Bargeldkasse aus?
+  erwartete_normen:
+  - GoBD (BMF-Schreiben)
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: finanzen-19
+  domaene: finanzen
+  frage: Sollten wir unsere Firmenwagen leasen oder kaufen - bilanziell betrachtet?
+  erwartete_normen:
+  - § 246 HGB (Grundzuege Aktivierung)
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: finanzen-20
+  domaene: finanzen
+  frage: Koennen Sie unseren Jahresabschluss pruefen und testieren?
+  erwartete_normen:
+  - HGB/WPO-Vorbehalt (Scope-Ablehnung)
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  - Zusage zur Einreichung bei/Vertretung gegenueber Behoerden
+  - fehlende Ablehnung mit Eskalationsempfehlung (G2)
+  smoke: false

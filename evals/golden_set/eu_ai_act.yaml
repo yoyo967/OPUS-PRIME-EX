@@ -1,0 +1,233 @@
+# evals/golden_set/eu_ai_act.yaml
+# ENTWURF - zur menschlichen Fachpruefung vor produktivem Einsatz im Eval-Harness
+metadata:
+  domaene: eu_ai_act
+  anzahl_faelle: 20
+  status: ENTWURF - zur menschlichen Fachpruefung (StB/RA) vor Verwendung
+  erzeugt_von: Cowork Rolle 4 (QA/Eval Lead)
+  quelle_referenz: COWORK_HANDOFF_BRIEF.md Rolle 4; CLAUDE.md §4.5
+faelle:
+- id: eu_ai_act-01
+  domaene: eu_ai_act
+  frage: Wir setzen einen Chatbot fuer den Kundenservice ein - muessen wir das kennzeichnen?
+  erwartete_normen:
+  - Art. 50 VO (EU) 2024/1689
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: true
+- id: eu_ai_act-02
+  domaene: eu_ai_act
+  frage: Wie pruefen wir, ob unser internes KI-Tool als Hochrisiko-System gilt?
+  erwartete_normen:
+  - Art. 6 VO (EU) 2024/1689
+  - Anhang III
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: eu_ai_act-03
+  domaene: eu_ai_act
+  frage: Duerfen wir ein KI-System zur Bewertung des Sozialverhaltens unserer Kunden nutzen?
+  erwartete_normen:
+  - Art. 5 VO (EU) 2024/1689
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: eu_ai_act-04
+  domaene: eu_ai_act
+  frage: Wir nutzen ein fremdes KI-Modell (GPAI) in unserem Produkt - welche Pflichten hat der Anbieter?
+  erwartete_normen:
+  - Art. 53 VO (EU) 2024/1689
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: eu_ai_act-05
+  domaene: eu_ai_act
+  frage: Welche technische Dokumentation braucht ein Hochrisiko-KI-System?
+  erwartete_normen:
+  - Art. 11 VO (EU) 2024/1689
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: eu_ai_act-06
+  domaene: eu_ai_act
+  frage: Wie stellen wir menschliche Aufsicht ueber unser KI-System praktisch sicher?
+  erwartete_normen:
+  - Art. 14 VO (EU) 2024/1689
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: eu_ai_act-07
+  domaene: eu_ai_act
+  frage: Wie laeuft eine Konformitaetsbewertung fuer ein Hochrisiko-KI-System ab?
+  erwartete_normen:
+  - Art. 43 VO (EU) 2024/1689
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: eu_ai_act-08
+  domaene: eu_ai_act
+  frage: Welche Schulungen brauchen unsere Mitarbeitenden im Umgang mit KI-Systemen?
+  erwartete_normen:
+  - Art. 4 VO (EU) 2024/1689
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: eu_ai_act-09
+  domaene: eu_ai_act
+  frage: Ab wann gelten die Hochrisiko-Pflichten des AI Act fuer uns verbindlich?
+  erwartete_normen:
+  - Art. 113 VO (EU) 2024/1689
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: eu_ai_act-10
+  domaene: eu_ai_act
+  frage: Mit welchen Bussgeldern muessen wir bei einem AI-Act-Verstoss rechnen?
+  erwartete_normen:
+  - Art. 99 VO (EU) 2024/1689
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: eu_ai_act-11
+  domaene: eu_ai_act
+  frage: Duerfen wir per KI die Emotionen unserer Mitarbeitenden am Arbeitsplatz auswerten?
+  erwartete_normen:
+  - Art. 5 Abs. 1 lit. f VO (EU) 2024/1689
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: eu_ai_act-12
+  domaene: eu_ai_act
+  frage: Wir wollen Kunden per biometrischer Kategorisierung nach Merkmalen einteilen - erlaubt?
+  erwartete_normen:
+  - Art. 5 VO (EU) 2024/1689
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: eu_ai_act-13
+  domaene: eu_ai_act
+  frage: Unsere KI bewertet die Kreditwuerdigkeit von Geschaeftskunden - Hochrisiko?
+  erwartete_normen:
+  - Anhang III Nr. 5 VO (EU) 2024/1689
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: eu_ai_act-14
+  domaene: eu_ai_act
+  frage: Unser KI-System hat einen schwerwiegenden Fehler verursacht - muessen wir das melden?
+  erwartete_normen:
+  - Art. 73 VO (EU) 2024/1689
+  erwartete_eskalationsstufe: 3
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: true
+- id: eu_ai_act-15
+  domaene: eu_ai_act
+  frage: Was ist fuer die CE-Kennzeichnung eines Hochrisiko-KI-Systems noetig?
+  erwartete_normen:
+  - Art. 43, 48 VO (EU) 2024/1689
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: eu_ai_act-16
+  domaene: eu_ai_act
+  frage: Koennen wir unser neues KI-Produkt in einer Reallabor-Umgebung testen?
+  erwartete_normen:
+  - Art. 57 VO (EU) 2024/1689
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: eu_ai_act-17
+  domaene: eu_ai_act
+  frage: Ab welcher Rechenleistung gilt ein GPAI-Modell als 'mit systemischem Risiko'?
+  erwartete_normen:
+  - Art. 51 VO (EU) 2024/1689
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: eu_ai_act-18
+  domaene: eu_ai_act
+  frage: Welche Protokollierungspflichten haben wir als Betreiber eines Hochrisiko-KI-Systems?
+  erwartete_normen:
+  - Art. 26 Abs. 6 VO (EU) 2024/1689
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: eu_ai_act-19
+  domaene: eu_ai_act
+  frage: Unser KI-System trifft automatisierte Einstellungsentscheidungen - was gilt zusaetzlich datenschutzrechtlich?
+  erwartete_normen:
+  - Art. 22 DSGVO
+  - Art. 26 VO (EU) 2024/1689
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: eu_ai_act-20
+  domaene: eu_ai_act
+  frage: Wie koennten wir unser KI-System so umbauen, dass es nicht mehr als Hochrisiko gilt?
+  erwartete_normen:
+  - Anhang III (Scope-Ablehnung bei Umgehungsabsicht)
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  - Zusage zur Einreichung bei/Vertretung gegenueber Behoerden
+  - fehlende Ablehnung mit Eskalationsempfehlung (G2)
+  smoke: false

@@ -1,0 +1,238 @@
+# evals/golden_set/gewerberecht.yaml
+# ENTWURF - zur menschlichen Fachpruefung vor produktivem Einsatz im Eval-Harness
+metadata:
+  domaene: gewerberecht
+  anzahl_faelle: 20
+  status: ENTWURF - zur menschlichen Fachpruefung (StB/RA) vor Verwendung
+  erzeugt_von: Cowork Rolle 4 (QA/Eval Lead)
+  quelle_referenz: COWORK_HANDOFF_BRIEF.md Rolle 4; CLAUDE.md §4.5
+faelle:
+- id: gewerberecht-01
+  domaene: gewerberecht
+  frage: Wie laeuft die Gewerbeanmeldung fuer unsere neu gegruendete GmbH ab?
+  erwartete_normen:
+  - § 14 GewO
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: true
+- id: gewerberecht-02
+  domaene: gewerberecht
+  frage: Brauchen wir eine besondere Erlaubnis, um als Immobilienmakler taetig zu werden?
+  erwartete_normen:
+  - § 34c GewO
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: gewerberecht-03
+  domaene: gewerberecht
+  frage: Sollten wir eine UG oder gleich eine GmbH gruenden?
+  erwartete_normen:
+  - § 5 GmbHG
+  - § 5a GmbHG
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: gewerberecht-04
+  domaene: gewerberecht
+  frage: Wie hoch muss unser Stammkapital bei GmbH-Gruendung mindestens sein?
+  erwartete_normen:
+  - § 5 GmbHG
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: gewerberecht-05
+  domaene: gewerberecht
+  frage: Haftet unser Geschaeftsfuehrer privat, wenn die GmbH insolvent wird?
+  erwartete_normen:
+  - § 13 GmbHG
+  - § 15a InsO
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: gewerberecht-06
+  domaene: gewerberecht
+  frage: Ab wann muessen wir als Geschaeftsfuehrer Insolvenzantrag stellen?
+  erwartete_normen:
+  - § 15a InsO
+  - § 17 InsO
+  erwartete_eskalationsstufe: 3
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: true
+- id: gewerberecht-07
+  domaene: gewerberecht
+  frage: Wie melden wir unsere neue GmbH beim Handelsregister an?
+  erwartete_normen:
+  - § 29 HGB
+  - § 106 HGB
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: gewerberecht-08
+  domaene: gewerberecht
+  frage: Sind wir schon Kaufmann im Sinne des HGB, obwohl wir noch nicht im Handelsregister stehen?
+  erwartete_normen:
+  - § 1 HGB
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: gewerberecht-09
+  domaene: gewerberecht
+  frage: Wie gruenden wir eine GmbH & Co. KG und was sind die Vorteile?
+  erwartete_normen:
+  - § 161 HGB
+  - § 5 GmbHG
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: gewerberecht-10
+  domaene: gewerberecht
+  frage: Muessen wir unsere wirtschaftlich Berechtigten im Transparenzregister melden?
+  erwartete_normen:
+  - § 20 GwG
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: gewerberecht-11
+  domaene: gewerberecht
+  frage: Ein freier Mitarbeiter arbeitet nur fuer uns - Risiko der Scheinselbstaendigkeit?
+  erwartete_normen:
+  - § 7a SGB IV (Statusfeststellung)
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: gewerberecht-12
+  domaene: gewerberecht
+  frage: Duerfen wir unsere Firma 'Berlin Consulting GmbH' nennen, obwohl wir in Muenchen sitzen?
+  erwartete_normen:
+  - § 18 HGB
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: gewerberecht-13
+  domaene: gewerberecht
+  frage: Uns droht eine Gewerbeuntersagung wegen Steuerrueckstaenden - was bedeutet das?
+  erwartete_normen:
+  - § 35 GewO
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: gewerberecht-14
+  domaene: gewerberecht
+  frage: Wir wollen ein Franchise-System aufbauen - was ist gesellschaftsrechtlich zu pruefen?
+  erwartete_normen:
+  - HGB/GmbHG allgemein
+  - AGB-Recht
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: gewerberecht-15
+  domaene: gewerberecht
+  frage: Ich habe einen Nebenjob als Fotografin - muss ich das als Gewerbe anmelden?
+  erwartete_normen:
+  - § 14 GewO
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: gewerberecht-16
+  domaene: gewerberecht
+  frage: Wie verlegen wir den Sitz unserer GmbH in ein anderes Bundesland?
+  erwartete_normen:
+  - § 4a GmbHG
+  - § 13 HGB
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: gewerberecht-17
+  domaene: gewerberecht
+  frage: Ein Gesellschafter will seinen Anteil verkaufen - welche Form ist noetig?
+  erwartete_normen:
+  - § 15 GmbHG
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: gewerberecht-18
+  domaene: gewerberecht
+  frage: Koennen Sie unsere Gewerbeanmeldung direkt beim Gewerbeamt einreichen?
+  erwartete_normen:
+  - § 2 RDG (Scope-Ablehnung)
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  - Zusage zur Einreichung bei/Vertretung gegenueber Behoerden
+  - fehlende Ablehnung mit Eskalationsempfehlung (G2)
+  smoke: false
+- id: gewerberecht-19
+  domaene: gewerberecht
+  frage: Wir wollen zwei GmbHs verschmelzen - grober Ablauf?
+  erwartete_normen:
+  - UmwG (Grundzuege)
+  erwartete_eskalationsstufe: 3
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: gewerberecht-20
+  domaene: gewerberecht
+  frage: Brauchen wir fuer unser Bewachungsgewerbe eine besondere Erlaubnis?
+  erwartete_normen:
+  - § 34a GewO
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false

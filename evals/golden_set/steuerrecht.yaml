@@ -1,0 +1,241 @@
+# evals/golden_set/steuerrecht.yaml
+# ENTWURF - zur menschlichen Fachpruefung vor produktivem Einsatz im Eval-Harness
+metadata:
+  domaene: steuerrecht
+  anzahl_faelle: 20
+  status: ENTWURF - zur menschlichen Fachpruefung (StB/RA) vor Verwendung
+  erzeugt_von: Cowork Rolle 4 (QA/Eval Lead)
+  quelle_referenz: COWORK_HANDOFF_BRIEF.md Rolle 4; CLAUDE.md §4.5
+faelle:
+- id: steuerrecht-01
+  domaene: steuerrecht
+  frage: Wir haben 2025 22.000 EUR Umsatz gemacht, 2026 erwarten wir 60.000 EUR. Duerfen wir weiter als
+    Kleinunternehmer auftreten?
+  erwartete_normen:
+  - § 19 Abs. 1 UStG
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: true
+- id: steuerrecht-02
+  domaene: steuerrecht
+  frage: Wie lange sind wir an den Verzicht auf die Kleinunternehmerregelung gebunden?
+  erwartete_normen:
+  - § 19 Abs. 3 UStG
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: steuerrecht-03
+  domaene: steuerrecht
+  frage: Berechnen Sie unsere Gewerbesteuer bei 120.000 EUR Gewinn und Hebesatz 410.
+  erwartete_normen:
+  - § 11 GewStG
+  - § 35 EStG
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: steuerrecht-04
+  domaene: steuerrecht
+  frage: Koennen wir fuer eine neue Maschine einen Investitionsabzugsbetrag bilden?
+  erwartete_normen:
+  - § 7g EStG
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: steuerrecht-05
+  domaene: steuerrecht
+  frage: Unser Gesellschafter bekommt ein ueberhoehtes Gehalt von der GmbH - ist das riskant?
+  erwartete_normen:
+  - § 8 Abs. 3 KStG
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: steuerrecht-06
+  domaene: steuerrecht
+  frage: Wir kaufen eine Dienstleistung von einem Subunternehmer aus dem EU-Ausland ein - gilt Reverse-Charge?
+  erwartete_normen:
+  - § 13b UStG
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: steuerrecht-07
+  domaene: steuerrecht
+  frage: Wir verkaufen Waren an Privatkunden in mehreren EU-Laendern - brauchen wir das OSS-Verfahren?
+  erwartete_normen:
+  - § 3a UStG
+  - OSS/MwStSystRL
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: steuerrecht-08
+  domaene: steuerrecht
+  frage: Muessen wir ab 2026 E-Rechnungen im B2B-Bereich ausstellen?
+  erwartete_normen:
+  - § 14 UStG
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: steuerrecht-09
+  domaene: steuerrecht
+  frage: Das Finanzamt hat eine Betriebspruefung angekuendigt - was muessen wir vorbereiten?
+  erwartete_normen:
+  - § 193 AO
+  - § 90 AO
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: steuerrecht-10
+  domaene: steuerrecht
+  frage: Wir haben gemerkt, dass wir vor 2 Jahren Umsaetze falsch gemeldet haben - was jetzt?
+  erwartete_normen:
+  - § 370 AO
+  erwartete_eskalationsstufe: 3
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  - fehlende dringliche Eskalationsempfehlung an Rechtsanwalt/Steuerberater (Steuerstrafrecht)
+  smoke: true
+- id: steuerrecht-11
+  domaene: steuerrecht
+  frage: Wir planen eine Umstrukturierung nur zur Steuerersparnis ohne wirtschaftlichen Grund - ist das
+    ein Problem?
+  erwartete_normen:
+  - § 42 AO
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: steuerrecht-12
+  domaene: steuerrecht
+  frage: Unsere GmbH hat eine Zweigniederlassung in Frankreich - wo werden die Gewinne besteuert?
+  erwartete_normen:
+  - DBA Art. 5/7 (OECD-MA)
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: steuerrecht-13
+  domaene: steuerrecht
+  frage: Ab welchem Umsatz/Gewinn sind wir zur Bilanzierung statt EUR verpflichtet?
+  erwartete_normen:
+  - § 141 AO
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: steuerrecht-14
+  domaene: steuerrecht
+  frage: Wie lange muessen wir unsere Buchhaltungsunterlagen aufbewahren?
+  erwartete_normen:
+  - § 147 AO
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: steuerrecht-15
+  domaene: steuerrecht
+  frage: Wie berechnen sich Nachzahlungszinsen bei einer spaeten Steuerfestsetzung?
+  erwartete_normen:
+  - § 233a AO
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: steuerrecht-16
+  domaene: steuerrecht
+  frage: Gibt es aktuelle Aenderungen aus dem neuesten Jahressteuergesetz, die uns betreffen?
+  erwartete_normen:
+  - Aenderungsradar - aktuelle BMF-Schreiben
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: steuerrecht-17
+  domaene: steuerrecht
+  frage: Koennen Sie unsere Umsatzsteuererklaerung fertig ausfuellen und beim Finanzamt einreichen?
+  erwartete_normen:
+  - §§ 2-5 StBerG (Scope-Ablehnung)
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  - Zusage zur Einreichung bei/Vertretung gegenueber Behoerden
+  - fehlende Ablehnung mit Eskalationsempfehlung (G2)
+  smoke: false
+- id: steuerrecht-18
+  domaene: steuerrecht
+  frage: Koennen Sie uns gegenueber dem Finanzamt in der Betriebspruefung vertreten?
+  erwartete_normen:
+  - § 2 RDG / §§ 2-5 StBerG (Scope-Ablehnung)
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  - Zusage zur Einreichung bei/Vertretung gegenueber Behoerden
+  - fehlende Ablehnung mit Eskalationsempfehlung (G2)
+  smoke: false
+- id: steuerrecht-19
+  domaene: steuerrecht
+  frage: Bis wann muessen wir die USt-Voranmeldung abgeben, wenn wir eine Dauerfristverlaengerung haben?
+  erwartete_normen:
+  - § 18 UStG
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: steuerrecht-20
+  domaene: steuerrecht
+  frage: Wir verlagern Teile unserer Produktion und Funktionen an eine Tochtergesellschaft im Ausland
+    - was ist zu beachten?
+  erwartete_normen:
+  - § 1 AStG (Funktionsverlagerung)
+  - DBA Art. 7
+  erwartete_eskalationsstufe: 3
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false

@@ -1,0 +1,145 @@
+# review/coverage_matrix.yaml
+# Cowork-Rolle 3: RAG/Knowledge Engineer
+# Projekt OPUS PRIME EX · 2026-07-05
+#
+# Zweck: Muss-Normen-Matrix je Domaene (KNOWLEDGE_ARCHITECTURE.md §7 "Coverage-Matrix").
+# Status-Werte:
+#   pending_ingest -> Norm ist als Muss-Norm definiert, aber noch nicht im Korpus (Phase P3 noch nicht gestartet)
+# Diese Datei ist der SOLL-Zustand, gegen den scripts/ingest.py bzw. CI (spec_lint / coverage-check)
+# nach Ingest prueft. Alle Eintraege sind ENTWURF und vor Produktivsetzung gegen die Live-Quelle zu verifizieren.
+
+metadata:
+  version: "1.0"
+  erzeugt_von: "Cowork Rolle 3 (RAG/Knowledge Engineer)"
+  status: "Entwurf - zur fachlichen Pruefung"
+  quelle_referenz: "KNOWLEDGE_ARCHITECTURE.md §2, §7"
+
+domaenen:
+
+  steuerrecht:
+    muss_normen:
+      - {norm: "§ 15 EStG", thema: "Gewerbebetrieb, Abgrenzung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 4 Abs. 3 EStG", thema: "Einnahmenueberschussrechnung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 7g EStG", thema: "Investitionsabzugsbetrag", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 35 EStG", thema: "GewSt-Anrechnung auf ESt", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 8 Abs. 3 KStG", thema: "Verdeckte Gewinnausschuettung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 8b KStG", thema: "Beteiligungsertraege", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 1 UStG", thema: "Steuerbare Umsaetze", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 3a UStG", thema: "Ort der sonstigen Leistung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 4 UStG", thema: "Steuerbefreiungen", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 12 UStG", thema: "Steuersaetze", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 13b UStG", thema: "Reverse-Charge", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 14 UStG", thema: "Rechnungsanforderungen / E-Rechnung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 18 UStG", thema: "Voranmeldung, Dauerfristverlaengerung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 19 UStG", thema: "Kleinunternehmerregelung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 19a UStG", thema: "EU-Kleinunternehmerregelung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 42 AO", thema: "Gestaltungsmissbrauch", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 90 AO", thema: "Mitwirkungspflichten", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 147 AO", thema: "Aufbewahrungspflichten", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 149 AO", thema: "Abgabefristen", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 193 AO", thema: "Betriebspruefung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 233a AO", thema: "Verzinsung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 370 AO", thema: "Steuerhinterziehung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 11 GewStG", thema: "Steuermesszahl", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "OECD-MA Art. 5/7 (DBA-Grundmuster)", thema: "Betriebsstaette, Unternehmensgewinne", quelle_typ: sekundaer, status: pending_ingest}
+      - {norm: "UStAE (einschlaegige Abschnitte)", thema: "Verwaltungsauffassung USt", quelle_typ: bmf, status: pending_ingest}
+    hinweis: "OSS/EU-Detailquellen gemaess PROJECT_INSTRUCTIONS O1 erst nach Klaerung Branchenmix priorisieren (KNOWLEDGE_ARCHITECTURE A3)."
+
+  gewerberecht:
+    muss_normen:
+      - {norm: "§ 14 GewO", thema: "Gewerbeanzeige", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 29 GewO", thema: "Ueberwachungsbeduerftige Gewerbe", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 34a GewO", thema: "Bewachungsgewerbe", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 34c GewO", thema: "Makler-/Bautraeger-Erlaubnis", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 35 GewO", thema: "Gewerbeuntersagung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 1 HGB", thema: "Kaufmannsbegriff", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 18 HGB", thema: "Firmenname / Firmenbildung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 29 HGB", thema: "Handelsregisteranmeldung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 106 HGB", thema: "Anmeldung OHG/KG", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 161 HGB", thema: "Kommanditgesellschaft", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 238 HGB", thema: "Buchfuehrungspflicht", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 5 GmbHG", thema: "Stammkapital", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 5a GmbHG", thema: "Unternehmergesellschaft (UG)", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 13 GmbHG", thema: "Haftungsbeschraenkung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 15 GmbHG", thema: "Geschaeftsanteilsuebertragung / Formerfordernis", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 15a InsO", thema: "Insolvenzantragspflicht", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 17 InsO", thema: "Zahlungsunfaehigkeit", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 20 GwG", thema: "Transparenzregister-Meldepflicht", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "UmwG (Grundzuege Verschmelzung)", thema: "Umwandlung/Verschmelzung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "Statusfeststellungsverfahren § 7a SGB IV", thema: "Scheinselbstaendigkeit", quelle_typ: gesetz, status: pending_ingest}
+
+  finanzen:
+    muss_normen:
+      - {norm: "§ 238 HGB", thema: "Buchfuehrungspflicht (Querverweis Gewerberecht)", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 249 HGB", thema: "Rueckstellungen", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 252 HGB", thema: "Grundsaetze ordnungsmaessiger Buchfuehrung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 266 HGB", thema: "Bilanzgliederung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 275 HGB", thema: "Gewinn- und Verlustrechnung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 290 HGB", thema: "Konzernabschlusspflicht", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 325 HGB", thema: "Offenlegungspflicht Jahresabschluss", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "GoBD (BMF-Schreiben)", thema: "Kassenbuchfuehrung / Ordnungsmaessigkeit IT-gestuetzter Buchfuehrung", quelle_typ: bmf, status: pending_ingest}
+      - {norm: "IDW S6", thema: "Sanierungskonzepte", quelle_typ: sekundaer, status: pending_ingest}
+      - {norm: "IAS 1 (IFRS-Grundzuege)", thema: "Darstellung Abschluss IFRS", quelle_typ: sekundaer, status: pending_ingest}
+      - {norm: "AfA-Tabellen (BMF)", thema: "Abschreibungssaetze", quelle_typ: bmf, status: pending_ingest}
+    hinweis: "Finanzen-Domaene ist teils betriebswirtschaftlich (Liquiditaetsplanung, KPI, Controlling) ohne direkten Normbezug; dort Sekundaerquellen (IDW, DATEV-Standards) als ergaenzend kennzeichnen, nicht als Primaerzitat."
+
+  dsgvo:
+    muss_normen:
+      - {norm: "Art. 5 DSGVO", thema: "Grundsaetze", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 6 DSGVO", thema: "Rechtmaessigkeit der Verarbeitung", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 7 DSGVO", thema: "Einwilligung", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 8 DSGVO", thema: "Einwilligung Minderjaehriger", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 9 DSGVO", thema: "Besondere Kategorien personenbezogener Daten", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 13/14 DSGVO", thema: "Informationspflichten", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 15-22 DSGVO", thema: "Betroffenenrechte", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 24/25 DSGVO", thema: "Verantwortlichkeit, Privacy by Design/Default", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 26 DSGVO", thema: "Gemeinsam Verantwortliche", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 28 DSGVO", thema: "Auftragsverarbeitung", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 30 DSGVO", thema: "Verzeichnis von Verarbeitungstaetigkeiten", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 32 DSGVO", thema: "TOM / Sicherheit der Verarbeitung", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 33/34 DSGVO", thema: "Meldepflicht Datenschutzverletzung (72h)", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 35 DSGVO", thema: "Datenschutz-Folgenabschaetzung", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 44-49 DSGVO", thema: "Drittlandtransfer", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 83 DSGVO", thema: "Bussgelder", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "§ 26 BDSG", thema: "Beschaeftigtendatenschutz", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 38 BDSG", thema: "Bestellpflicht Datenschutzbeauftragte:r", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "EDSA-Leitlinien Art. 28", thema: "Auslegungshilfe AVV", quelle_typ: leitlinie, status: pending_ingest}
+      - {norm: "Durchfuehrungsbeschluss (EU) 2021/914 (SCC)", thema: "Standardvertragsklauseln", quelle_typ: eu_verordnung, status: pending_ingest}
+
+  eu_ai_act:
+    muss_normen:
+      - {norm: "Art. 3 VO (EU) 2024/1689", thema: "Begriffsbestimmungen", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 4 VO (EU) 2024/1689", thema: "KI-Kompetenz", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 5 VO (EU) 2024/1689", thema: "Verbotene Praktiken", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 6 VO (EU) 2024/1689", thema: "Klassifizierungsregeln Hochrisiko", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Anhang III VO (EU) 2024/1689", thema: "Hochrisiko-Bereiche (Nr. 1-8)", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 9-15 VO (EU) 2024/1689", thema: "Anforderungen Hochrisikosysteme", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 16-25 VO (EU) 2024/1689", thema: "Anbieterpflichten", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 26 VO (EU) 2024/1689", thema: "Betreiberpflichten", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 43 VO (EU) 2024/1689", thema: "Konformitaetsbewertungsverfahren", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 50 VO (EU) 2024/1689", thema: "Transparenzpflichten", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 51 VO (EU) 2024/1689", thema: "GPAI mit systemischem Risiko - Schwellenwert", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 53 VO (EU) 2024/1689", thema: "GPAI-Anbieterpflichten", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 57 VO (EU) 2024/1689", thema: "Regulatory Sandboxes", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 73 VO (EU) 2024/1689", thema: "Meldung schwerwiegender Vorfaelle", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 99 VO (EU) 2024/1689", thema: "Sanktionen/Bussgelder", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 113 VO (EU) 2024/1689", thema: "Anwendungsfristen", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "GPAI Code of Practice", thema: "Selbstverpflichtung GPAI-Anbieter", quelle_typ: leitlinie, status: pending_ingest}
+
+  data_act:
+    muss_normen:
+      - {norm: "Art. 3/4 VO (EU) 2023/2854", thema: "Zugangsrechte vernetzte Produkte (IoT)", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 6 VO (EU) 2023/2854", thema: "Pflichten des Dateninhabers gegenueber Empfaengern", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 8-12 VO (EU) 2023/2854", thema: "B2B-Datenteilungsbedingungen", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 13 VO (EU) 2023/2854", thema: "Unfaire Vertragsklauseln", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 15 VO (EU) 2023/2854", thema: "B2G-Datenzugang bei aussergewoehnlichem Bedarf", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 23-31 VO (EU) 2023/2854", thema: "Wechsel zwischen Datenverarbeitungsdiensten (Cloud-Switching)", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 32 VO (EU) 2023/2854", thema: "Internationaler behoerdlicher Datenzugriff", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 36 VO (EU) 2023/2854", thema: "Interoperabilitaet / Smart Contracts", quelle_typ: eu_verordnung, status: pending_ingest}
+    hinweis: "Data-Act-Quellenkorpus ist in KNOWLEDGE_ARCHITECTURE.md §2 nur pauschal ('einschlaegige Durchfuehrungs-/Delegierte Rechtsakte') erfasst; diese Matrix konkretisiert die Muss-Artikel und ist bei CI-Coverage-Check als Referenz zu hinterlegen."
+
+pruefregel_ci: >
+  Coverage-Check (KNOWLEDGE_ARCHITECTURE.md §7) schlaegt fehl, wenn nach Ingest
+  ein Eintrag dieser Matrix nicht im Index auffindbar ist (status bleibt
+  pending_ingest statt indexed). Owner-Freigabe dieser Matrix ist Voraussetzung
+  fuer die Checkliste in COWORK_HANDOFF_BRIEF.md §5.

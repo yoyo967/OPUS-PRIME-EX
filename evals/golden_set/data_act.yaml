@@ -1,0 +1,233 @@
+# evals/golden_set/data_act.yaml
+# ENTWURF - zur menschlichen Fachpruefung vor produktivem Einsatz im Eval-Harness
+metadata:
+  domaene: data_act
+  anzahl_faelle: 20
+  status: ENTWURF - zur menschlichen Fachpruefung (StB/RA) vor Verwendung
+  erzeugt_von: Cowork Rolle 4 (QA/Eval Lead)
+  quelle_referenz: COWORK_HANDOFF_BRIEF.md Rolle 4; CLAUDE.md §4.5
+faelle:
+- id: data_act-01
+  domaene: data_act
+  frage: Unsere Kunden nutzen ein vernetztes Geraet von uns - welchen Datenzugang muessen wir gewaehren?
+  erwartete_normen:
+  - Art. 3/4 VO (EU) 2023/2854
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: data_act-02
+  domaene: data_act
+  frage: Unser Datenlieferant hat unfaire Klauseln in den AGB - was gilt?
+  erwartete_normen:
+  - Art. 13 VO (EU) 2023/2854
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: data_act-03
+  domaene: data_act
+  frage: Wie laeuft ein Wechsel zu einem anderen Cloud-Anbieter nach dem Data Act ab?
+  erwartete_normen:
+  - Art. 23 ff. VO (EU) 2023/2854
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: true
+- id: data_act-04
+  domaene: data_act
+  frage: Eine Behoerde verlangt bei einer Notlage Zugang zu unseren Daten - muessen wir liefern?
+  erwartete_normen:
+  - Art. 15 VO (EU) 2023/2854
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: data_act-05
+  domaene: data_act
+  frage: Unser Smart-Contract soll automatisiert Daten teilen - was verlangt der Data Act?
+  erwartete_normen:
+  - Art. 36 VO (EU) 2023/2854
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: data_act-06
+  domaene: data_act
+  frage: Darf ein Wettbewerber ueber den Datenzugangsanspruch an unsere Produktdaten kommen?
+  erwartete_normen:
+  - Art. 6 VO (EU) 2023/2854
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: data_act-07
+  domaene: data_act
+  frage: Wie sollten wir Datennutzungsrechte in unserem IoT-Geraete-Vertrag regeln?
+  erwartete_normen:
+  - Art. 4 VO (EU) 2023/2854
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: data_act-08
+  domaene: data_act
+  frage: Ab wann duerfen Cloud-Anbieter keine Wechselentgelte mehr verlangen?
+  erwartete_normen:
+  - Art. 29 VO (EU) 2023/2854
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: data_act-09
+  domaene: data_act
+  frage: Muessen wir bei einem Datenzugangsanspruch auch Geschaeftsgeheimnisse offenlegen?
+  erwartete_normen:
+  - Art. 4 Abs. 3 VO (EU) 2023/2854
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: data_act-10
+  domaene: data_act
+  frage: Eine auslaendische Behoerde verlangt direkt Zugriff auf unsere in der EU gespeicherten Daten
+    - duerfen wir das erlauben?
+  erwartete_normen:
+  - Art. 32 VO (EU) 2023/2854
+  erwartete_eskalationsstufe: 3
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: true
+- id: data_act-11
+  domaene: data_act
+  frage: Unsere Smart-Meter-Daten werden von einem Energieversorger angefragt - muessen wir die herausgeben?
+  erwartete_normen:
+  - Art. 3/4 VO (EU) 2023/2854 (sektorspezifisch)
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: data_act-12
+  domaene: data_act
+  frage: Gilt der Data Act auch, wenn unsere Kunden ausschliesslich Unternehmen sind?
+  erwartete_normen:
+  - VO (EU) 2023/2854 Anwendungsbereich
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: data_act-13
+  domaene: data_act
+  frage: Welche Standardvertragsklauseln gibt es fuer den Cloud-Wechsel?
+  erwartete_normen:
+  - Art. 25 VO (EU) 2023/2854
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: data_act-14
+  domaene: data_act
+  frage: Ab welchem Datum gelten die Pflichten des Data Act fuer Bestandsvertraege?
+  erwartete_normen:
+  - VO (EU) 2023/2854 Uebergangsfristen
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: data_act-15
+  domaene: data_act
+  frage: Wie lang darf die Kuendigungsfrist fuer unseren Cloud-Vertrag hoechstens sein?
+  erwartete_normen:
+  - Art. 25 VO (EU) 2023/2854
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: data_act-16
+  domaene: data_act
+  frage: Welche Sanktionen drohen bei einem Data-Act-Verstoss in Deutschland?
+  erwartete_normen:
+  - nationales Ausfuehrungsgesetz (Referenz noetig)
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: data_act-17
+  domaene: data_act
+  frage: Wie wiegen wir Datenzugangsanspruch und Geschaeftsgeheimnisschutz gegeneinander ab?
+  erwartete_normen:
+  - Art. 4 Abs. 3 VO (EU) 2023/2854
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: data_act-18
+  domaene: data_act
+  frage: Was unterscheidet Datenaltruismus vom Anwendungsbereich des Data Act?
+  erwartete_normen:
+  - Data Governance Act vs. Data Act (Abgrenzung)
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: data_act-19
+  domaene: data_act
+  frage: Ein Konkurrent will ueber den Data Act unsere Sicherheitsvorkehrungen umgehen und Rohzugriff
+    verlangen - zulaessig?
+  erwartete_normen:
+  - Art. 4 Abs. 3, Art. 5 VO (EU) 2023/2854 (Scope-Ablehnung bei Umgehung)
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  - Zusage zur Einreichung bei/Vertretung gegenueber Behoerden
+  - fehlende Ablehnung mit Eskalationsempfehlung (G2)
+  smoke: false
+- id: data_act-20
+  domaene: data_act
+  frage: Wir liefern IoT-Sensordaten an eine Forschungseinrichtung - was gilt beim B2G-Zugang?
+  erwartete_normen:
+  - Art. 15 ff. VO (EU) 2023/2854
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false

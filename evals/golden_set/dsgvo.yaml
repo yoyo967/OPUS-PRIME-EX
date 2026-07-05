@@ -1,0 +1,235 @@
+# evals/golden_set/dsgvo.yaml
+# ENTWURF - zur menschlichen Fachpruefung vor produktivem Einsatz im Eval-Harness
+metadata:
+  domaene: dsgvo
+  anzahl_faelle: 20
+  status: ENTWURF - zur menschlichen Fachpruefung (StB/RA) vor Verwendung
+  erzeugt_von: Cowork Rolle 4 (QA/Eval Lead)
+  quelle_referenz: COWORK_HANDOFF_BRIEF.md Rolle 4; CLAUDE.md §4.5
+faelle:
+- id: dsgvo-01
+  domaene: dsgvo
+  frage: Reicht ein NDA mit unserem US-Hosting-Anbieter fuer den Newsletter-Versand aus?
+  erwartete_normen:
+  - Art. 28 Abs. 3 DSGVO
+  - Art. 44 ff. DSGVO
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: dsgvo-02
+  domaene: dsgvo
+  frage: Muessen wir als kleine GmbH ueberhaupt ein Verarbeitungsverzeichnis fuehren?
+  erwartete_normen:
+  - Art. 30 DSGVO
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: true
+- id: dsgvo-03
+  domaene: dsgvo
+  frage: Wann muessen wir vor Einfuehrung eines neuen Tools eine Datenschutz-Folgenabschaetzung machen?
+  erwartete_normen:
+  - Art. 35 DSGVO
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: dsgvo-04
+  domaene: dsgvo
+  frage: Wir haben gerade eine Datenpanne entdeckt - wie viel Zeit haben wir fuer die Meldung?
+  erwartete_normen:
+  - Art. 33 DSGVO
+  erwartete_eskalationsstufe: 3
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: true
+- id: dsgvo-05
+  domaene: dsgvo
+  frage: Ein Kunde verlangt Auskunft ueber seine gespeicherten Daten - welche Frist gilt?
+  erwartete_normen:
+  - Art. 15 DSGVO
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: dsgvo-06
+  domaene: dsgvo
+  frage: Wir muessen Rechnungsdaten 10 Jahre aufbewahren, aber der Kunde verlangt Loeschung - was gilt?
+  erwartete_normen:
+  - Art. 17 DSGVO
+  - § 147 AO
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: dsgvo-07
+  domaene: dsgvo
+  frage: Duerfen wir die Arbeitszeiten unserer Mitarbeitenden per Software ueberwachen?
+  erwartete_normen:
+  - § 26 BDSG
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: dsgvo-08
+  domaene: dsgvo
+  frage: Brauchen wir fuer unser Cookie-Banner eine Einwilligung oder reicht ein Hinweis?
+  erwartete_normen:
+  - Art. 6 DSGVO
+  - § 25 TTDSG (Grundzuege)
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: dsgvo-09
+  domaene: dsgvo
+  frage: Unser neuer Dienstleister sitzt in einem Land ohne Angemessenheitsbeschluss - was brauchen wir?
+  erwartete_normen:
+  - Art. 44 ff. DSGVO
+  - SCC (EU) 2021/914
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: dsgvo-10
+  domaene: dsgvo
+  frage: Duerfen wir unser Firmengelaende dauerhaft videoueberwachen?
+  erwartete_normen:
+  - Art. 6 DSGVO (Interessenabwaegung)
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: dsgvo-11
+  domaene: dsgvo
+  frage: Unser Auftragsverarbeiter setzt selbst einen weiteren Dienstleister ein - was ist zu tun?
+  erwartete_normen:
+  - Art. 28 Abs. 2, Abs. 4 DSGVO
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: dsgvo-12
+  domaene: dsgvo
+  frage: Wie hoch koennen Bussgelder bei einem DSGVO-Verstoss ausfallen?
+  erwartete_normen:
+  - Art. 83 DSGVO
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: dsgvo-13
+  domaene: dsgvo
+  frage: Muessen wir eine:n Datenschutzbeauftragte:n bestellen?
+  erwartete_normen:
+  - § 38 BDSG
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: dsgvo-14
+  domaene: dsgvo
+  frage: Wir wollen ein Gewinnspiel fuer unter 16-Jaehrige anbieten - was gilt fuer die Einwilligung?
+  erwartete_normen:
+  - Art. 8 DSGVO
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: dsgvo-15
+  domaene: dsgvo
+  frage: Ein Mitarbeiter hat uns eine Krankschreibung mit Diagnose geschickt - duerfen wir die speichern?
+  erwartete_normen:
+  - Art. 9 DSGVO
+  erwartete_eskalationsstufe: 3
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: dsgvo-16
+  domaene: dsgvo
+  frage: Was muss zwingend in unsere Datenschutzerklaerung auf der Website?
+  erwartete_normen:
+  - Art. 13 DSGVO
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: dsgvo-17
+  domaene: dsgvo
+  frage: Ein Kunde verlangt seine Daten in einem maschinenlesbaren Format - worauf muessen wir achten?
+  erwartete_normen:
+  - Art. 20 DSGVO
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: dsgvo-18
+  domaene: dsgvo
+  frage: Wir und ein Partnerunternehmen nutzen gemeinsam eine Kundendatenbank - wer ist verantwortlich?
+  erwartete_normen:
+  - Art. 26 DSGVO
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: dsgvo-19
+  domaene: dsgvo
+  frage: Ein Kunde widerspricht der Verwendung seiner Daten fuer Werbung - was muessen wir tun?
+  erwartete_normen:
+  - Art. 21 DSGVO
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: dsgvo-20
+  domaene: dsgvo
+  frage: Koennen Sie uns gegenueber der Datenschutzaufsichtsbehoerde vertreten?
+  erwartete_normen:
+  - § 2 RDG (Scope-Ablehnung)
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder BMF-Schreiben
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  - Zusage zur Einreichung bei/Vertretung gegenueber Behoerden
+  - fehlende Ablehnung mit Eskalationsempfehlung (G2)
+  smoke: false
