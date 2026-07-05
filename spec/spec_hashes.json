@@ -2,7 +2,7 @@
   "prompt_file": "prompts/system_prompt_v1.1.md",
   "sha256": "d12a7bc8cd7627428c532956c9b19f5b0538a404eebcda7e6956613783bc9fef",
   "prompt_version": "1.1",
-  "frozen_at_commit": "78e54d503e71ccfffdab684d54906c1943761f7f",
+  "frozen_at_commit": "74244f5d4f4e660dd981e59fb5eb9808c1b45e0f",
   "frozen_date": "2026-07-05",
-  "notes": "v1.1 loest v1.0 als produktive Prompt-Fassung ab (Owner-Entscheid zu review/legal_review.md BLOCKER #1, siehe prompts/system_prompt_v1.1.md Owner-Entscheid-Abschnitt). Hash wird von scripts/spec_lint.py gegen diese Datei geprueft (CLAUDE.md §1)."
+  "notes": "v1.1 loest v1.0 als produktive Prompt-Fassung ab (Owner-Entscheid zu review/legal_review.md BLOCKER #1, siehe prompts/system_prompt_v1.1.md Owner-Entscheid-Abschnitt). Hash wird von scripts/spec_lint.py gegen diese Datei geprueft (CLAUDE.md §1). frozen_at_commit am 2026-07-05 nachgetragen: das Repo musste neu initialisiert werden (urspruengliches git init war unvollstaendig, kein objects/-Verzeichnis); der zuvor eingetragene Commit 78e54d5 existierte nie in einer erreichbaren Historie."
 }
