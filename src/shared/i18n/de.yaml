@@ -1,0 +1,16 @@
+# SPEC: CLAUDE.md §6 (German UI/output strings live in src/shared/i18n/de.yaml)
+pflicht_disclaimer: >-
+  Hinweis: Diese Antwort ist eine allgemeine Rechtsinformation auf Basis des
+  angegebenen Rechtsstands und ersetzt keine individuelle Beratung durch
+  Steuerberater:in oder Rechtsanwält:in. Für verbindliche Auskünfte zu Ihrem
+  Einzelfall wenden Sie sich bitte an eine zugelassene Berufsträgerin oder
+  einen zugelassenen Berufsträger.
+entwurf_kopfzeile: "ENTWURF – vor Verwendung fachlich prüfen lassen"
+ablehnung_vorbehaltene_leistung: >-
+  Diese Leistung darf ich nicht erbringen: Sie ist zugelassenen Berufsträgern
+  (Steuerberater:in, Rechtsanwält:in bzw. Patentanwält:in) vorbehalten. Ich
+  bereite Ihre Entscheidung gern vor – z. B. mit einer Checkliste für das
+  Beratungsgespräch.
+stale_warnung: >-
+  Achtung: Der Rechtsstand mindestens einer verwendeten Quelle ist möglicherweise
+  nicht mehr aktuell. Bitte prüfen Sie die Angaben gegen die Live-Quelle.

@@ -1,0 +1,46 @@
+# SPEC: AGENT_ARCHITECTURE.md §2 (Modell-Routing, risikobasiert), §7 (Kostensteuerung), §8 A1
+# Modell-IDs verifiziert gegen https://platform.claude.com/docs/en/about-claude/models/overview
+# (Abruf 2026-07-05):
+#   - claude-fable-5: aktuell (GA seit 2026-06-09), dateless ID = pinned Snapshot
+#   - claude-haiku-4-5-20251001: pinned Snapshot des aktuellen Haiku (Alias claude-haiku-4-5)
+#   - claude-sonnet-4-6 (in der Spec genannt): laut Doku LEGACY -> gemaess Annahme A1
+#     ("Claude Code verifiziert vor Implementierung und parametrisiert IDs") auf das
+#     aktuelle Sonnet-Modell claude-sonnet-5 parametrisiert. Reine Parametrisierung,
+#     keine Architektur-Abweichung; Routing-Logik unveraendert.
+# SPEC: CLAUDE.md §5 (Release friert Modell-IDs ein -> nur pinned Snapshots verwenden)
+
+routes:
+  a_standard:
+    # SPEC: AGENT_ARCHITECTURE.md §2 Route A (Einzeldomaene, klare Rechtslage, Risiko NIEDRIG/MITTEL)
+    model: "claude-sonnet-5"
+    temperature: 0.2 # SPEC: CLAUDE.md §3 (temperature 0.2 fuer Route A/B)
+    max_tokens: 4096
+  b_komplex:
+    # SPEC: AGENT_ARCHITECTURE.md §2 Route B (domaenenuebergreifend, Risiko HOCH, Stufe-2/3)
+    model: "claude-fable-5"
+    temperature: 0.2
+    max_tokens: 8192
+  c_triage:
+    # SPEC: AGENT_ARCHITECTURE.md §2 Route C (Klassifikation, Re-Ranking, Formatierung)
+    model: "claude-haiku-4-5-20251001"
+    temperature: 0.0 # SPEC: CLAUDE.md §3 (temperature 0.0 fuer Route-C-Klassifikation)
+    max_tokens: 1024
+
+routing:
+  # Risiko-Score 0-100, deterministisch berechnet (SPEC: AGENT_ARCHITECTURE.md §2 Routing-Regeln)
+  risiko_score_schwelle_route_b: 60
+  # Eskalation nach oben immer erlaubt, Deeskalation nie (SPEC: AGENT_ARCHITECTURE.md §2)
+  deeskalation_erlaubt: false
+  # Kostenziel: >= 60 % der Anfragen auf Route A/C (SPEC: AGENT_ARCHITECTURE.md §7)
+  kosten_ziel_route_ac_anteil: 0.60
+
+latenz_budget_s:
+  # SPEC: AGENT_ARCHITECTURE.md §7; PROJECT_INSTRUCTIONS.md §4 (Technik & Betrieb)
+  route_a_p95: 20
+  route_b_p95: 60
+
+retry:
+  # SPEC: CLAUDE.md §3 (retries with exponential backoff)
+  max_attempts: 3
+  backoff_base_s: 1.0
+  backoff_factor: 2.0

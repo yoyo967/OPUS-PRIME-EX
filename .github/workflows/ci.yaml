@@ -1,0 +1,31 @@
+# SPEC: CLAUDE.md §5 (CI/CD: lint -> typecheck -> unit -> ingest-fixtures ->
+# guardrail-tests -> spec_lint -> eval-smoke)
+# Stufen ingest-fixtures / guardrail-tests / eval-smoke werden mit den jeweiligen
+# Meilensteinen ergaenzt (P3-Reihenfolge gemaess NEXT_STEPS.md Schritt 3).
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: install
+        run: pip install -e ".[dev]"
+      - name: lint
+        run: ruff check .
+      - name: typecheck
+        run: mypy
+      - name: unit
+        run: pytest -q
+      # TODO(Meilenstein RAG): ingest-fixtures (SPEC: CLAUDE.md §4.2)
+      # TODO(Meilenstein Guardrails): guardrail-tests (SPEC: CLAUDE.md §4.3)
+      - name: spec_lint
+        run: python scripts/spec_lint.py
+      # TODO(Meilenstein Eval-Harness): eval-smoke, 14 Faelle (SPEC: CLAUDE.md §5)

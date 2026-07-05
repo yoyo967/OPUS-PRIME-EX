@@ -1,0 +1,14 @@
+# SPEC: CLAUDE.md §6 (English fallback file maintained in parallel)
+pflicht_disclaimer: >-
+  Note: This answer is general legal information based on the stated legal
+  status and does not replace individual advice from a licensed tax advisor
+  or attorney. For binding advice on your specific case, please consult a
+  licensed professional.
+entwurf_kopfzeile: "DRAFT - have this reviewed professionally before use"
+ablehnung_vorbehaltene_leistung: >-
+  I am not permitted to perform this service: it is reserved for licensed
+  professionals (tax advisor, attorney, or patent attorney). I am happy to
+  prepare your decision, e.g. with a checklist for the advisory meeting.
+stale_warnung: >-
+  Caution: The legal status of at least one source used may be outdated.
+  Please verify against the live source.

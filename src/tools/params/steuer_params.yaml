@@ -1,0 +1,56 @@
+# SPEC: CLAUDE.md §3 (Determinism first: table-driven parameters, versioned like statutes)
+# SPEC: AGENT_ARCHITECTURE.md §3.2 (Parametertabellen sind versioniert wie Normen)
+# SPEC: CLAUDE.md §6 (Never hardcode legal parameters in code paths)
+#
+# EHRLICHKEITS-REGEL: Alle Werte sind fachlich etablierte Parameter, aber vor
+# Produktivsetzung im Rahmen des RAG-Ingest gegen die Live-Quelle zu verifizieren
+# (analog spec/OPEN_QUESTIONS.md #4). Nicht verifizierte Mitgliedstaaten-Saetze
+# (OSS) werden bewusst NICHT gepflegt, bis der Ingest sie belegt - der Rechner
+# antwortet dann mit einem klaren Fehler statt mit erfundenen Zahlen.
+
+ust_saetze:
+  - gueltig_ab: "2021-01-01"
+    gueltig_bis: null
+    regelsteuersatz: "0.19"
+    ermaessigt: "0.07"
+    quelle: "§ 12 Abs. 1, Abs. 2 UStG"
+
+kleinunternehmer_grenzen:
+  - gueltig_ab: "2025-01-01"
+    gueltig_bis: null
+    grenze_vorjahr: "25000"
+    grenze_laufend: "100000"
+    quelle: "§ 19 Abs. 1 UStG i.d.F. ab 01.01.2025 (Netto-Gesamtumsatz)"
+
+gewst:
+  - gueltig_ab: "2008-01-01"
+    gueltig_bis: null
+    messzahl: "0.035"
+    freibetrag_natuerliche_personen: "24500"
+    mindest_hebesatz: 200
+    rundung_gewerbeertrag: 100
+    quelle: "§ 11 Abs. 1 S. 3, Abs. 2 GewStG; § 16 Abs. 4 S. 2 GewStG"
+
+est_35_anrechnung:
+  - gueltig_ab: "2020-01-01"
+    gueltig_bis: null
+    faktor: "4.0"
+    quelle: "§ 35 Abs. 1 S. 1 EStG (das 4-fache des GewSt-Messbetrags, begrenzt auf die tatsaechlich zu zahlende GewSt)"
+
+kst:
+  - gueltig_ab: "2008-01-01"
+    gueltig_bis: null
+    satz: "0.15"
+    soli_satz: "0.055"
+    quelle: "§ 23 Abs. 1 KStG; § 3 Abs. 1 Nr. 1, § 4 SolzG 1995"
+
+# OSS-Saetze je Mitgliedstaat (SPEC: AGENT_ARCHITECTURE.md §3.2 "aus Tabelle").
+# Nur DE gepflegt; weitere Mitgliedstaaten erst nach Ingest-Verifikation
+# (keine unverifizierten Zahlen, SPEC: PROJECT_INSTRUCTIONS.md §4).
+oss_saetze:
+  - gueltig_ab: "2021-01-01"
+    gueltig_bis: null
+    mitgliedstaat: "DE"
+    regelsteuersatz: "0.19"
+    ermaessigt: "0.07"
+    quelle: "§ 12 UStG"

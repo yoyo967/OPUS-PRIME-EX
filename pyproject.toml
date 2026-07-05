@@ -1,0 +1,34 @@
+# SPEC: CLAUDE.md §3 (Tech Stack: Python 3.12+, mypy --strict, ruff)
+[project]
+name = "opus-prime-ex"
+version = "0.1.0"
+description = "OPUS PRIME EX - Rechts-/Steuerinformations-Agent (Opus Magnum / LYGOX)"
+requires-python = ">=3.12"
+dependencies = [
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "mypy>=1.10",
+    "ruff>=0.4",
+    "types-PyYAML",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+# SPEC: CLAUDE.md §3 (no wildcard imports -> F403/F401 via F; import order via I)
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src", "scripts"]

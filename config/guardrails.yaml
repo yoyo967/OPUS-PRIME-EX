@@ -1,0 +1,37 @@
+# SPEC: AGENT_ARCHITECTURE.md §5 (Guardrails G1-G8)
+# Aenderung der Guardrail-Konfiguration zur Laufzeit ist verboten (P4-Sperre,
+# SPEC: AGENT_ARCHITECTURE.md §4) - diese Datei wird nur beim Start geladen.
+
+guardrails:
+  g1_disclaimer_injektion:
+    enabled: true
+    # Wortlaut aus prompts/system_prompt_v1.2.md (PFLICHT-DISCLAIMER); Freigabe durch
+    # zugelassenen RA vor Go-Live ausstehend (SPEC: PROJECT_INSTRUCTIONS.md O3).
+    disclaimer_i18n_key: "pflicht_disclaimer"
+  g2_scope_filter:
+    enabled: true
+    # SPEC: AGENT_ARCHITECTURE.md §5 G2 (inkl. v1.1: Markenanmeldung DPMA/EUIPO/WIPO)
+    ablehnung_i18n_key: "ablehnung_vorbehaltene_leistung"
+  g3_zitat_validator:
+    enabled: true
+    max_korrektur_turns: 1 # SPEC: KNOWLEDGE_ARCHITECTURE.md §4.6
+  g4_zahlen_provenienz:
+    enabled: true
+  g5_pii_filter:
+    enabled: true
+    # OFFEN: technische Durchsetzung (Redaktion/Pseudonymisierung) statt nur Hinweis -
+    # SPEC: spec/OPEN_QUESTIONS.md #3 (P3-Arbeitsauftrag)
+    modus: "hinweis"
+  g6_stale_warnung:
+    enabled: true
+  g7_jurisdiktions_gate:
+    enabled: true
+    erlaubte_jurisdiktionen: ["DE", "EU"]
+  g8_audit_trail:
+    enabled: true
+    # SPEC: CLAUDE.md §3 (no PII in logs, hash user IDs; retention 90 Tage default)
+    retention_days: 90
+
+review_queue:
+  # SPEC: AGENT_ARCHITECTURE.md §4 (Freigabeprozess kritischer Aussagen), §8 A3
+  review_mode: false

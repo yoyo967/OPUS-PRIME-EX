@@ -1,0 +1,51 @@
+# SPEC: KNOWLEDGE_ARCHITECTURE.md §2 (Quellenkorpus, v1.1 inkl. Markenrecht), §3 (Update-Zyklen)
+# Harte Regel: Zitierfaehig sind nur Prio-1/2-Primaerquellen (SPEC: KNOWLEDGE_ARCHITECTURE.md §2).
+
+quellen:
+  - id: bmj_gesetze
+    prio: 1
+    name: "gesetze-im-internet.de (BMJ)"
+    inhalt: [EStG, KStG, UStG, UStDV, AO, GewStG, GewO, HGB, GmbHG, BDSG, BetrVG, MarkenG, MarkenV]
+    zugriff: "XML-Download je Gesetz"
+    update_zyklus: woechentlich
+  - id: eur_lex
+    prio: 1
+    name: "EUR-Lex"
+    inhalt:
+      - {celex: "32016R0679", titel: "DSGVO"}
+      - {celex: "32024R1689", titel: "EU AI Act"}
+      - {celex: "32023R2854", titel: "Data Act"}
+      - {celex: "32021D0914", titel: "SCC-Beschluss"}
+      - {celex: "32017R1001", titel: "UMV (Unionsmarke) inkl. DVO/DelVO"}
+      - {celex: "32013R0608", titel: "Grenzbeschlagnahme-VO"}
+    zugriff: "CELEX-Abruf, konsolidierte Fassungen"
+    update_zyklus: woechentlich
+  - id: bmf_schreiben
+    prio: 1
+    name: "BMF-Schreiben (UStAE, AEAO, Verwaltungsauffassung)"
+    zugriff: "Web-Monitor bundesfinanzministerium.de"
+    update_zyklus: woechentlich
+  - id: rechtsprechung
+    prio: 2
+    name: "Rechtsprechung (BFH, BVerfG, EuGH, EuG, BGH-Markensachen, BPatG, FG/OVG)"
+    zugriff: "Open-Data-Portale (rechtsprechung-im-internet.de, curia.europa.eu)"
+    update_zyklus: monatlich
+  - id: aufsicht_aemter
+    prio: 2
+    name: "Aufsichtsbehoerden & Aemter (EDSA, DSK, AI Office, DPMA-Richtlinien, EUIPO Guidelines)"
+    zugriff: "Web-Monitor"
+    update_zyklus: monatlich
+  - id: dba
+    prio: 3
+    name: "DBA-Texte (aktive Abkommen DE)"
+    zugriff: "BMF-Uebersicht"
+    update_zyklus: quartalsweise
+  - id: sekundaer
+    prio: 3
+    name: "Sekundaerquellen (IHK-Merkblaetter, amtliche Ausfuellhilfen; nie alleinige Zitatbasis)"
+    zugriff: "kuratiert, manuell"
+    update_zyklus: quartalsweise
+
+stale_regel:
+  # SPEC: KNOWLEDGE_ARCHITECTURE.md §3 (stale-Flag bei > 2x Update-Zyklus ohne Check)
+  faktor: 2
