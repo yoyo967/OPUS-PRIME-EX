@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GEKUERZTE, REDAKTIONELL VEREINFACHTE TEST-FIXTURE - KEIN AMTLICHER RECHTSTEXT.
+     Pinnt das normalisierte XML-Format des Fetch-Layers (SPEC: KNOWLEDGE_ARCHITECTURE.md §7).
+     Live-Quelle: https://www.gesetze-im-internet.de/ustg/ -->
+<dokumente>
+  <norm>
+    <metadaten>
+      <jurabk>UStG</jurabk>
+      <enbez>§ 19</enbez>
+      <titel>Besteuerung der Kleinunternehmer</titel>
+    </metadaten>
+    <textdaten>
+      <text>
+        <absatz nr="1">Fuer Umsaetze wird die Steuer von inlaendischen Kleinunternehmern nicht erhoben, wenn der Gesamtumsatz im vorangegangenen Kalenderjahr 25 000 Euro nicht ueberschritten hat und im laufenden Kalenderjahr 100 000 Euro nicht ueberschreitet. [gekuerzt]</absatz>
+        <absatz nr="2">Der Unternehmer kann auf die Anwendung des Absatzes 1 verzichten. [gekuerzt]</absatz>
+        <absatz nr="3">Regelungen zur Bindung des Verzichts. [gekuerzt]</absatz>
+      </text>
+    </textdaten>
+  </norm>
+  <norm>
+    <metadaten>
+      <jurabk>UStG</jurabk>
+      <enbez>§ 19a</enbez>
+      <titel>Besteuerung der Kleinunternehmer in einem anderen Mitgliedstaat</titel>
+    </metadaten>
+    <textdaten>
+      <text>
+        <absatz nr="1">Regelungen zur EU-Kleinunternehmerregelung. [gekuerzt]</absatz>
+      </text>
+    </textdaten>
+  </norm>
+</dokumente>

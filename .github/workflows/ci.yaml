@@ -23,8 +23,10 @@ jobs:
       - name: typecheck
         run: mypy
       - name: unit
-        run: pytest -q
-      # TODO(Meilenstein RAG): ingest-fixtures (SPEC: CLAUDE.md §4.2)
+        run: pytest -q tests/tools
+      - name: ingest-fixtures
+        # SPEC: CLAUDE.md §4.2, §5 (Pipeline-Stufe ingest-fixtures)
+        run: pytest -q tests/rag
       # TODO(Meilenstein Guardrails): guardrail-tests (SPEC: CLAUDE.md §4.3)
       - name: spec_lint
         run: python scripts/spec_lint.py

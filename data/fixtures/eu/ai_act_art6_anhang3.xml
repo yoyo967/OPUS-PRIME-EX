@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GEKUERZTE, REDAKTIONELL VEREINFACHTE TEST-FIXTURE - KEIN AMTLICHER RECHTSTEXT.
+     Normalisiertes Format des Fetch-Layers fuer EUR-Lex-Quellen.
+     Live-Quelle: EUR-Lex CELEX 32024R1689 -->
+<verordnung celex="32024R1689">
+  <erwaegungsgrund nr="1">Zweck dieser Verordnung ist es, das Funktionieren des Binnenmarkts zu verbessern. [gekuerzt]</erwaegungsgrund>
+  <erwaegungsgrund nr="2">Diese Verordnung sollte im Einklang mit den Werten der Union angewandt werden. [gekuerzt]</erwaegungsgrund>
+  <erwaegungsgrund nr="3">[gekuerzt]</erwaegungsgrund>
+  <erwaegungsgrund nr="4">[gekuerzt]</erwaegungsgrund>
+  <erwaegungsgrund nr="5">[gekuerzt]</erwaegungsgrund>
+  <erwaegungsgrund nr="6">[gekuerzt]</erwaegungsgrund>
+  <erwaegungsgrund nr="7">[gekuerzt]</erwaegungsgrund>
+  <artikel nr="6">
+    <ueberschrift>Einstufungsvorschriften fuer Hochrisiko-KI-Systeme</ueberschrift>
+    <text>Zusaetzlich zu den in Absatz 1 genannten Hochrisiko-KI-Systemen gelten die in Anhang III genannten KI-Systeme als hochriskant. [gekuerzt]</text>
+  </artikel>
+  <anhang nr="III">
+    <ueberschrift>Hochrisiko-KI-Systeme gemaess Artikel 6 Absatz 2</ueberschrift>
+    <nummer nr="4">Beschaeftigung, Personalmanagement und Zugang zur Selbststaendigkeit: KI-Systeme, die fuer die Einstellung oder Auswahl natuerlicher Personen verwendet werden sollen, insbesondere um gezielte Stellenanzeigen zu schalten, Bewerbungen zu sichten oder zu filtern und Bewerber zu bewerten. [gekuerzt]</nummer>
+    <nummer nr="8">Rechtspflege und demokratische Prozesse. [gekuerzt]</nummer>
+  </anhang>
+</verordnung>
