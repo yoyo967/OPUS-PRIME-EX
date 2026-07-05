@@ -1,0 +1,30 @@
+# FILE_MANIFEST.md
+<!-- Datei 7/8 · Projekt OPUS PRIME EX · Version 1.0 · Stand: 2026-07-05 -->
+
+# Manifest aller Projekt-Artefakte
+
+| # | Datei | Zweck | Zielort im Repo | Abhängigkeiten (liest/wird gelesen von) |
+|---|-------|-------|-----------------|------------------------------------------|
+| 1 | `PROJECT_INSTRUCTIONS.md` | Projektüberblick, Perfect-Twin-Prinzip, Definition of Done, Scope-Abgrenzung | `spec/` | Referenzrahmen für alle anderen Dateien; DoD wird von CLAUDE.md §7 und Eval-Harness gespiegelt |
+| 2 | `SYSTEM_PROMPT_OPUS_PRIME_EX.md` | Produktiver System Prompt + Few-Shots | `spec/`; Prompt-Wortlaut zusätzlich als `prompts/system_prompt_v1.md` | Muss konsistent sein mit AGENT_ARCHITECTURE §5 (Guardrails) und §2 (Eskalation); Hash-geprüft durch spec_lint (CLAUDE.md §1) |
+| 3 | `KNOWLEDGE_ARCHITECTURE.md` | Quellenkorpus, Versionierung, RAG-, Chunking- & Metadaten-Strategie | `spec/` | Implementiert durch `src/rag/` + `config/sources.yaml`; Coverage-Matrix aus Cowork-Rolle 3 |
+| 4 | `AGENT_ARCHITECTURE.md` | Modell-Routing, Tools, Permission-Modell, Guardrails G1–G8, Compliance des Agenten | `spec/` | Implementiert durch `src/router/ · src/orchestrator/ · src/tools/ · src/guardrails/`; Tool-Abschnitte 1:1 gespiegelt in Code (spec_lint-Regel 2) |
+| 5 | `CLAUDE.md` | Engineering-Guide: Repo-Struktur, Standards, Tests, CI/CD, Konsistenzregeln | **Repo-Root** (nicht `spec/`) | Liest alle Spec-Dateien; erzwingt Traceability via `scripts/spec_lint.py` |
+| 6 | `COWORK_HANDOFF_BRIEF.md` | Rollenplan & Checkliste für Cowork sowie Handoff Cowork→Code | `spec/` | Erzeugt `review/*`, `spec/spec_hashes.json`, Golden-Set-Gerüst in `evals/golden_set/` |
+| 7 | `FILE_MANIFEST.md` | Diese Übersicht | `spec/` | Muss bei jeder Spec-Änderung mitgepflegt werden (Gatekeeper-Rolle prüft) |
+| 8 | `NEXT_STEPS.md` | Exakte Einspiel-Reihenfolge für den Nutzer (Chat → Cowork → Claude Code) | `spec/` (nur bis P3, danach archivierbar) | Verweist auf COWORK_HANDOFF_BRIEF §5 |
+
+## Von Cowork/Code zu erzeugende Folge-Artefakte (Soll-Liste)
+
+| Artefakt | Erzeuger | Zielort |
+|----------|----------|---------|
+| `review/legal_review.md`, `review/prompt_review.md`, `review/gate_report.md` | Cowork (Rollen 1, 2, 5) | `review/` |
+| `review/coverage_matrix.yaml` | Cowork (Rolle 3) | `review/` |
+| `evals/golden_set/*.yaml` (120 Fälle, 12 Smoke) | Cowork (Rolle 4), menschlich geprüft | `evals/golden_set/` |
+| `spec/spec_hashes.json`, `spec/OPEN_QUESTIONS.md` | Cowork (Rolle 5) | `spec/` |
+| Repo-Code, Tests, `config/*.yaml`, CI-Pipeline, `docs/ai-act-assessment.md` | Claude Code | gemäß CLAUDE.md §2 |
+
+## Integritätsregeln
+
+1. Änderungen an Datei 1–4 erfordern: neue Versionsnummer im Dateikopf, Aktualisierung dieses Manifests, Neuberechnung `spec_hashes.json`, erneuter Gatekeeper-Lauf.
+2. Kein Artefakt außerhalb dieser Liste darf als „Spezifikation" behandelt werden (Schutz vor Spec-Drift durch Chat-Verläufe).
