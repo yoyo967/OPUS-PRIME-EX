@@ -1,5 +1,6 @@
 # CLAUDE.md
-<!-- File 5/8 · Project OPUS PRIME EX · Version 1.0 · Date: 2026-07-05 -->
+<!-- File 5/8 · Project OPUS PRIME EX · Version 1.1 · Date: 2026-07-05 -->
+<!-- v1.1: trademark law (Markenrecht) added as domain 7; golden set ≥140 (20 per domain), smoke subset 14. -->
 <!-- This file lives at the repo root and instructs Claude Code during implementation. -->
 
 # OPUS PRIME EX — Engineering Guide for Claude Code
@@ -49,7 +50,7 @@ opus-prime-ex/
 │   └── shared/
 ├── data/fixtures/             # legal-text fixtures for ingest tests (§19 UStG, Art. 28 GDPR, …)
 ├── evals/
-│   ├── golden_set/            # ≥120 curated cases, 20 per domain (YAML, human-reviewed)
+│   ├── golden_set/            # ≥140 curated cases, 20 per domain (YAML, human-reviewed)
 │   └── harness/               # scoring: citation accuracy, disclaimer presence, routing
 ├── tests/                     # unit + integration + guardrail tests
 ├── scripts/                   # spec_lint.py, ingest.py, drift_report.py
@@ -99,7 +100,7 @@ opus-prime-ex/
 ## 5. CI/CD Pipeline (`.github/workflows/ci.yaml`)
 
 `lint → typecheck → unit → ingest-fixtures → guardrail-tests → spec_lint → eval-smoke`
-- `eval-smoke`: 12-case subset of the golden set on every PR; full golden set
+- `eval-smoke`: 14-case subset of the golden set on every PR; full golden set
   nightly and before any release tag.
 - Deployment: containerized (Docker), staging → production with manual approval;
   infra targets EU regions only; secrets via the platform's secret manager.

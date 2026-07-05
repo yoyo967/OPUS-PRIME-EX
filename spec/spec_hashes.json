@@ -1,8 +1,8 @@
 {
-  "prompt_file": "prompts/system_prompt_v1.1.md",
-  "sha256": "d12a7bc8cd7627428c532956c9b19f5b0538a404eebcda7e6956613783bc9fef",
-  "prompt_version": "1.1",
-  "frozen_at_commit": "74244f5d4f4e660dd981e59fb5eb9808c1b45e0f",
+  "prompt_file": "prompts/system_prompt_v1.2.md",
+  "sha256": "2b7f1aae823c2584c2ac39428ef52f0e05976bc2ea6b8c749ba0a03b67cb1322",
+  "prompt_version": "1.2",
+  "frozen_at_commit": "PENDING-NACHTRAG",
   "frozen_date": "2026-07-05",
-  "notes": "v1.1 loest v1.0 als produktive Prompt-Fassung ab (Owner-Entscheid zu review/legal_review.md BLOCKER #1, siehe prompts/system_prompt_v1.1.md Owner-Entscheid-Abschnitt). Hash wird von scripts/spec_lint.py gegen diese Datei geprueft (CLAUDE.md §1). frozen_at_commit am 2026-07-05 nachgetragen: das Repo musste neu initialisiert werden (urspruengliches git init war unvollstaendig, kein objects/-Verzeichnis); der zuvor eingetragene Commit 78e54d5 existierte nie in einer erreichbaren Historie."
+  "notes": "v1.2 loest v1.1 als produktive Prompt-Fassung ab: Markenrecht als Domaene 7 (Owner-Entscheid Yahya Yildirim, 2026-07-05; Spec-Erweiterung v1.1, siehe review/gate_report.md Nachtrag v1.1). Enthaelt alle v1.1-Haertungen. Hash wird von scripts/spec_lint.py gegen diese Datei geprueft (CLAUDE.md §1). Historie: v1.1 = d12a7bc8cd7627428c532956c9b19f5b0538a404eebcda7e6956613783bc9fef (Freeze-Commit 74244f5d4f4e660dd981e59fb5eb9808c1b45e0f). frozen_at_commit wird im Folge-Commit nachgetragen."
 }

@@ -9,10 +9,10 @@
 # nach Ingest prueft. Alle Eintraege sind ENTWURF und vor Produktivsetzung gegen die Live-Quelle zu verifizieren.
 
 metadata:
-  version: "1.0"
-  erzeugt_von: "Cowork Rolle 3 (RAG/Knowledge Engineer)"
+  version: "1.1"
+  erzeugt_von: "Cowork Rolle 3 (RAG/Knowledge Engineer); v1.1: Markenrecht-Domaene ergaenzt (Owner-Entscheid 2026-07-05)"
   status: "Entwurf - zur fachlichen Pruefung"
-  quelle_referenz: "KNOWLEDGE_ARCHITECTURE.md §2, §7"
+  quelle_referenz: "KNOWLEDGE_ARCHITECTURE.md §2, §7 (v1.1)"
 
 domaenen:
 
@@ -137,6 +137,32 @@ domaenen:
       - {norm: "Art. 32 VO (EU) 2023/2854", thema: "Internationaler behoerdlicher Datenzugriff", quelle_typ: eu_verordnung, status: pending_ingest}
       - {norm: "Art. 36 VO (EU) 2023/2854", thema: "Interoperabilitaet / Smart Contracts", quelle_typ: eu_verordnung, status: pending_ingest}
     hinweis: "Data-Act-Quellenkorpus ist in KNOWLEDGE_ARCHITECTURE.md §2 nur pauschal ('einschlaegige Durchfuehrungs-/Delegierte Rechtsakte') erfasst; diese Matrix konkretisiert die Muss-Artikel und ist bei CI-Coverage-Check als Referenz zu hinterlegen."
+
+  markenrecht:
+    muss_normen:
+      - {norm: "§ 3 MarkenG", thema: "Markenfaehigkeit", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 4 MarkenG", thema: "Entstehung des Markenschutzes (Eintragung, Verkehrsgeltung, Notorietaet)", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 5 MarkenG", thema: "Geschaeftliche Bezeichnungen (Unternehmenskennzeichen, Werktitel)", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 8 MarkenG", thema: "Absolute Schutzhindernisse (Unterscheidungskraft, Freihaltebeduerfnis)", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 9 MarkenG", thema: "Relative Schutzhindernisse (aeltere Rechte)", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 14 MarkenG", thema: "Ausschliessliches Recht, Verletzungsansprueche (Unterlassung, Schadensersatz)", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 15 MarkenG", thema: "Schutz geschaeftlicher Bezeichnungen", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 23 MarkenG", thema: "Schranken (beschreibende Benutzung, Referenzgebrauch)", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 24 MarkenG", thema: "Erschoepfung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 26 MarkenG", thema: "Benutzungszwang / Benutzungsschonfrist", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 30 MarkenG", thema: "Lizenzen", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 42 MarkenG", thema: "Widerspruchsverfahren (Frist 3 Monate ab Veroeffentlichung der Eintragung)", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§ 47 MarkenG", thema: "Schutzdauer und Verlaengerung", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§§ 49-50 MarkenG", thema: "Verfall und Nichtigkeit", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§§ 119 ff. MarkenG", thema: "International registrierte Marken (Madrid-System)", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "Art. 4, 7, 8 VO (EU) 2017/1001", thema: "Unionsmarke: Markenformen, absolute/relative Eintragungshindernisse", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 9, 18 VO (EU) 2017/1001", thema: "Rechte aus der Unionsmarke, Benutzungspflicht", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 46-47 VO (EU) 2017/1001", thema: "Widerspruchsverfahren EUIPO (Frist 3 Monate ab Veroeffentlichung der ANMELDUNG - Unterschied zu DE!)", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Art. 52-53, 58-60 VO (EU) 2017/1001", thema: "Schutzdauer/Verlaengerung, Verfall, Nichtigkeit", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "VO (EU) 608/2013", thema: "Grenzbeschlagnahme / Zollmassnahmen bei Produktpiraterie", quelle_typ: eu_verordnung, status: pending_ingest}
+      - {norm: "Nizza-Klassifikation (WIPO, aktuelle Ausgabe)", thema: "Waren-/Dienstleistungsklassen 1-45", quelle_typ: sekundaer, status: pending_ingest}
+      - {norm: "DPMA-Pruefungsrichtlinien / EUIPO Guidelines", thema: "Amtspraxis Eintragung/Widerspruch", quelle_typ: leitlinie, status: pending_ingest}
+    hinweis: "v1.1-Ergaenzung (Owner-Entscheid 2026-07-05). Alle Normzitate und insbesondere die Artikel-Nummern der UMV sind ENTWURF und beim RAG-Ingest gegen die Live-Quelle (EUR-Lex 32017R1001, gesetze-im-internet.de/markeng) zu verifizieren - analog OPEN_QUESTIONS #4. Nizza-Klassifikation ist WIPO-Quelle: Lizenz-/Spiegelungsfrage wie KNOWLEDGE_ARCHITECTURE A2 behandeln (nur referenzieren)."
 
 pruefregel_ci: >
   Coverage-Check (KNOWLEDGE_ARCHITECTURE.md §7) schlaegt fehl, wenn nach Ingest

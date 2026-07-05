@@ -1,5 +1,6 @@
 # AGENT_ARCHITECTURE.md
-<!-- Datei 4/8 · Projekt OPUS PRIME EX · Version 1.0 · Stand: 2026-07-05 -->
+<!-- Datei 4/8 · Projekt OPUS PRIME EX · Version 1.1 · Stand: 2026-07-05 -->
+<!-- v1.1: Markenrecht als Domäne 7 — Routing-Beispiele, fristen_kalender (Marken-Fristen), dokument_generator (Marken-Dossier), G2-Beispiel ergänzt. -->
 
 # Technische Architektur OPUS PRIME EX
 
@@ -35,8 +36,8 @@ Alle Komponenten laufen in EU-Regionen; Modellzugriff über die Anthropic API (M
 | Route | Modell (ID) | Auslöser | Beispiele |
 |-------|-------------|----------|-----------|
 | C – Triage & Utility | `claude-haiku-4-5` | Query-Klassifikation, Re-Ranking, Formatierung, Smalltalk, Metadaten-Extraktion | „Was heißt OSS?“, Routing-Vorstufe jeder Anfrage |
-| A – Standard | `claude-sonnet-4-6` | Einzeldomäne, klare Rechtslage, Risiko-Score NIEDRIG/MITTEL | Kleinunternehmergrenze, AVV-Pflichtinhalte, Gewerbeanmeldung |
-| B – Komplex | `claude-fable-5` | Domänenübergreifend, Gestaltungsanalyse, widersprüchliche Quellen, Risiko-Score HOCH, Stufe-2/3-Eskalation, Dokumentgenerierung mit Rechtsfolgen | Holding-Struktur UG→GmbH, DBA-Fälle, AI-Act-Konformitätsstrategie |
+| A – Standard | `claude-sonnet-4-6` | Einzeldomäne, klare Rechtslage, Risiko-Score NIEDRIG/MITTEL | Kleinunternehmergrenze, AVV-Pflichtinhalte, Gewerbeanmeldung, Schutzdauer/Widerspruchsfrist einer Marke |
+| B – Komplex | `claude-fable-5` | Domänenübergreifend, Gestaltungsanalyse, widersprüchliche Quellen, Risiko-Score HOCH, Stufe-2/3-Eskalation, Dokumentgenerierung mit Rechtsfolgen | Holding-Struktur UG→GmbH, DBA-Fälle, AI-Act-Konformitätsstrategie, markenrechtliche Kollisionslage/Abmahnung, internationale Anmeldestrategie (Madrid-System) |
 
 **Routing-Regeln:**
 - Der Risiko-Score (0–100) wird deterministisch aus Klassifikationsmerkmalen berechnet (Betragsschwellen genannt? Betriebsprüfung/Strafrecht-Keywords? mehrere Domänen? Fristen mit Rechtsverlust?) – nicht vom LLM „gefühlt“.
@@ -60,13 +61,13 @@ Alle Tools sind deterministisch bzw. datenbankgestützt; das LLM orchestriert nu
 - **Regel:** LLM darf Zahlen aus Antworten nur aus Tool-Output übernehmen (Guardrail G4 prüft dies).
 
 ### 3.3 `fristen_kalender`
-- **Zweck:** Fristberechnung nach AO/BGB-Regeln (§§ 108 ff. AO, Wochenend-/Feiertagsverschiebung je Bundesland), Abgabefristen (USt-VA, Jahreserklärungen mit/ohne Berater), AI-Act-Stichtage, DSGVO-Meldefrist 72 h (Art. 33).
+- **Zweck:** Fristberechnung nach AO/BGB-Regeln (§§ 108 ff. AO, Wochenend-/Feiertagsverschiebung je Bundesland), Abgabefristen (USt-VA, Jahreserklärungen mit/ohne Berater), AI-Act-Stichtage, DSGVO-Meldefrist 72 h (Art. 33), markenrechtliche Fristen (Widerspruchsfrist § 42 MarkenG bzw. Art. 46 UMV, Schutzdauer/Verlängerung § 47 MarkenG bzw. Art. 52–53 UMV, Benutzungsschonfrist § 26 MarkenG bzw. Art. 18 UMV).
 - **Input:** `fristtyp`, `ausloese_datum`, `bundesland`, `mit_berater`.
 - **Output:** Fristende (Datum), Rechtsgrundlage der Frist, Warnstufe.
 
 ### 3.4 `dokument_generator`
-- **Zweck:** Entwürfe: AVV-Checkliste, VVT-Eintrag, DPIA-Gerüst, Gewerbeanmeldungs-Checkliste, AI-Act-Konformitäts-Gap-Liste, Beratervorbereitungs-Dossier.
-- **Regel:** Jeder Output trägt Kopfzeile „ENTWURF – vor Verwendung fachlich prüfen lassen“ + Disclaimer; Dokumente mit Einreichungscharakter (Steuererklärungen) sind gesperrt (Scope-Abgrenzung Nr. 2).
+- **Zweck:** Entwürfe: AVV-Checkliste, VVT-Eintrag, DPIA-Gerüst, Gewerbeanmeldungs-Checkliste, AI-Act-Konformitäts-Gap-Liste, Beratervorbereitungs-Dossier, Markenanmeldungs-Vorbereitungs-Dossier (Waren-/Dienstleistungsverzeichnis-Entwurf nach Nizza-Klassen, Recherche-Checkliste).
+- **Regel:** Jeder Output trägt Kopfzeile „ENTWURF – vor Verwendung fachlich prüfen lassen“ + Disclaimer; Dokumente mit Einreichungscharakter (Steuererklärungen, Markenanmeldungen/Widersprüche an DPMA/EUIPO/WIPO) sind gesperrt (Scope-Abgrenzung Nr. 2 und 4).
 
 ### 3.5 `aenderungs_radar`
 - **Zweck:** Abfrage des Changelogs der Wissensbasis (neue BMF-Schreiben, Normänderungen, AI-Act-Durchführungsrechtsakte) für proaktive Hinweise.
@@ -92,7 +93,7 @@ Alle Tools sind deterministisch bzw. datenbankgestützt; das LLM orchestriert nu
 | ID | Guardrail | Mechanismus |
 |----|-----------|-------------|
 | G1 | Disclaimer-Injektion | Post-Processor hängt Pflicht-Disclaimer an jede fachliche Antwort an, unabhängig vom LLM-Output (Prompt-Injection-resistent) |
-| G2 | RDG/StBerG-Scope-Filter | Klassifikator erkennt Anfragen nach vorbehaltenen Leistungen („reich meine UStVA ein“, „vertritt mich beim Finanzamt“) → höfliche Ablehnung + Eskalationsempfehlung, Template-basiert |
+| G2 | RDG/StBerG-Scope-Filter | Klassifikator erkennt Anfragen nach vorbehaltenen Leistungen („reich meine UStVA ein“, „vertritt mich beim Finanzamt“, „melde meine Marke beim DPMA/EUIPO an“, „lege Widerspruch gegen diese Marke ein“) → höfliche Ablehnung + Eskalationsempfehlung, Template-basiert |
 | G3 | Zitat-Validator | Deterministischer Abgleich aller Fundstellen im Output gegen gelieferte RAG-Chunks; Fail → 1 Korrektur-Turn → sonst Unsicherheits-Kennzeichnung |
 | G4 | Zahlen-Provenienz | Regex/Parser extrahiert Beträge & Fristen aus dem Output und matcht gegen Tool-Outputs; freie LLM-Zahlen mit Rechtsfolge → Block & Retry |
 | G5 | PII-Filter (Eingang) | Erkennung besonderer Kategorien (Art. 9 DSGVO) und überschüssiger personenbezogener Daten → Hinweis zur Datenminimierung, Pseudonymisierung im Kontext |

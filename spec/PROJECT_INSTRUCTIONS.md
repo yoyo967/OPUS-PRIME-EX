@@ -1,11 +1,12 @@
 # PROJECT_INSTRUCTIONS.md
-<!-- Datei 1/8 · Projekt OPUS PRIME EX · Version 1.0 · Stand: 2026-07-05 -->
+<!-- Datei 1/8 · Projekt OPUS PRIME EX · Version 1.1 · Stand: 2026-07-05 -->
+<!-- v1.1: Markenrecht als Domäne 7 ergänzt (Owner-Entscheid Yahya Yildirim, 2026-07-05); Golden Set ≥140; Scope-Abgrenzung Nr. 4/8 erweitert. -->
 
 # OPUS PRIME EX – Projektinstruktionen
 
 ## 1. Projektüberblick
 
-**OPUS PRIME EX** ist ein hochspezialisierter KI-Agent innerhalb des "Opus Magnum"-Ökosystems. Er liefert Expertenwissen auf Profi-Niveau in sechs Rechtsdomänen mit EU/Deutschland-Fokus (Berlin, EU-first):
+**OPUS PRIME EX** ist ein hochspezialisierter KI-Agent innerhalb des "Opus Magnum"-Ökosystems. Er liefert Expertenwissen auf Profi-Niveau in sieben Rechtsdomänen mit EU/Deutschland-Fokus (Berlin, EU-first):
 
 | # | Domäne | Kernumfang |
 |---|--------|-----------|
@@ -15,6 +16,7 @@
 | 4 | DSGVO | Art. 5–99 DSGVO, VVT, DPIA, AVV (Art. 28), Betroffenenrechte, Drittlandtransfer (Kap. V), BDSG-Bezüge |
 | 5 | EU AI Act | Verordnung (EU) 2024/1689: Risikoklassifizierung, Konformitätsbewertung, GPAI-Pflichten, Governance, technische Dokumentation |
 | 6 | Data Act | Verordnung (EU) 2023/2854: Datenzugangsrechte, IoT-Daten, Interoperabilität, B2B/B2G-Datenteilung, Cloud-Switching |
+| 7 | Markenrecht | MarkenG, UMV (EU) 2017/1001, Schutzentstehung, absolute/relative Schutzhindernisse, Verwechslungsgefahr, Widerspruchs-/Löschungsverfahren, Benutzungszwang, Nizza-Klassifikation, Lizenzen, IR-Marke (Madrid-System), Abmahnung/Verletzung, Grenzbeschlagnahme |
 
 **Auftraggeber / Stakeholder:**
 
@@ -36,7 +38,7 @@ Die Perfect-Twin-Philosophie des Opus-Magnum-Ökosystems wird hier so operationa
 
 ## 3. Zielsetzung
 
-1. Ein produktiv einsetzbarer Agent, der auf jede Anfrage in seinen sechs Domänen mit **Rechtsgrundlage + Praxisimplikation + Risikoeinschätzung + Quellenangabe** antwortet.
+1. Ein produktiv einsetzbarer Agent, der auf jede Anfrage in seinen sieben Domänen mit **Rechtsgrundlage + Praxisimplikation + Risikoeinschätzung + Quellenangabe** antwortet.
 2. Proaktive Hinweise auf Fristen, Übergangsregelungen und bevorstehende Rechtsänderungen (z. B. gestaffelte Anwendbarkeit des EU AI Act, BMF-Schreiben, Jahressteuergesetze).
 3. Rechtssichere Selbstbegrenzung: Der Agent liefert **Rechtsinformation und Entscheidungsvorbereitung**, keine Rechts- oder Steuerberatung im Sinne von RDG bzw. StBerG (siehe Abschnitt 5).
 4. Vollständige Übergabefähigkeit: Chat → Cowork → Claude Code ohne Informationsverlust (siehe `COWORK_HANDOFF_BRIEF.md` und `NEXT_STEPS.md`).
@@ -46,7 +48,7 @@ Die Perfect-Twin-Philosophie des Opus-Magnum-Ökosystems wird hier so operationa
 Der Agent gilt als fertig, wenn alle folgenden Kriterien erfüllt und nachgewiesen sind:
 
 **Fachliche Qualität**
-- [ ] Golden-Set-Evaluation: ≥ 95 % korrekte Rechtsgrundlagen-Zitierung auf einem kuratierten Testset von ≥ 120 Fällen (20 je Domäne), reviewt durch menschlichen Fachprüfer.
+- [ ] Golden-Set-Evaluation: ≥ 95 % korrekte Rechtsgrundlagen-Zitierung auf einem kuratierten Testset von ≥ 140 Fällen (20 je Domäne), reviewt durch menschlichen Fachprüfer.
 - [ ] 0 Fälle im Golden Set, in denen der Agent eine vorbehaltene Rechts-/Steuerberatungsleistung ohne Disclaimer und Eskalationshinweis erbringt.
 - [ ] Jede Antwort mit Normbezug enthält: Norm (§/Art., Gesetz), Rechtsstand-Datum, mindestens eine Primärquelle.
 - [ ] Zahlenwerke (Steuerlast, Fristen, GewSt-Hebesatz-Rechnungen) werden ausschließlich durch deterministische Tools berechnet, nie durch das LLM frei generiert (Tool-Coverage-Test grün).
@@ -67,10 +69,11 @@ Der Agent gilt als fertig, wenn alle folgenden Kriterien erfüllt und nachgewies
 1. **Keine Rechtsdienstleistung im Einzelfall (§ 2 RDG):** keine verbindliche rechtliche Prüfung konkreter Einzelfälle mit Vertretungs- oder Gestaltungsanspruch; stets Kennzeichnung als allgemeine Rechtsinformation.
 2. **Keine geschäftsmäßige Hilfeleistung in Steuersachen (§§ 2–5 StBerG):** keine Erstellung/Einreichung von Steuererklärungen, keine Vertretung gegenüber Finanzbehörden, keine verbindliche steuerliche Einzelfallberatung. Der Agent bereitet Entscheidungen vor und verweist für verbindliche Beratung an Steuerberater/Rechtsanwälte.
 3. **Keine Wirtschaftsprüfungs- oder Abschlussprüfungsleistungen** (HGB/WPO-vorbehalten).
-4. **Keine Übermittlung an Behörden** (ELSTER, Transparenzregister, Gewerbeamt) – der Agent generiert Entwürfe/Checklisten, die Einreichung erfolgt durch den Nutzer oder dessen Berater.
+4. **Keine Übermittlung an Behörden und Ämter** (ELSTER, Transparenzregister, Gewerbeamt, DPMA, EUIPO, WIPO) – der Agent generiert Entwürfe/Checklisten, die Einreichung erfolgt durch den Nutzer oder dessen Berater. Insbesondere keine Einreichung von Markenanmeldungen, Widersprüchen oder Löschungsanträgen und keine Vertretung in Amts-/Gerichtsverfahren (§ 2 RDG; Vertretungsvorbehalte für Rechts-/Patentanwälte).
 5. **Keine Rechtsauskünfte außerhalb des Geltungsbereichs** EU/Deutschland (andere Jurisdiktionen nur als ausdrücklich gekennzeichnete Orientierung mit Eskalationsempfehlung).
 6. **Keine Garantie der Tagesaktualität:** Der Agent weist den Rechtsstand seiner Quellen aus; bei erkennbar veralteten Ständen warnt er aktiv.
 7. **Keine Verarbeitung besonderer Kategorien personenbezogener Daten (Art. 9 DSGVO)** als Designziel; Eingaben werden dahingehend gefiltert und Nutzer zur Datenminimierung angehalten.
+8. **Keine Marken-Verfügbarkeitsgarantie:** Identitäts-/Ähnlichkeitsrecherchen und Aussagen zur Eintragungsfähigkeit sind stets orientierend (keine Vollständigkeits- oder Freiheitsgarantie gegenüber Drittrechten); die abschließende Recherche und Anmeldestrategie bleibt Rechts-/Patentanwälten vorbehalten.
 
 ## 6. Projektphasen
 

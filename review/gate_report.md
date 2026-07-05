@@ -38,3 +38,22 @@ Der einzige BLOCKER (`review/legal_review.md` #1) ist durch Owner-Entscheid (Yah
 ## Spec-Freeze
 
 Ab diesem Commit gilt `spec/` (inkl. `prompts/system_prompt_v1.1.md`, `review/*`, `evals/golden_set/*`) als eingefroren für den Handoff an Claude Code. Änderungen erfordern erneuten Durchlauf der Integritätsregeln aus `FILE_MANIFEST.md` ("Von Cowork/Code zu erzeugende Folge-Artefakte") und ggf. erneute Gatekeeper-Prüfung.
+
+---
+
+## Nachtrag v1.1 — Markenrecht als Domäne 7 (2026-07-05)
+
+**Auslöser:** Owner-Entscheid (Yahya Yildirim, 2026-07-05): Markenrecht wird als siebte Domäne ergänzt. Der Freeze v1.0 wurde dafür gemäß Integritätsregeln `FILE_MANIFEST.md` geöffnet und mit diesem Nachtrag erneut geschlossen.
+
+| Prüfpunkt | Ergebnis |
+|---|---|
+| Versionierung | Dateien 1–5 (PROJECT_INSTRUCTIONS, SYSTEM_PROMPT, KNOWLEDGE_ARCHITECTURE, AGENT_ARCHITECTURE, CLAUDE.md) auf v1.1; Manifest v1.1; Änderungsvermerk je Dateikopf. |
+| Konsistenz „sieben Domänen" | Domänen-Tabelle (PROJECT_INSTRUCTIONS §1), Prompt-ROLLE (v1.2), Query-Analyse-Domänenliste (KNOWLEDGE_ARCHITECTURE §4.1), Routing-Beispiele (AGENT_ARCHITECTURE §2) durchgängig. |
+| Scope/RDG | Neue Abgrenzungen: keine Einreichung/Vertretung vor DPMA/EUIPO/WIPO (§5 Nr. 4), keine Verfügbarkeitsgarantie bei Recherchen (§5 Nr. 8); gespiegelt in Prompt v1.2 (AUFTRAG UND GRENZEN), G2-Beispielen und dokument_generator-Sperre. |
+| Prompt | `prompts/system_prompt_v1.2.md` = v1.1-Härtungen + 5 Markenrecht-Änderungen (Changelog in der Datei); Hash in `spec/spec_hashes.json` aktualisiert. Kein neues Few-Shot (bewusst, bis Legal-Review-Addendum: OPEN_QUESTIONS #9). |
+| Coverage-Matrix | v1.1: +22 Markenrecht-Einträge (MarkenG, UMV, VO 608/2013, Nizza, Amts-Leitlinien), alle `pending_ingest`; UMV-Artikelnummern beim Ingest zu verifizieren. |
+| Golden Set | `markenrecht.yaml`: 20 Fälle, 2 Smoke → Gesamt **140 Fälle / 14 Smoke** (PROJECT_INSTRUCTIONS §4 und CLAUDE.md entsprechend angepasst). |
+| Reviews | **Einschränkung:** Legal-/Prompt-Review (Rollen 1–2) haben die Markenrecht-Inhalte nicht geprüft — als Pflicht-Nachtrag vor Go-Live in `spec/OPEN_QUESTIONS.md` #9 erfasst. Für den P3-Implementierungsstart nicht blockierend (analog Findings #2–#5). |
+| COWORK_HANDOFF_BRIEF.md | Unverändert (historisches P2-Arbeitsdokument, beschreibt den durchgeführten 6-Domänen-Review; Delta dokumentiert dieser Nachtrag). |
+
+**Owner-Freigabe v1.1:** Yahya Yildirim, 2026-07-05 (Anweisung „Markenrecht hinzufügen"). **Re-Freeze:** ab dem Commit dieses Nachtrags; Hash-Stand siehe `spec/spec_hashes.json`.

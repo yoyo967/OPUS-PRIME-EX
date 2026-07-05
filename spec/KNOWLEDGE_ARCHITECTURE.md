@@ -1,5 +1,6 @@
 # KNOWLEDGE_ARCHITECTURE.md
-<!-- Datei 3/8 · Projekt OPUS PRIME EX · Version 1.0 · Stand: 2026-07-05 -->
+<!-- Datei 3/8 · Projekt OPUS PRIME EX · Version 1.1 · Stand: 2026-07-05 -->
+<!-- v1.1: Markenrecht als Domäne 7 — Korpus um MarkenG, UMV (EU) 2017/1001, VO (EU) 608/2013, DPMA-/EUIPO-Leitlinien erweitert. -->
 
 # Wissensarchitektur OPUS PRIME EX
 
@@ -11,11 +12,11 @@ Der Agent beantwortet Normfragen **niemals aus freiem Modellwissen**, sondern au
 
 | Prio | Quelle | Inhalt | Zugriff | Update-Zyklus |
 |------|--------|--------|---------|---------------|
-| 1 | gesetze-im-internet.de (BMJ) | EStG, KStG, UStG, UStDV, AO, GewStG, GewO, HGB, GmbHG, BDSG, BetrVG (Auszüge) | XML-Download je Gesetz | wöchentlicher Diff-Check |
-| 1 | EUR-Lex | DSGVO (32016R0679), EU AI Act (32024R1689), Data Act (32023R2854), SCC-Beschluss (32021D0914), einschlägige Durchführungs-/Delegierte Rechtsakte | CELEX-Abruf, konsolidierte Fassungen | wöchentlich |
+| 1 | gesetze-im-internet.de (BMJ) | EStG, KStG, UStG, UStDV, AO, GewStG, GewO, HGB, GmbHG, BDSG, BetrVG (Auszüge), MarkenG, MarkenV | XML-Download je Gesetz | wöchentlicher Diff-Check |
+| 1 | EUR-Lex | DSGVO (32016R0679), EU AI Act (32024R1689), Data Act (32023R2854), SCC-Beschluss (32021D0914), UMV (32017R1001) inkl. DVO/DelVO, Grenzbeschlagnahme-VO (32013R0608), einschlägige Durchführungs-/Delegierte Rechtsakte | CELEX-Abruf, konsolidierte Fassungen | wöchentlich |
 | 1 | BMF-Schreiben | Verwaltungsauffassung Steuerrecht, UStAE, AEAO | Web-Monitor auf bundesfinanzministerium.de | wöchentlich |
-| 2 | Rechtsprechung | BFH, BVerfG, EuGH, ausgewählte FG/OVG mit Leitsatz | Open-Data-Portale (rechtsprechung-im-internet.de, curia.europa.eu) | monatlich |
-| 2 | Aufsichtsbehörden | EDSA-Leitlinien, DSK-Beschlüsse, Kurzpapiere; AI-Office-Leitlinien, GPAI Code of Practice | Web-Monitor | monatlich |
+| 2 | Rechtsprechung | BFH, BVerfG, EuGH, EuG, BGH (Markensachen), BPatG, ausgewählte FG/OVG mit Leitsatz | Open-Data-Portale (rechtsprechung-im-internet.de, curia.europa.eu) | monatlich |
+| 2 | Aufsichtsbehörden & Ämter | EDSA-Leitlinien, DSK-Beschlüsse, Kurzpapiere; AI-Office-Leitlinien, GPAI Code of Practice; DPMA-Prüfungsrichtlinien, EUIPO Guidelines for Examination | Web-Monitor | monatlich |
 | 3 | DBA-Texte | Doppelbesteuerungsabkommen (aktive Abkommen DE) | BMF-Übersicht | quartalsweise |
 | 3 | Sekundärquellen (nur Kontext, nie alleinige Zitatbasis) | IHK-Merkblätter, amtliche Ausfüllhilfen | kuratiert, manuell | quartalsweise |
 
@@ -42,7 +43,7 @@ korpus/
 
 **Pipeline:** Query-Analyse → Hybrid Retrieval → Re-Ranking → Kontextkomposition → Antwort mit Zitatpflicht.
 
-1. **Query-Analyse (Haiku-Route):** Domänenerkennung (Steuer/Gewerbe/Finanzen/DSGVO/AI-Act/Data-Act), Extraktion expliziter Normzitate („§ 19 UStG“ → direkter Norm-Lookup), Zeitbezug (Rechtsstand), Risikosignale (für Routing/Eskalation, siehe `AGENT_ARCHITECTURE.md`).
+1. **Query-Analyse (Haiku-Route):** Domänenerkennung (Steuer/Gewerbe/Finanzen/DSGVO/AI-Act/Data-Act/Markenrecht), Extraktion expliziter Normzitate („§ 19 UStG“ → direkter Norm-Lookup), Zeitbezug (Rechtsstand), Risikosignale (für Routing/Eskalation, siehe `AGENT_ARCHITECTURE.md`).
 2. **Hybrid Retrieval:** BM25/Keyword (Rechtstexte sind zitatgetrieben – exakte §-Treffer schlagen Semantik) **plus** Dense Embeddings (mehrsprachiges Embedding-Modell, da EU-Quellen teils EN). Gewichtung 0,5/0,5, per Eval-Harness zu kalibrieren.
 3. **Struktur-Expansion:** Trifft ein Chunk einen Absatz, werden automatisch (a) die Norm-Überschrift, (b) referenzierte Normen aus dem Verweisgraph (z. B. § 19 Abs. 3 → § 19a UStG) und (c) einschlägige Verwaltungsanweisungen (UStAE-Abschnitt zur Norm) nachgeladen.
 4. **Re-Ranking:** Cross-Encoder oder LLM-Re-Ranker (Haiku) auf Top-30 → Top-8; Bonus für: gültige Fassung zum Anfragedatum, Primärquelle, höhere Instanz.
@@ -87,7 +88,7 @@ Der **Zitierkopf** im Prompt-Kontext wird aus `gesetz + einheit + ueberschrift +
 
 ## 7. Qualitätssicherung der Wissensbasis
 
-- **Ingest-Tests:** Jede Pipeline-Änderung läuft gegen ein Fixture-Set (u. a. § 19 UStG, Art. 28 DSGVO, Art. 6 + Anhang III AI Act, Art. 5 Data Act) mit Assertions auf Chunk-Grenzen und Metadaten.
+- **Ingest-Tests:** Jede Pipeline-Änderung läuft gegen ein Fixture-Set (u. a. § 19 UStG, Art. 28 DSGVO, Art. 6 + Anhang III AI Act, Art. 5 Data Act, § 42 MarkenG + Art. 46 UMV) mit Assertions auf Chunk-Grenzen und Metadaten.
 - **Coverage-Matrix:** Je Domäne eine Liste der Muss-Normen; CI schlägt fehl, wenn eine Muss-Norm im Index fehlt.
 - **Drift-Report:** Monatlicher automatischer Bericht: neue/aufgehobene Normfassungen, neue BMF-Schreiben, stale Quellen.
 

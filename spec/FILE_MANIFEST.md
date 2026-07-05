@@ -1,5 +1,10 @@
 # FILE_MANIFEST.md
-<!-- Datei 7/8 · Projekt OPUS PRIME EX · Version 1.0 · Stand: 2026-07-05 -->
+<!-- Datei 7/8 · Projekt OPUS PRIME EX · Version 1.1 · Stand: 2026-07-05 -->
+<!-- v1.1 (Owner-Entscheid 2026-07-05): Markenrecht als Domäne 7. Geänderte Dateien: PROJECT_INSTRUCTIONS v1.1,
+     SYSTEM_PROMPT_OPUS_PRIME_EX v1.1, KNOWLEDGE_ARCHITECTURE v1.1, AGENT_ARCHITECTURE v1.1, CLAUDE.md v1.1.
+     Neue Folge-Artefakte: prompts/system_prompt_v1.2.md (produktiv, Hash in spec_hashes.json),
+     evals/golden_set/markenrecht.yaml (20 Fälle, 2 Smoke → Gesamt 140/14), coverage_matrix.yaml v1.1 (Markenrecht-Block).
+     Gatekeeper-Nachtrag: review/gate_report.md, Abschnitt "Nachtrag v1.1". -->
 
 # Manifest aller Projekt-Artefakte
 
@@ -20,7 +25,7 @@
 |----------|----------|---------|
 | `review/legal_review.md`, `review/prompt_review.md`, `review/gate_report.md` | Cowork (Rollen 1, 2, 5) | `review/` |
 | `review/coverage_matrix.yaml` | Cowork (Rolle 3) | `review/` |
-| `evals/golden_set/*.yaml` (120 Fälle, 12 Smoke) | Cowork (Rolle 4), menschlich geprüft | `evals/golden_set/` |
+| `evals/golden_set/*.yaml` (140 Fälle, 14 Smoke; davon markenrecht.yaml aus Spec-Erweiterung v1.1) | Cowork (Rolle 4) bzw. v1.1-Erweiterung, menschlich geprüft | `evals/golden_set/` |
 | `spec/spec_hashes.json`, `spec/OPEN_QUESTIONS.md` | Cowork (Rolle 5) | `spec/` |
 | Repo-Code, Tests, `config/*.yaml`, CI-Pipeline, `docs/ai-act-assessment.md` | Claude Code | gemäß CLAUDE.md §2 |
 

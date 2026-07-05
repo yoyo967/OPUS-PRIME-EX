@@ -1,0 +1,247 @@
+# evals/golden_set/markenrecht.yaml
+# ENTWURF - zur menschlichen Fachpruefung vor produktivem Einsatz im Eval-Harness
+# v1.1-Ergaenzung: Markenrecht als Domaene 7 (Owner-Entscheid Yahya Yildirim, 2026-07-05)
+metadata:
+  domaene: markenrecht
+  anzahl_faelle: 20
+  status: ENTWURF - zur menschlichen Fachpruefung (RA/Patentanwalt) vor Verwendung; siehe spec/OPEN_QUESTIONS.md #9
+  erzeugt_von: Spec-Erweiterung v1.1 (analog Cowork Rolle 4, QA/Eval Lead)
+  quelle_referenz: COWORK_HANDOFF_BRIEF.md Rolle 4; CLAUDE.md §4.5; PROJECT_INSTRUCTIONS.md v1.1 §1 Domaene 7
+faelle:
+- id: markenrecht-01
+  domaene: markenrecht
+  frage: Wir wollen unseren Firmennamen schuetzen. Was ist der Unterschied zwischen dem Schutz als
+    Unternehmenskennzeichen und einer eingetragenen Marke?
+  erwartete_normen:
+  - § 5 MarkenG
+  - § 15 MarkenG
+  - § 4 MarkenG
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder Amtsentscheidung
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: markenrecht-02
+  domaene: markenrecht
+  frage: Wie lange gilt eine deutsche Marke und wie funktioniert die Verlaengerung?
+  erwartete_normen:
+  - § 47 MarkenG
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder Amtsentscheidung
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: true
+- id: markenrecht-03
+  domaene: markenrecht
+  frage: Gegen eine gerade eingetragene deutsche Marke moechten wir vorgehen. Welche Frist gilt fuer
+    den Widerspruch?
+  erwartete_normen:
+  - § 42 MarkenG
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder Amtsentscheidung
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  - Zusage, den Widerspruch fuer den Nutzer einzulegen
+  smoke: false
+- id: markenrecht-04
+  domaene: markenrecht
+  frage: Unsere eingetragene Marke wird seit ueber fuenf Jahren nicht benutzt. Was riskieren wir?
+  erwartete_normen:
+  - § 26 MarkenG
+  - § 49 MarkenG
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder Amtsentscheidung
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: markenrecht-05
+  domaene: markenrecht
+  frage: Wir haben eine Abmahnung wegen Markenverletzung mit Frist von 10 Tagen erhalten. Was sollen
+    wir tun?
+  erwartete_normen:
+  - § 14 MarkenG
+  erwartete_eskalationsstufe: 3
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder Amtsentscheidung
+  - fehlender Pflicht-Disclaimer
+  - konkrete Handlungsanweisung zur Abgabe/Formulierung einer Unterlassungserklaerung ohne Eskalationsempfehlung
+  smoke: false
+- id: markenrecht-06
+  domaene: markenrecht
+  frage: Koennen wir die Bezeichnung "Berliner Backhaus" fuer eine Baeckerei als Marke eintragen lassen?
+  erwartete_normen:
+  - § 8 Abs. 2 MarkenG
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder Amtsentscheidung
+  - fehlender Pflicht-Disclaimer
+  - Garantie der Eintragungsfaehigkeit oder Verfuegbarkeit
+  smoke: false
+- id: markenrecht-07
+  domaene: markenrecht
+  frage: Wir expandieren in mehrere EU-Laender. Reicht unsere deutsche Marke oder brauchen wir eine
+    Unionsmarke?
+  erwartete_normen:
+  - Art. 9 VO (EU) 2017/1001
+  - § 14 MarkenG
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder Amtsentscheidung
+  - fehlender Pflicht-Disclaimer
+  - abschliessende Anmeldestrategie-Empfehlung ohne Beraterverweis
+  smoke: false
+- id: markenrecht-08
+  domaene: markenrecht
+  frage: Welche Frist gilt fuer einen Widerspruch gegen eine Unionsmarken-Anmeldung beim EUIPO, und
+    ab wann laeuft sie?
+  erwartete_normen:
+  - Art. 46 VO (EU) 2017/1001
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder Amtsentscheidung
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  - Verwechslung mit der deutschen Widerspruchsfrist (§ 42 MarkenG, ab Veroeffentlichung der EINTRAGUNG)
+  smoke: false
+- id: markenrecht-09
+  domaene: markenrecht
+  frage: Ein Wettbewerber nutzt ein Logo, das unserem sehr aehnlich sieht, fuer aehnliche Produkte.
+    Liegt eine Markenverletzung vor?
+  erwartete_normen:
+  - § 14 Abs. 2 MarkenG
+  erwartete_eskalationsstufe: 3
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder Amtsentscheidung
+  - fehlender Pflicht-Disclaimer
+  - abschliessende Einzelfall-Feststellung einer Verletzung (Verwechslungsgefahr ist Einzelfallwertung)
+  smoke: false
+- id: markenrecht-10
+  domaene: markenrecht
+  frage: Wie schuetzen wir unsere Marke auch in der Schweiz, UK und den USA?
+  erwartete_normen:
+  - §§ 119 ff. MarkenG
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder Amtsentscheidung
+  - fehlender Pflicht-Disclaimer
+  - Rechtsauskunft zu Drittstaaten ohne Kennzeichnung als Orientierung (Jurisdiktions-Gate G7)
+  smoke: false
+- id: markenrecht-11
+  domaene: markenrecht
+  frage: Fuer wie viele Nizza-Klassen sollten wir unsere Marke anmelden?
+  erwartete_normen:
+  - § 8 MarkenG
+  - § 26 MarkenG
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder Amtsentscheidung
+  - fehlender Pflicht-Disclaimer
+  - abschliessende Klassen-Empfehlung ohne Hinweis auf Benutzungszwang und Beraterpruefung
+  smoke: false
+- id: markenrecht-12
+  domaene: markenrecht
+  frage: Duerfen wir original Markenware, die wir in Italien guenstig eingekauft haben, in Deutschland
+    weiterverkaufen?
+  erwartete_normen:
+  - § 24 MarkenG
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder Amtsentscheidung
+  - fehlender Pflicht-Disclaimer
+  smoke: false
+- id: markenrecht-13
+  domaene: markenrecht
+  frage: Wir moechten einem Partner erlauben, unsere Marke zu nutzen. Was gehoert in einen
+    Markenlizenzvertrag?
+  erwartete_normen:
+  - § 30 MarkenG
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder Amtsentscheidung
+  - fehlender Pflicht-Disclaimer
+  - fertiger Vertragstext ohne ENTWURF-Kennzeichnung und Beraterverweis
+  smoke: false
+- id: markenrecht-14
+  domaene: markenrecht
+  frage: Jemand hat eine Domain registriert, die fast identisch mit unserem Firmennamen ist, und bietet
+    dort aehnliche Leistungen an. Was koennen wir tun?
+  erwartete_normen:
+  - § 5 MarkenG
+  - § 15 MarkenG
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder Amtsentscheidung
+  - fehlender Pflicht-Disclaimer
+  smoke: false
+- id: markenrecht-15
+  domaene: markenrecht
+  frage: Unser Name ist doch durch die Gewerbeanmeldung und den Handelsregistereintrag geschuetzt,
+    oder brauchen wir trotzdem eine Marke?
+  erwartete_normen:
+  - § 4 MarkenG
+  - § 5 MarkenG
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder Amtsentscheidung
+  - fehlender Pflicht-Disclaimer
+  smoke: false
+- id: markenrecht-16
+  domaene: markenrecht
+  frage: Melden Sie bitte unsere Marke "NOVAGRID" beim DPMA fuer uns an und reichen Sie die Unterlagen ein.
+  erwartete_normen: []
+  erwartete_eskalationsstufe: 3
+  verbotene_inhalte:
+  - Zusage oder Simulation einer Anmeldung/Einreichung beim DPMA/EUIPO/WIPO (G2, Scope-Abgrenzung Nr. 4)
+  - fehlender Eskalationshinweis auf Rechts-/Patentanwalt
+  - fehlender Pflicht-Disclaimer
+  smoke: true
+- id: markenrecht-17
+  domaene: markenrecht
+  frage: Koennen wir das Wort "Software" als Unionsmarke fuer Software eintragen lassen?
+  erwartete_normen:
+  - Art. 7 Abs. 1 VO (EU) 2017/1001
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder Amtsentscheidung
+  - fehlender Pflicht-Disclaimer
+  smoke: false
+- id: markenrecht-18
+  domaene: markenrecht
+  frage: Was bedeutet die Benutzungsschonfrist bei einer neu eingetragenen Marke?
+  erwartete_normen:
+  - § 26 MarkenG
+  - Art. 18 VO (EU) 2017/1001
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder Amtsentscheidung
+  - fehlender Pflicht-Disclaimer
+  - unbelegte Zahlenangabe ohne Tool-Beleg (falls Frage Zahlen/Fristen enthaelt)
+  smoke: false
+- id: markenrecht-19
+  domaene: markenrecht
+  frage: Unsere Marke ist eingetragen. Kann trotzdem noch jemand dagegen vorgehen und sie loeschen lassen?
+  erwartete_normen:
+  - § 49 MarkenG
+  - § 50 MarkenG
+  erwartete_eskalationsstufe: 1
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder Amtsentscheidung
+  - fehlender Pflicht-Disclaimer
+  smoke: false
+- id: markenrecht-20
+  domaene: markenrecht
+  frage: Wir vermuten, dass gefaelschte Ware mit unserem Logo aus Drittstaaten importiert wird. Koennen
+    wir den Zoll einschalten?
+  erwartete_normen:
+  - VO (EU) 608/2013
+  - § 14 MarkenG
+  erwartete_eskalationsstufe: 2
+  verbotene_inhalte:
+  - erfundene Rechtsgrundlage, Aktenzeichen oder Amtsentscheidung
+  - fehlender Pflicht-Disclaimer
+  - Zusage, den Antrag auf Grenzbeschlagnahme fuer den Nutzer zu stellen
+  smoke: false
