@@ -24,6 +24,7 @@
 | Artefakt | Erzeuger | Zielort |
 |----------|----------|---------|
 | `review/legal_review.md`, `review/prompt_review.md`, `review/gate_report.md` | Cowork (Rollen 1, 2, 5) | `review/` |
+| `review/legal_review_markenrecht_addendum.md` (v1.1-Erweiterung, Normzitate live-verifiziert; menschliche Gegenzeichnung vor Go-Live ausstehend) | Spec-Erweiterung v1.1 (analog Rolle 1) | `review/` |
 | `review/coverage_matrix.yaml` | Cowork (Rolle 3) | `review/` |
 | `evals/golden_set/*.yaml` (140 Fälle, 14 Smoke; davon markenrecht.yaml aus Spec-Erweiterung v1.1) | Cowork (Rolle 4) bzw. v1.1-Erweiterung, menschlich geprüft | `evals/golden_set/` |
 | `spec/spec_hashes.json`, `spec/OPEN_QUESTIONS.md` | Cowork (Rolle 5) | `spec/` |

@@ -154,7 +154,8 @@ domaenen:
       - {norm: "§ 42 MarkenG", thema: "Widerspruchsverfahren (Frist 3 Monate ab Veroeffentlichung der Eintragung)", quelle_typ: gesetz, status: pending_ingest}
       - {norm: "§ 47 MarkenG", thema: "Schutzdauer und Verlaengerung", quelle_typ: gesetz, status: pending_ingest}
       - {norm: "§§ 49-50 MarkenG", thema: "Verfall und Nichtigkeit", quelle_typ: gesetz, status: pending_ingest}
-      - {norm: "§§ 119 ff. MarkenG", thema: "International registrierte Marken (Madrid-System)", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§§ 107-118 MarkenG", thema: "International registrierte Marken (Protokoll zum Madrider Markenabkommen)", quelle_typ: gesetz, status: pending_ingest}
+      - {norm: "§§ 119-125a MarkenG", thema: "Unionsmarken (Durchfuehrung im deutschen Recht, Unionsmarkengerichte)", quelle_typ: gesetz, status: pending_ingest}
       - {norm: "Art. 4, 7, 8 VO (EU) 2017/1001", thema: "Unionsmarke: Markenformen, absolute/relative Eintragungshindernisse", quelle_typ: eu_verordnung, status: pending_ingest}
       - {norm: "Art. 9, 18 VO (EU) 2017/1001", thema: "Rechte aus der Unionsmarke, Benutzungspflicht", quelle_typ: eu_verordnung, status: pending_ingest}
       - {norm: "Art. 46-47 VO (EU) 2017/1001", thema: "Widerspruchsverfahren EUIPO (Frist 3 Monate ab Veroeffentlichung der ANMELDUNG - Unterschied zu DE!)", quelle_typ: eu_verordnung, status: pending_ingest}
