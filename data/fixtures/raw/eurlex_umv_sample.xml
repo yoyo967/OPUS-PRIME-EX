@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MINI-SAMPLE im Formex-STIL (EUR-Lex), kein amtlicher Volltext. Modelliert die
+     Kernelemente: PREAMBLE/GR.CONSID/CONSID(NO.P+TXT), ENACTING.TERMS/ARTICLE
+     (TI.ART/STI.ART/PARAG/ALINEA/P), ANNEX/DIVISION.
+     ACHTUNG: exaktes Formex-Tag-Mapping vor Produktion gegen echtes EUR-Lex-
+     Formex-Sample verifizieren (spec/OPEN_QUESTIONS.md #11). -->
+<ACT>
+  <PREAMBLE>
+    <GR.CONSID>
+      <CONSID><NO.P>(1)</NO.P><TXT>Diese Verordnung dient dem reibungslosen Funktionieren des Binnenmarkts.</TXT></CONSID>
+      <CONSID><NO.P>(2)</NO.P><TXT>Die Unionsmarke sollte einen einheitlichen Schutz in der gesamten Union geniessen.</TXT></CONSID>
+    </GR.CONSID>
+  </PREAMBLE>
+  <ENACTING.TERMS>
+    <ARTICLE IDENTIFIER="046">
+      <TI.ART>Artikel 46</TI.ART>
+      <STI.ART>Widerspruch</STI.ART>
+      <PARAG>
+        <NO.PARAG>(1)</NO.PARAG>
+        <ALINEA><P>Innerhalb einer Frist von drei Monaten nach Veroeffentlichung der Anmeldung der Unionsmarke kann gegen die Eintragung der Unionsmarke Widerspruch erhoben werden mit der Begruendung, dass die Marke nach Artikel 8 von der Eintragung auszuschliessen ist.</P></ALINEA>
+      </PARAG>
+    </ARTICLE>
+  </ENACTING.TERMS>
+</ACT>

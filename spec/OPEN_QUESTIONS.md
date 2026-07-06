@@ -16,6 +16,8 @@
 
 | 10 | config/models.yaml + CLAUDE.md §3 (P3-Meilenstein 9, 2026-07-06) | CLAUDE.md §3 schreibt `temperature 0.2 fuer Route A/B` vor; die aktuelle Anthropic-API lehnt `temperature` auf `claude-sonnet-5` und `claude-fable-5` jedoch mit 400 ab (Sampling-Parameter entfernt, verifiziert gegen claude-api-Referenz 2026-07-06) | Gemaess Spec-Annahme AGENT_ARCHITECTURE.md §8 A1 (IDs/Parameter gegen die aktuelle API parametrisieren): Route A/B senden KEINE temperature (steuern via adaptive thinking / effort), Route C (Haiku 4.5) behaelt temperature 0.0. Reine Parametrisierung, keine Routing-/Architektur-Abweichung. Bei naechster Owner-/Gatekeeper-Durchsicht bestaetigen; ggf. CLAUDE.md §3 redaktionell nachziehen | Offen, technische Parametrisierung, nicht blockierend |
 
+| 11 | src/rag/sources/eurlex.py (P3-Meilenstein 13, 2026-07-06) | Der EUR-Lex-Adapter mappt ein Formex-SUBSET (PREAMBLE/CONSID, ARTICLE/TI.ART/STI.ART/P, ANNEX/DIVISION) auf das normalisierte <verordnung>-Format; die exakten Formex-v4-Tag-Namen sind offline modelliert, nicht gegen ein echtes EUR-Lex-Formex-Dokument verifiziert | Vor Produktivsetzung: ein reales EUR-Lex-Formex-Sample (z. B. CELEX 32017R1001) herunterladen und das Tag-Mapping in normalize_eurlex() abgleichen/erweitern (Absaetze, verschachtelte Listen, Anhang-Strukturen); Integrationstest gegen die Live-Quelle | Offen, technische Aufgabe vor Live-Ingest EU-Verordnungen |
+
 <!-- Hinweis (2026-07-05, Reparatur): Die Datei war nach Eintrag #7 mitten im Satz abgeschnitten
      (Dateiabbruch beim urspruenglichen Speichern). Eintrag #7 wurde aus PROJECT_INSTRUCTIONS.md O1 /
      KNOWLEDGE_ARCHITECTURE.md A3 vervollstaendigt; Eintrag #8 wurde gemaess review/gate_report.md
