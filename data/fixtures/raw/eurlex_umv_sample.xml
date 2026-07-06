@@ -7,8 +7,8 @@
 <ACT>
   <PREAMBLE>
     <GR.CONSID>
-      <CONSID><NO.P>(1)</NO.P><TXT>Diese Verordnung dient dem reibungslosen Funktionieren des Binnenmarkts.</TXT></CONSID>
-      <CONSID><NO.P>(2)</NO.P><TXT>Die Unionsmarke sollte einen einheitlichen Schutz in der gesamten Union geniessen.</TXT></CONSID>
+      <CONSID><NP><NO.P>(1)</NO.P><TXT>Diese Verordnung dient dem reibungslosen Funktionieren des Binnenmarkts.</TXT></NP></CONSID>
+      <CONSID><NP><NO.P>(2)</NO.P><TXT>Die Unionsmarke sollte einen einheitlichen Schutz in der gesamten Union geniessen.</TXT></NP></CONSID>
     </GR.CONSID>
   </PREAMBLE>
   <ENACTING.TERMS>

@@ -23,6 +23,11 @@ import yaml
 
 from src.rag.chunker import Chunk, chunk_de_gesetz, chunk_eu_verordnung
 from src.rag.persistence import save_corpus
+from src.rag.sources.eurlex import (
+    chunks_from_eurlex,
+    extract_formex_from_zip,
+    fetch_eurlex,
+)
 from src.rag.sources.gii import chunks_from_gii, extract_gii_from_zip, fetch_gii
 from src.rag.verweisgraph import extrahiere_verweise
 from src.shared.exceptions import ToolInputError
@@ -102,16 +107,22 @@ def run_ingest(
     return IngestResult(len(chunks), kanten, str(out_path)), chunks
 
 
+def _default_fetch_eu(celex: str) -> str:
+    """Fetch + extract the EUR-Lex Formex XML for a CELEX id (network)."""
+    return extract_formex_from_zip(fetch_eurlex(celex))
+
+
 def run_live_ingest(
     quellen_path: Path = _DEFAULT_QUELLEN,
     out_path: Path = _DEFAULT_OUT,
     fetch: Callable[[str], bytes] = fetch_gii,
+    fetch_eu: Callable[[str], str] = _default_fetch_eu,
     rechtsstand_abruf: str = "2026-07-06",
 ) -> tuple[IngestResult, list[Chunk], list[tuple[str, str]]]:
-    """Fetch the live gii sources, chunk, build the Verweisgraph, persist.
+    """Fetch the live gii + EUR-Lex sources, chunk, build the Verweisgraph, persist.
 
-    fetch is injectable (tests pass a fake -> kein Netz). Eine fehlschlagende
-    Quelle (z. B. 404-Slug) stoppt den Lauf nicht, sondern wird gemeldet.
+    fetch / fetch_eu are injectable (tests pass fakes -> kein Netz). Eine
+    fehlschlagende Quelle stoppt den Lauf nicht, sondern wird gemeldet.
 
     # SPEC: KNOWLEDGE_ARCHITECTURE.md §2 Prio 1 (Live-Quellen), §5 (Verweisgraph)
     """
@@ -132,6 +143,19 @@ def run_live_ingest(
             )
         except Exception as exc:  # eine Quelle darf den Lauf nicht killen
             fehler.append((slug, f"{type(exc).__name__}: {exc}"))
+    for quelle in cfg.get("eurlex_verordnungen", []) or []:
+        celex = str(quelle["celex"])
+        try:
+            chunks += chunks_from_eurlex(
+                fetch_eu(celex),
+                celex=celex,
+                gueltig_ab=str(quelle["gueltig_ab"]),
+                rechtsstand_abruf=rechtsstand_abruf,
+                quelle_url=str(quelle["quelle_url"]),
+                domaene=tuple(quelle["domaene"]),
+            )
+        except Exception as exc:
+            fehler.append((celex, f"{type(exc).__name__}: {exc}"))
     chunks = extrahiere_verweise(chunks)
     save_corpus(chunks, out_path)
     kanten = sum(len(c.verweist_auf) for c in chunks)
