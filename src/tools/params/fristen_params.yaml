@@ -1,0 +1,88 @@
+# SPEC: AGENT_ARCHITECTURE.md §3.3 (fristen_kalender); CLAUDE.md §3/§6
+# (table-driven, versioniert, Quellen-Referenz; nie im Code hartcodiert)
+#
+# EHRLICHKEITS-REGEL: Feiertags- und Fristregeln sind fachlich etabliert, aber vor
+# Produktivsetzung gegen die amtlichen Quellen (Feiertagsgesetze der Laender,
+# gesetze-im-internet.de, EUR-Lex) zu verifizieren - analog steuer_params.yaml.
+# Konservativ-Prinzip: Im Zweifel wird ein Tag NICHT als Feiertag behandelt
+# (keine Fristverlaengerung ohne sichere Grundlage).
+
+fristtypen:
+  dsgvo_meldung_72h:
+    einheit: tage
+    dauer: 3 # 72 Stunden; Tool arbeitet auf Datumsebene (Stundengenauigkeit beim Nutzer)
+    verschiebung_108_ao: false # EU-Frist, laeuft auch ueber Wochenende/Feiertag
+    rechtsgrundlage: "Art. 33 Abs. 1 DSGVO"
+    ausloeser: "Kenntnis von der Verletzung"
+    hinweis: >-
+      Frist laeuft in Stunden und auch an Wochenenden/Feiertagen; unverzueglich
+      handeln, 72 Stunden sind die Obergrenze.
+  widerspruch_marke_de:
+    einheit: monate
+    dauer: 3
+    verschiebung_108_ao: true
+    rechtsgrundlage: "§ 42 Abs. 1 MarkenG"
+    ausloeser: "Veroeffentlichung der EINTRAGUNG (§ 41 Abs. 2 MarkenG)"
+    hinweis: "Live-verifiziert 2026-07-05 (review/legal_review_markenrecht_addendum.md)."
+  widerspruch_unionsmarke:
+    einheit: monate
+    dauer: 3
+    verschiebung_108_ao: false # konservativ: EUIPO-Kalender massgeblich, keine Verschiebung angenommen
+    rechtsgrundlage: "Art. 46 Abs. 1 VO (EU) 2017/1001"
+    ausloeser: "Veroeffentlichung der ANMELDUNG (Unterschied zu § 42 MarkenG!)"
+    hinweis: "Frist nicht verlaengerbar; konservativ ohne Werktagsverschiebung berechnet."
+  ustva_abgabe:
+    einheit: tage
+    dauer: 10
+    verschiebung_108_ao: true
+    rechtsgrundlage: "§ 18 Abs. 1 UStG i. V. m. § 108 Abs. 3 AO"
+    ausloeser: "Ablauf des Voranmeldungszeitraums"
+  schutzende_marke_de:
+    einheit: jahre
+    dauer: 10
+    verschiebung_108_ao: false
+    rechtsgrundlage: "§ 47 Abs. 1 MarkenG"
+    ausloeser: "Anmeldetag"
+    hinweis: >-
+      Verlaengerung um jeweils 10 Jahre; Antrag innerhalb von 6 Monaten vor
+      Ablauf, Nachfrist 6 Monate (§ 47 Abs. 3 MarkenG; live-verifiziert 2026-07-05).
+  jahreserklaerung:
+    einheit: speziell # Kalenderlogik in Code: § 149 Abs. 2 bzw. Abs. 3 AO
+    verschiebung_108_ao: true
+    rechtsgrundlage: "§ 149 Abs. 2 bzw. Abs. 3 AO"
+    ausloeser: "Ende des Besteuerungszeitraums"
+    hinweis: "Ohne Berater: 31.07. des Folgejahres; mit Berater: letzter Februartag des Zweitfolgejahres."
+  ai_act_hochrisiko_anhang3:
+    einheit: fest
+    datum: "2026-08-02"
+    verschiebung_108_ao: false
+    rechtsgrundlage: "Art. 113 VO (EU) 2024/1689"
+    ausloeser: "gesetzlicher Stichtag"
+    hinweis: "Anwendbarkeit der Hochrisiko-Pflichten aus Anhang III."
+
+# Gesetzliche Feiertage (Quelle: Feiertagsgesetze der Laender - Entwurf, verifizieren).
+# laender: "alle" oder Liste von Landeskuerzeln. BY-Sonderfaelle (Mariae Himmelfahrt,
+# Augsburger Friedensfest) sind gemeinde-/stadtabhaengig und werden konservativ
+# NICHT als Feiertag behandelt.
+feiertage_fix:
+  - {name: "Neujahr", monat: 1, tag: 1, laender: alle}
+  - {name: "Heilige Drei Koenige", monat: 1, tag: 6, laender: [BW, BY, ST]}
+  - {name: "Internationaler Frauentag", monat: 3, tag: 8, laender: [BE, MV]}
+  - {name: "Tag der Arbeit", monat: 5, tag: 1, laender: alle}
+  - {name: "Weltkindertag", monat: 9, tag: 20, laender: [TH]}
+  - {name: "Tag der Deutschen Einheit", monat: 10, tag: 3, laender: alle}
+  - {name: "Reformationstag", monat: 10, tag: 31, laender: [BB, HB, HH, MV, NI, SN, ST, SH, TH]}
+  - {name: "Allerheiligen", monat: 11, tag: 1, laender: [BW, BY, NW, RP, SL]}
+  - {name: "Mariae Himmelfahrt", monat: 8, tag: 15, laender: [SL]}
+  - {name: "1. Weihnachtstag", monat: 12, tag: 25, laender: alle}
+  - {name: "2. Weihnachtstag", monat: 12, tag: 26, laender: alle}
+
+feiertage_oster_offset:
+  - {name: "Karfreitag", offset: -2, laender: alle}
+  - {name: "Ostermontag", offset: 1, laender: alle}
+  - {name: "Christi Himmelfahrt", offset: 39, laender: alle}
+  - {name: "Pfingstmontag", offset: 50, laender: alle}
+  - {name: "Fronleichnam", offset: 60, laender: [BW, BY, HE, NW, RP, SL]}
+
+# Buss- und Bettag (Mittwoch vor dem 23.11.) nur Sachsen - Kalenderlogik in Code.
+buss_und_bettag_laender: [SN]
