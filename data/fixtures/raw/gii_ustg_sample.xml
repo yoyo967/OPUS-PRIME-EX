@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dokumente SYSTEM "http://www.gesetze-im-internet.de/dtd/1.01/gii-norm.dtd">
+<!-- MINI-SAMPLE im ECHTEN gesetze-im-internet.de-Format (gii-norm.dtd), kein
+     amtlicher Volltext. Prueft den GII-Normalizer: norm/metadaten/enbez/titel +
+     textdaten/text/Content/P, DOCTYPE-Strip, Absatz-Erkennung "(n)", Skip von
+     Gliederungs-Normen ohne §-enbez. -->
+<dokumente builddate="20260705" doknr="BJNR000000000">
+  <norm builddate="20260705" doknr="BJNR000000000BJNE001">
+    <metadaten>
+      <jurabk>UStG</jurabk>
+      <enbez>§ 19</enbez>
+      <titel format="parat">Besteuerung der Kleinunternehmer</titel>
+    </metadaten>
+    <textdaten>
+      <text format="XML">
+        <Content>
+          <P>(1) Fuer Umsaetze im Sinne des § 1 Absatz 1 Nummer 1 wird die Steuer von Kleinunternehmern nicht erhoben, wenn der Gesamtumsatz im vorangegangenen Kalenderjahr 25 000 Euro nicht ueberschritten hat und im laufenden Kalenderjahr 100 000 Euro nicht ueberschreitet.</P>
+          <P>(2) Der Unternehmer kann dem Finanzamt bis zur Unanfechtbarkeit der Steuerfestsetzung erklaeren, dass er auf die Anwendung des Absatzes 1 verzichtet.</P>
+        </Content>
+      </text>
+    </textdaten>
+  </norm>
+  <norm builddate="20260705" doknr="BJNR000000000BJNE002">
+    <metadaten>
+      <jurabk>UStG</jurabk>
+      <enbez>§ 19a</enbez>
+      <titel format="parat">Besonderes Meldeverfahren</titel>
+    </metadaten>
+    <textdaten>
+      <text format="XML">
+        <Content>
+          <P>Ein im Inland ansaessiger Unternehmer, der die Steuerbefreiung in einem anderen Mitgliedstaat in Anspruch nehmen will, hat dies dem Bundeszentralamt fuer Steuern anzuzeigen.</P>
+        </Content>
+      </text>
+    </textdaten>
+  </norm>
+  <norm builddate="20260705" doknr="BJNR000000000BJNG000">
+    <metadaten>
+      <jurabk>UStG</jurabk>
+      <gliederungseinheit>
+        <gliederungskennzahl>010</gliederungskennzahl>
+        <gliederungsbez>Erster Abschnitt</gliederungsbez>
+      </gliederungseinheit>
+    </metadaten>
+    <textdaten/>
+  </norm>
+</dokumente>
