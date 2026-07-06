@@ -1,0 +1,91 @@
+# SPEC: AGENT_ARCHITECTURE.md §3.4 (dokument_generator) - Templates als Daten.
+# Alle Templates sind STRUKTUR-ENTWUERFE (Checklisten/Gerueste) auf Basis der in
+# P2 fachlich bestaetigten Normbezuege (review/legal_review.md Finding #7 bzw.
+# live-verifizierte Addendum-Zitate). Vor Produktivsetzung: Fachpruefung (O3/A3).
+
+dokumente:
+  avv_checkliste:
+    titel: "AVV-Checkliste (Auftragsverarbeitungsvertrag)"
+    rechtsgrundlagen: ["Art. 28 Abs. 3 DSGVO"]
+    abschnitte:
+      - "Gegenstand, Dauer, Art und Zweck der Verarbeitung festgelegt?"
+      - "Art der personenbezogenen Daten und Kategorien betroffener Personen benannt?"
+      - "lit. a: Verarbeitung nur auf dokumentierte Weisung?"
+      - "lit. b: Vertraulichkeitsverpflichtung der befugten Personen?"
+      - "lit. c: Technische und organisatorische Massnahmen (Art. 32)?"
+      - "lit. d: Bedingungen fuer Subunternehmer (weitere Auftragsverarbeiter)?"
+      - "lit. e: Unterstuetzung bei Betroffenenrechten?"
+      - "lit. f: Unterstuetzung bei Sicherheit, Meldungen, DSFA?"
+      - "lit. g: Loeschung oder Rueckgabe nach Abschluss?"
+      - "lit. h: Nachweise und Audits ermoeglicht?"
+      - "Bei Drittlandbezug: Kapitel-V-Grundlage (DPF-Zertifizierung/SCC + TIA) geprueft?"
+  vvt_eintrag:
+    titel: "VVT-Eintrag (Verzeichnis von Verarbeitungstaetigkeiten)"
+    rechtsgrundlagen: ["Art. 30 Abs. 1 DSGVO"]
+    abschnitte:
+      - "Name und Kontaktdaten des Verantwortlichen (ggf. Vertreter, DSB)"
+      - "Zwecke der Verarbeitung"
+      - "Kategorien betroffener Personen und Kategorien personenbezogener Daten"
+      - "Kategorien von Empfaengern (inkl. Drittland/internationale Organisationen)"
+      - "Drittlanduebermittlungen inkl. Garantien"
+      - "Loeschfristen (soweit moeglich)"
+      - "Allgemeine Beschreibung der TOMs (Art. 32 Abs. 1, soweit moeglich)"
+  dpia_geruest:
+    titel: "DPIA-Geruest (Datenschutz-Folgenabschaetzung)"
+    rechtsgrundlagen: ["Art. 35 Abs. 7 DSGVO"]
+    abschnitte:
+      - "Systematische Beschreibung der Verarbeitungsvorgaenge und Zwecke"
+      - "Bewertung von Notwendigkeit und Verhaeltnismaessigkeit"
+      - "Bewertung der Risiken fuer Rechte und Freiheiten der Betroffenen"
+      - "Geplante Abhilfemassnahmen (Garantien, Sicherheitsvorkehrungen, Verfahren)"
+      - "Einbindung DSB / ggf. Standpunkt der Betroffenen"
+  gewerbeanmeldung_checkliste:
+    titel: "Gewerbeanmeldungs-Checkliste"
+    rechtsgrundlagen: ["§ 14 GewO"]
+    abschnitte:
+      - "Zustaendiges Gewerbeamt ermittelt (Betriebssitz)?"
+      - "Taetigkeitsbeschreibung formuliert (praezise, zukunftsoffen)?"
+      - "Erlaubnispflicht geprueft (z. B. § 34a/34c GewO)?"
+      - "Handelsregister-Eintrag erforderlich/vorhanden?"
+      - "Ausweis/Registerauszuege/Vollmachten bereitgelegt?"
+      - "Folgeanmeldungen eingeplant (Finanzamt-Fragebogen, IHK, Berufsgenossenschaft)?"
+  ai_act_gap_liste:
+    titel: "AI-Act-Konformitaets-Gap-Liste (Betreiberpflichten)"
+    rechtsgrundlagen: ["Art. 26 VO (EU) 2024/1689", "Art. 4 VO (EU) 2024/1689"]
+    abschnitte:
+      - "Risikoklassifizierung des KI-Systems dokumentiert (Art. 6 + Anhang III)?"
+      - "Verwendung gemaess Betriebsanleitung des Anbieters sichergestellt?"
+      - "Menschliche Aufsicht festgelegt und geschult?"
+      - "Kontrolle der Input-Daten geregelt?"
+      - "Protokolle aufbewahrt?"
+      - "Information von Arbeitnehmervertretung/Beschaeftigten (Art. 26 Abs. 7)?"
+      - "KI-Kompetenz des Personals (Art. 4)?"
+      - "Anbieter-Nachweise (CE, EU-Konformitaetserklaerung, technische Doku) eingeholt?"
+  beratervorbereitung_dossier:
+    titel: "Beratervorbereitungs-Dossier"
+    rechtsgrundlagen: []
+    abschnitte:
+      - "Sachverhalt chronologisch (Daten, Betraege, Beteiligte - pseudonymisiert)"
+      - "Konkrete Fragen an Steuerberater:in/Rechtsanwaelt:in"
+      - "Bisherige Einschaetzungen/Quellen (mit Rechtsstand)"
+      - "Fristen und deren Grundlagen"
+      - "Gewuenschtes Ergebnis / Entscheidungsoptionen"
+  markenanmeldung_vorbereitung:
+    titel: "Markenanmeldungs-Vorbereitungs-Dossier (keine Einreichung!)"
+    rechtsgrundlagen: ["§ 3, § 8, § 26, § 32 MarkenG", "Nizza-Klassifikation"]
+    abschnitte:
+      - "Zeichenform bestimmt (Wort-/Bild-/Wortbildmarke, weitere Formen, § 3 MarkenG)?"
+      - "Orientierende Identitaets-/Aehnlichkeitsrecherche dokumentiert (KEINE Vollstaendigkeitsgarantie)?"
+      - "Absolute Schutzhindernisse selbst eingeschaetzt (§ 8: Unterscheidungskraft, Freihaltebeduerfnis)?"
+      - "Waren-/Dienstleistungsverzeichnis-Entwurf nach Nizza-Klassen (nur benoetigte Klassen, Benutzungszwang § 26 bedenken)"
+      - "Schutzgebiete (DE/EU/IR) und Budget geklaert?"
+      - "Uebergabe an Rechts-/Patentanwalt fuer Recherche-Bestaetigung und Einreichung vorbereitet?"
+
+# Einreichungs-/vorbehaltene Dokumente: GESPERRT (Scope-Abgrenzung Nr. 2 und 4).
+# SPEC: AGENT_ARCHITECTURE.md §3.4 Regel; §4 P4 (kein Tool = staerkste Sperre)
+gesperrt:
+  - steuererklaerung
+  - ust_voranmeldung
+  - markenanmeldung_einreichung
+  - widerspruch_einreichung
+  - elster_uebermittlung

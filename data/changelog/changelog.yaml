@@ -1,0 +1,15 @@
+# Wissensbasis-Changelog (SPEC: KNOWLEDGE_ARCHITECTURE.md §3 Aktualitaets-Monitor;
+# AGENT_ARCHITECTURE.md §3.5). Wird ab dem Ingest-Meilenstein automatisch von
+# scripts/ingest.py fortgeschrieben. Format pro Eintrag:
+#   datum (ISO) | domaene[] | typ (neue_fassung|neues_dokument|aufgehoben|stale)
+#   | titel | quelle_id | detail
+eintraege:
+  - datum: "2026-07-05"
+    domaene: [steuerrecht, gewerberecht, finanzen, dsgvo, eu_ai_act, data_act, markenrecht]
+    typ: neues_dokument
+    titel: "Initiale Fixture-Basis angelegt (noch KEIN Live-Korpus)"
+    quelle_id: "data/fixtures"
+    detail: >-
+      P3-Meilenstein 2: 6 Muss-Fixtures als Format-Vertrag. Der produktive
+      Korpus-Ingest (gesetze-im-internet.de, EUR-Lex, BMF) steht aus; bis dahin
+      liefert das Radar nur diesen Hinweis.
