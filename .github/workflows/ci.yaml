@@ -32,4 +32,8 @@ jobs:
         run: pytest -q tests/guardrails tests/orchestrator
       - name: spec_lint
         run: python scripts/spec_lint.py
-      # TODO(Meilenstein Eval-Harness): eval-smoke, 14 Faelle (SPEC: CLAUDE.md §5)
+      - name: eval-smoke
+        # SPEC: CLAUDE.md §5 (14-Faelle-Subset auf jedem PR). Modus 'fake' prueft
+        # Harness + Guardrails deterministisch; Live-Eval (Modellqualitaet, DoD-Gate
+        # >=95 %) folgt mit API-Anbindung nightly (ANTHROPIC_API_KEY als Secret).
+        run: python -m evals.harness.run --smoke
