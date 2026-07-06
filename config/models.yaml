@@ -9,17 +9,27 @@
 #     keine Architektur-Abweichung; Routing-Logik unveraendert.
 # SPEC: CLAUDE.md §5 (Release friert Modell-IDs ein -> nur pinned Snapshots verwenden)
 
+# TEMPERATURE-HINWEIS (Abweichung von CLAUDE.md §3, dokumentiert in OPEN_QUESTIONS #10):
+# Die aktuelle API lehnt temperature auf claude-sonnet-5 und claude-fable-5 ab (400,
+# Sampling-Parameter entfernt; Quelle: claude-api-Referenz, Abruf 2026-07-06). Gemaess
+# Spec-Annahme A1 (IDs/Parameter werden gegen die aktuelle API parametrisiert) senden
+# Route A/B daher KEINE temperature; Route C (Haiku 4.5) behaelt 0.0. temperature: null
+# bedeutet: Parameter wird nicht gesendet.
 routes:
   a_standard:
     # SPEC: AGENT_ARCHITECTURE.md §2 Route A (Einzeldomaene, klare Rechtslage, Risiko NIEDRIG/MITTEL)
     model: "claude-sonnet-5"
-    temperature: 0.2 # SPEC: CLAUDE.md §3 (temperature 0.2 fuer Route A/B)
+    temperature: null
     max_tokens: 4096
   b_komplex:
     # SPEC: AGENT_ARCHITECTURE.md §2 Route B (domaenenuebergreifend, Risiko HOCH, Stufe-2/3)
+    # Fable 5: Thinking immer an (kein thinking-Parameter senden); Refusal-Fallback auf
+    # claude-opus-4-8 aktiviert (server-side fallbacks, beta) - Policy-Ablehnungen durch
+    # Sicherheitsklassifikatoren werden im selben Call vom Fallback-Modell bedient.
     model: "claude-fable-5"
-    temperature: 0.2
+    temperature: null
     max_tokens: 8192
+    fallback_model: "claude-opus-4-8"
   c_triage:
     # SPEC: AGENT_ARCHITECTURE.md §2 Route C (Klassifikation, Re-Ranking, Formatierung)
     model: "claude-haiku-4-5-20251001"

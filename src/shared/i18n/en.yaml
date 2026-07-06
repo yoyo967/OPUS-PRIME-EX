@@ -14,6 +14,9 @@ ablehnung_zahlen_ohne_beleg: >-
   calculation tool or a cited source, so it was withheld. Please rephrase your
   question or use the calculation feature; for binding figures, consult your
   tax or legal advisor.
+sicherheits_ablehnung: >-
+  This request could not be answered for safety reasons. Please rephrase your
+  request, or consult a licensed professional for binding advice.
 stale_warnung: >-
   Caution: The legal status of at least one source used may be outdated.
   Please verify against the live source.

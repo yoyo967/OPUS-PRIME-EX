@@ -17,6 +17,10 @@ ablehnung_zahlen_ohne_beleg: >-
   deshalb zurückgehalten. Bitte stellen Sie die Frage erneut oder nutzen Sie
   die Berechnungsfunktion; für verbindliche Zahlen wenden Sie sich an Ihre
   steuerliche bzw. rechtliche Beratung.
+sicherheits_ablehnung: >-
+  Diese Anfrage konnte aus Sicherheitsgründen nicht beantwortet werden. Bitte
+  formulieren Sie Ihr Anliegen anders oder wenden Sie sich für eine verbindliche
+  Auskunft an eine zugelassene Berufsträgerin oder einen zugelassenen Berufsträger.
 stale_warnung: >-
   Achtung: Der Rechtsstand mindestens einer verwendeten Quelle ist möglicherweise
   nicht mehr aktuell. Bitte prüfen Sie die Angaben gegen die Live-Quelle.
