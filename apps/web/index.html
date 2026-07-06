@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OPUS PRIME EX — Rechts- & Steuerinformation</title>
+<style>
+  :root {
+    --navy: #0b1f3a;
+    --navy-2: #12304f;
+    --ink: #1a2532;
+    --muted: #5b6b7c;
+    --line: #e2e8f0;
+    --bg: #f6f8fb;
+    --card: #ffffff;
+    --accent: #0e7c86;
+    --accent-soft: #e4f2f3;
+    --warn: #8a5a00;
+    --warn-bg: #fdf4e3;
+    --serif: Georgia, "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--sans); line-height: 1.55;
+  }
+  header {
+    background: linear-gradient(160deg, var(--navy), var(--navy-2));
+    color: #fff; padding: 22px 24px;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  .brand { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .brand h1 { font-family: var(--serif); font-size: 26px; margin: 0; letter-spacing: .3px; }
+  .brand .tag { color: #b9c9dc; font-size: 14px; }
+  .ki-badge {
+    display: inline-block; margin-left: auto; font-size: 12px; font-weight: 600;
+    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25);
+    padding: 4px 10px; border-radius: 999px; white-space: nowrap;
+  }
+  .subnotice {
+    background: var(--warn-bg); color: var(--warn); border-bottom: 1px solid #f0e2c4;
+    font-size: 13px; padding: 8px 24px;
+  }
+  main { max-width: 860px; margin: 0 auto; padding: 22px 24px 140px; }
+  .intro { color: var(--muted); font-size: 14px; margin: 6px 0 20px; }
+  .examples { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .chip {
+    background: var(--card); border: 1px solid var(--line); color: var(--ink);
+    padding: 7px 12px; border-radius: 999px; font-size: 13px; cursor: pointer;
+    transition: border-color .15s, background .15s;
+  }
+  .chip:hover { border-color: var(--accent); background: var(--accent-soft); }
+  .msg { margin: 14px 0; display: flex; }
+  .msg.user { justify-content: flex-end; }
+  .bubble {
+    max-width: 82%; padding: 12px 16px; border-radius: 14px; font-size: 15px;
+    white-space: pre-wrap; word-wrap: break-word;
+  }
+  .user .bubble { background: var(--navy); color: #fff; border-bottom-right-radius: 4px; }
+  .agent .bubble {
+    background: var(--card); border: 1px solid var(--line);
+    border-bottom-left-radius: 4px; box-shadow: 0 1px 2px rgba(16,32,55,.04);
+  }
+  .agent-name { font-size: 12px; color: var(--muted); margin: 0 0 6px 4px; font-weight: 600; }
+  .fehler {
+    background: var(--warn-bg); border: 1px solid #f0e2c4; color: var(--warn);
+    border-radius: 12px; padding: 12px 14px; font-size: 14px;
+  }
+  .pipeline {
+    margin-top: 12px; border: 1px dashed var(--line); border-radius: 12px;
+    background: #fbfcfe; font-size: 13px; overflow: hidden;
+  }
+  .pipeline summary {
+    cursor: pointer; padding: 10px 14px; color: var(--accent); font-weight: 600;
+    user-select: none;
+  }
+  .pipeline .body { padding: 4px 14px 14px; }
+  .row { display: flex; gap: 8px; margin: 8px 0; align-items: baseline; flex-wrap: wrap; }
+  .row .lbl { color: var(--muted); min-width: 92px; font-weight: 600; }
+  .tag-chip {
+    background: var(--accent-soft); color: var(--accent); border-radius: 6px;
+    padding: 2px 8px; font-size: 12px; font-weight: 600;
+  }
+  .src-chip, .gr-chip {
+    font-family: var(--mono); font-size: 12px; background: #eef2f7; color: var(--ink);
+    border-radius: 6px; padding: 2px 8px;
+  }
+  .gr-chip { background: #eaf6ee; color: #256b3c; }
+  .composer {
+    position: fixed; bottom: 0; left: 0; right: 0; background: rgba(246,248,251,.96);
+    border-top: 1px solid var(--line); backdrop-filter: blur(6px);
+  }
+  .composer-inner { max-width: 860px; margin: 0 auto; padding: 12px 24px; }
+  .composer form { display: flex; gap: 10px; }
+  .composer input {
+    flex: 1; padding: 13px 15px; border: 1px solid var(--line); border-radius: 12px;
+    font-size: 15px; font-family: var(--sans); background: #fff;
+  }
+  .composer input:focus { outline: none; border-color: var(--accent); }
+  .composer button {
+    padding: 0 20px; border: none; border-radius: 12px; background: var(--accent);
+    color: #fff; font-size: 15px; font-weight: 600; cursor: pointer;
+  }
+  .composer button:disabled { opacity: .55; cursor: default; }
+  .disclaimer { max-width: 860px; margin: 6px auto 0; font-size: 11px; color: var(--muted); padding: 0 24px 10px; }
+  .thinking { color: var(--muted); font-style: italic; }
+  .dot { animation: blink 1.2s infinite; }
+  .dot:nth-child(2){animation-delay:.2s} .dot:nth-child(3){animation-delay:.4s}
+  @keyframes blink { 0%,100%{opacity:.2} 50%{opacity:1} }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap brand">
+    <h1>OPUS PRIME EX</h1>
+    <span class="tag">KI-gestützte Rechts- &amp; Steuerinformation · DE/EU</span>
+    <span class="ki-badge">KI-System · Art. 50 EU AI Act</span>
+  </div>
+</header>
+<div class="subnotice wrap-full">
+  <div class="wrap">Allgemeine Rechtsinformation — <strong>keine</strong> Rechts- oder Steuerberatung im Einzelfall. Bitte keine besonderen Kategorien personenbezogener Daten (Art. 9 DSGVO) eingeben.</div>
+</div>
+
+<main>
+  <p class="intro">
+    Sieben Domänen: Steuerrecht · Gewerberecht · Finanzen · DSGVO · EU&nbsp;AI&nbsp;Act · Data&nbsp;Act · Markenrecht.
+    Jede Antwort durchläuft Router, Quellenrecherche und Guardrails — unten je Antwort einsehbar.
+  </p>
+  <div class="examples" id="examples">
+    <span class="chip">Muss ich als Kleinunternehmer Umsatzsteuer ausweisen?</span>
+    <span class="chip">Wie lange ist die Widerspruchsfrist gegen eine Marke beim DPMA?</span>
+    <span class="chip">Reicht ein NDA statt eines Auftragsverarbeitungsvertrags?</span>
+    <span class="chip">Was heißt OSS?</span>
+  </div>
+  <div id="chat"></div>
+</main>
+
+<div class="composer">
+  <div class="composer-inner">
+    <form id="form">
+      <input id="frage" autocomplete="off" placeholder="Ihre Frage zu Steuer, Gewerbe, DSGVO, AI Act, Data Act oder Marke…" />
+      <button id="senden" type="submit">Fragen</button>
+    </form>
+  </div>
+  <p class="disclaimer" id="disclaimer">
+    Hinweis: Diese Anwendung liefert allgemeine Rechtsinformation auf Basis des angegebenen Rechtsstands und ersetzt
+    keine individuelle Beratung durch Steuerberater:in oder Rechtsanwält:in. Für verbindliche Auskünfte zu Ihrem
+    Einzelfall wenden Sie sich bitte an eine:n zugelassene:n Berufsträger:in.
+  </p>
+</div>
+
+<script>
+const chat = document.getElementById("chat");
+const form = document.getElementById("form");
+const input = document.getElementById("frage");
+const btn = document.getElementById("senden");
+
+document.getElementById("examples").addEventListener("click", (e) => {
+  if (e.target.classList.contains("chip")) { input.value = e.target.textContent; input.focus(); }
+});
+
+function el(tag, cls, text) {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text !== undefined) n.textContent = text;
+  return n;
+}
+
+function addUser(text) {
+  const wrap = el("div", "msg user");
+  wrap.appendChild(el("div", "bubble", text));
+  chat.appendChild(wrap);
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
+function addThinking() {
+  const wrap = el("div", "msg agent");
+  const b = el("div", "bubble thinking");
+  b.innerHTML = 'Analysiere <span class="dot">•</span><span class="dot">•</span><span class="dot">•</span>';
+  wrap.appendChild(b);
+  chat.appendChild(wrap);
+  window.scrollTo(0, document.body.scrollHeight);
+  return wrap;
+}
+
+function pipelinePanel(data) {
+  const p = el("details", "pipeline");
+  p.appendChild(el("summary", null, "Pipeline ansehen (Router · Quellen · Guardrails)"));
+  const body = el("div", "body");
+
+  const r1 = el("div", "row");
+  r1.appendChild(el("span", "lbl", "Route"));
+  r1.appendChild(el("span", "tag-chip", data.modell + "  ·  Risiko " + data.risiko_score));
+  body.appendChild(r1);
+
+  const r2 = el("div", "row");
+  r2.appendChild(el("span", "lbl", "Domänen"));
+  (data.domaenen.length ? data.domaenen : ["(keine erkannt)"]).forEach(d =>
+    r2.appendChild(el("span", "tag-chip", d)));
+  body.appendChild(r2);
+
+  const r3 = el("div", "row");
+  r3.appendChild(el("span", "lbl", "Quellen"));
+  (data.quellen.length ? data.quellen : ["(keine im Fixture-Korpus)"]).forEach(q =>
+    r3.appendChild(el("span", "src-chip", q)));
+  body.appendChild(r3);
+
+  if (data.guardrails.length) {
+    const r4 = el("div", "row");
+    r4.appendChild(el("span", "lbl", "Guardrails"));
+    data.guardrails.forEach(g => r4.appendChild(el("span", "gr-chip", "🛡 " + g)));
+    body.appendChild(r4);
+  }
+  p.appendChild(body);
+  return p;
+}
+
+function addAgent(data, node) {
+  node.innerHTML = "";
+  node.className = "msg agent";
+  const col = el("div");
+  col.style.maxWidth = "82%";
+  col.appendChild(el("div", "agent-name", "OPUS PRIME EX"));
+  if (data.antwort) {
+    col.appendChild(el("div", "bubble", data.antwort));
+  } else if (data.fehler) {
+    col.appendChild(el("div", "fehler", data.fehler));
+  }
+  col.appendChild(pipelinePanel(data));
+  node.appendChild(col);
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const frage = input.value.trim();
+  if (!frage) return;
+  addUser(frage);
+  input.value = "";
+  btn.disabled = true;
+  const thinking = addThinking();
+  try {
+    const res = await fetch("/api/frage", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ frage }),
+    });
+    const data = await res.json();
+    addAgent(data, thinking);
+  } catch (err) {
+    thinking.querySelector(".bubble").innerHTML =
+      '<span class="fehler">Verbindung zum lokalen Server fehlgeschlagen.</span>';
+  } finally {
+    btn.disabled = false;
+    input.focus();
+  }
+});
+</script>
+</body>
+</html>

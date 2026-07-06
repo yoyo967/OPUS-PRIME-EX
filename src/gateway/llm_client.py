@@ -139,8 +139,12 @@ def build_default_client() -> AnthropicLLMClient:
     Imported lazily so the module (and its tests) load without the anthropic package.
     # SPEC: CLAUDE.md §3 (Secrets: environment variables only)
     """
-    import anthropic  # type: ignore[import-not-found]
+    import anthropic
 
     retries = retry_config()
-    sdk_client = anthropic.Anthropic(max_retries=retries.max_attempts)
+    # Der echte SDK-Client erfuellt AnthropicClient strukturell (messages.create,
+    # beta.messages.create); die Protocol-Attribute sind bewusst minimal.
+    sdk_client: AnthropicClient = anthropic.Anthropic(  # type: ignore[assignment]
+        max_retries=retries.max_attempts
+    )
     return AnthropicLLMClient(sdk_client)
