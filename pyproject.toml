@@ -39,10 +39,9 @@ dev = [
 ]
 
 [project.urls]
-# TODO(owner): auf das echte GitHub-Repo setzen, bevor veroeffentlicht wird.
-Homepage = "https://github.com/OWNER/opus-prime-ex"
-Repository = "https://github.com/OWNER/opus-prime-ex"
-Issues = "https://github.com/OWNER/opus-prime-ex/issues"
+Homepage = "https://github.com/yoyo967/OPUS-PRIME-EX"
+Repository = "https://github.com/yoyo967/OPUS-PRIME-EX"
+Issues = "https://github.com/yoyo967/OPUS-PRIME-EX/issues"
 
 [project.scripts]
 # Bring-your-own-key CLIs (ANTHROPIC_API_KEY via .env oder Umgebung).
