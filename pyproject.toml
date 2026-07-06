@@ -1,9 +1,30 @@
-# SPEC: CLAUDE.md §3 (Tech Stack: Python 3.12+, mypy --strict, ruff)
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "opus-prime-ex"
 version = "0.1.0"
-description = "OPUS PRIME EX - Rechts-/Steuerinformations-Agent (Opus Magnum / LYGOX)"
+description = "OPUS PRIME EX — a spec-driven, guardrailed legal & tax information agent for German/EU law (RAG over live statutes, deterministic tools, Claude models)."
+readme = "README.md"
 requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "OPUS PRIME EX maintainers" }]
+keywords = [
+    "legal-tech", "rag", "anthropic", "claude", "ai-agent",
+    "german-law", "eu-law", "dsgvo", "gdpr", "compliance",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Natural Language :: German",
+    "Operating System :: OS Independent",
+    "Typing :: Typed",
+]
 dependencies = [
     "pyyaml>=6.0",
     "anthropic>=0.90",
@@ -17,6 +38,20 @@ dev = [
     "types-PyYAML",
 ]
 
+[project.urls]
+# TODO(owner): auf das echte GitHub-Repo setzen, bevor veroeffentlicht wird.
+Homepage = "https://github.com/OWNER/opus-prime-ex"
+Repository = "https://github.com/OWNER/opus-prime-ex"
+Issues = "https://github.com/OWNER/opus-prime-ex/issues"
+
+[project.scripts]
+# Bring-your-own-key CLIs (ANTHROPIC_API_KEY via .env oder Umgebung).
+opus-prime-ex-serve = "apps.web.server:main"
+opus-prime-ex-ingest = "src.rag.ingest:main"
+
+[tool.setuptools.packages.find]
+include = ["src*", "apps*", "evals*"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
@@ -26,10 +61,10 @@ line-length = 100
 target-version = "py312"
 
 [tool.ruff.lint]
-# SPEC: CLAUDE.md §3 (no wildcard imports -> F403/F401 via F; import order via I)
+# no wildcard imports (F403/F401), import order (I), pyupgrade (UP), bugbear (B)
 select = ["E", "F", "I", "UP", "B"]
 
 [tool.mypy]
 python_version = "3.12"
 strict = true
-files = ["src", "scripts", "evals/harness"]
+files = ["src", "apps", "scripts", "evals/harness"]
