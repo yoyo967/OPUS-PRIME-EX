@@ -1,6 +1,7 @@
 # CLAUDE.md
-<!-- File 5/8 · Project OPUS PRIME EX · Version 1.1 · Date: 2026-07-05 -->
+<!-- File 5/8 · Project OPUS PRIME EX · Version 1.2 · Date: 2026-07-06 -->
 <!-- v1.1: trademark law (Markenrecht) added as domain 7; golden set ≥140 (20 per domain), smoke subset 14. -->
+<!-- v1.2: §3 temperature note aligned to the current Anthropic API (Sonnet 5 / Fable 5 reject sampling params -> Route A/B send no temperature; OPEN_QUESTIONS #10). Owner-confirmed 2026-07-06. -->
 <!-- This file lives at the repo root and instructs Claude Code during implementation. -->
 
 # OPUS PRIME EX — Engineering Guide for Claude Code
@@ -69,8 +70,12 @@ opus-prime-ex/
   are pure functions with table-driven parameters under `src/tools/params/`,
   versioned like statutes (`gueltig_ab`/`gueltig_bis`). The LLM never does math.
 - **Anthropic API usage:** official Python SDK; tool use via JSON schemas; retries
-  with exponential backoff; per-route `max_tokens` budgets from `config/models.yaml`;
-  temperature 0.2 for Route A/B, 0.0 for Route C classification.
+  with exponential backoff; per-route `max_tokens` budgets from `config/models.yaml`.
+  **Sampling params (temperature):** the current API rejects `temperature` on
+  `claude-sonnet-5` / `claude-fable-5` (400, sampling removed), so Route A/B send
+  **no** `temperature` and steer via adaptive thinking / effort; Route C
+  (`claude-haiku-4-5`) keeps `temperature 0.0` for classification. Parametrized per
+  AGENT_ARCHITECTURE.md §8 A1; decided in OPEN_QUESTIONS #10 (Owner, 2026-07-06).
 - **Error handling:** No silent catches. Guardrail failures raise typed exceptions
   that the orchestrator turns into user-safe messages (never expose stack traces).
 - **Secrets:** environment variables only; never commit keys; `.env.example` maintained.

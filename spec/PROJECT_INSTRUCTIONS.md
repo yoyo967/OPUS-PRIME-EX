@@ -1,6 +1,7 @@
 # PROJECT_INSTRUCTIONS.md
-<!-- Datei 1/8 · Projekt OPUS PRIME EX · Version 1.1 · Stand: 2026-07-05 -->
+<!-- Datei 1/8 · Projekt OPUS PRIME EX · Version 1.2 · Stand: 2026-07-06 -->
 <!-- v1.1: Markenrecht als Domäne 7 ergänzt (Owner-Entscheid Yahya Yildirim, 2026-07-05); Golden Set ≥140; Scope-Abgrenzung Nr. 4/8 erweitert. -->
+<!-- v1.2 (Owner-Entscheide Yahya Yildirim, 2026-07-06): §5 Nr. 9 (Non-Goal Kreditwürdigkeit, aus AI-Act-Assessment / Legal-Review #3); §7 O1 entschieden (Branchen-Erstfokus SHK/Heizung-Sanitär Berlin). Prompt v1.2 unberührt (Hash gültig). -->
 
 # OPUS PRIME EX – Projektinstruktionen
 
@@ -74,6 +75,7 @@ Der Agent gilt als fertig, wenn alle folgenden Kriterien erfüllt und nachgewies
 6. **Keine Garantie der Tagesaktualität:** Der Agent weist den Rechtsstand seiner Quellen aus; bei erkennbar veralteten Ständen warnt er aktiv.
 7. **Keine Verarbeitung besonderer Kategorien personenbezogener Daten (Art. 9 DSGVO)** als Designziel; Eingaben werden dahingehend gefiltert und Nutzer zur Datenminimierung angehalten.
 8. **Keine Marken-Verfügbarkeitsgarantie:** Identitäts-/Ähnlichkeitsrecherchen und Aussagen zur Eintragungsfähigkeit sind stets orientierend (keine Vollständigkeits- oder Freiheitsgarantie gegenüber Drittrechten); die abschließende Recherche und Anmeldestrategie bleibt Rechts-/Patentanwälten vorbehalten.
+9. **Keine Verwendung von Berechnungsergebnissen für Kreditvergabe-/Bonitätsentscheidungen Dritter** (v1.2, Owner-Entscheid 2026-07-06): Ausgaben des `steuer_rechner` und andere Ergebnisse dienen der Entscheidungsvorbereitung des anfragenden Unternehmens selbst; sie werden nicht für die Bewertung der Kreditwürdigkeit oder Bonität natürlicher Personen durch Dritte angeboten oder beworben. Dieser Non-Goal stützt zugleich die AI-Act-Selbstklassifizierung (kein Hochrisiko-System nach Anhang III Nr. 5, siehe `docs/ai-act-assessment.md`).
 
 ## 6. Projektphasen
 
@@ -95,6 +97,6 @@ Der Agent gilt als fertig, wenn alle folgenden Kriterien erfüllt und nachgewies
 - A5: "Perfect Twin Architecture" wird mangels schriftlicher Kanon-Definition wie in Abschnitt 2 operationalisiert; Anpassung durch Owner möglich.
 
 **Offene Punkte (O):**
-- O1: Exakter Mandanten-/Branchenmix der Zielnutzer (beeinflusst Priorisierung der Wissensbasis, z. B. E-Commerce → OSS-Schwerpunkt).
+- O1: ~~Exakter Mandanten-/Branchenmix der Zielnutzer~~ **Entschieden (Owner Yahya Yildirim, 2026-07-06): Erstfokus SHK/Heizung-Sanitär, Region Berlin** (KMU-Handwerksbetriebe). Priorisierung der Wissensbasis entsprechend: Steuer-/Gewerbe-/Markenrecht mit Handwerks-/Innungsbezug vor E-Commerce/OSS-Schwerpunkt; OSS bleibt Prio-2 (KNOWLEDGE_ARCHITECTURE.md A3). Steht im Einklang mit der Pilot-Nische aus dem Agenticum-Kontext.
 - O2: Gewünschte Integrationen (DATEV-Export, Kalender, DMS) – in `AGENT_ARCHITECTURE.md` als optionale Tool-Slots vorgesehen.
 - O3: Freigabe des finalen Disclaimer-Wortlauts durch einen zugelassenen Rechtsanwalt vor Go-Live.

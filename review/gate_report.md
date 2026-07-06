@@ -57,3 +57,23 @@ Ab diesem Commit gilt `spec/` (inkl. `prompts/system_prompt_v1.1.md`, `review/*`
 | COWORK_HANDOFF_BRIEF.md | Unverändert (historisches P2-Arbeitsdokument, beschreibt den durchgeführten 6-Domänen-Review; Delta dokumentiert dieser Nachtrag). |
 
 **Owner-Freigabe v1.1:** Yahya Yildirim, 2026-07-05 (Anweisung „Markenrecht hinzufügen"). **Re-Freeze:** ab dem Commit dieses Nachtrags; Hash-Stand siehe `spec/spec_hashes.json`.
+
+---
+
+## Nachtrag v1.2 — Owner-Entscheide #2/#7/#10 (2026-07-06)
+
+**Auslöser:** Owner-Entscheide (Yahya Yildirim, 2026-07-06) zu drei offenen Punkten aus `spec/OPEN_QUESTIONS.md`. Reine Doku-/Governance-Änderung — **kein Prompt-, Tool-, Golden-Set- oder Coverage-Twin berührt.**
+
+| Punkt | Entscheid | Umsetzung |
+|---|---|---|
+| #2 (Legal-Review #3) | Non-Goal „keine Verwendung von Berechnungsergebnissen für Kreditvergabe-/Bonitätsentscheidungen Dritter" aufnehmen | PROJECT_INSTRUCTIONS.md v1.2 §5 **Nr. 9**; stützt die AI-Act-Selbstklassifizierung (Anhang III Nr. 5) in `docs/ai-act-assessment.md` |
+| #10 | temperature-Parametrisierung bestätigt (API lehnt Sampling auf Sonnet 5 / Fable 5 ab) | CLAUDE.md v1.2 §3 redaktionell nachgezogen (Route A/B ohne temperature, Route C 0.0); deckt sich mit `config/models.yaml` |
+| #7 | Branchen-Erstfokus = **SHK/Heizung-Sanitär Berlin** | PROJECT_INSTRUCTIONS.md v1.2 §7 O1 entschieden; Wissensbasis-Priorisierung entsprechend |
+
+**Konsistenzprüfung:**
+- Prompt `prompts/system_prompt_v1.2.md` **unverändert** → SHA-256 in `spec/spec_hashes.json` weiterhin gültig, kein Prompt-Re-Freeze nötig. (Der Kreditwürdigkeits-Non-Goal ist eine Scope-Dokumentation; die generelle RDG/StBerG-Selbstbegrenzung im Prompt deckt das Verhalten bereits ab.)
+- Versionsstände gezogen: PROJECT_INSTRUCTIONS v1.2, CLAUDE.md v1.2, FILE_MANIFEST v1.2.
+- OPEN_QUESTIONS #2 (Non-Goal-Teil), #7, #10 auf „erledigt/entschieden"; #2-Rest (Fachreviewer-Bestätigung) bleibt P4-Pflicht.
+- spec_lint bleibt grün (Prompt-Hash, Tool-Sektionen, Guardrail-Tests unverändert).
+
+**Owner-Freigabe v1.2:** Yahya Yildirim, 2026-07-06. **Stand eingefroren** ab dem Commit dieses Nachtrags.
