@@ -1,0 +1,47 @@
+# Ingest-Manifest: mappt Korpus-Dateien auf ihre Metadaten.
+# In Produktion stammen diese Metadaten aus config/sources.yaml + einem per-Snapshot
+# manifest.json (KNOWLEDGE_ARCHITECTURE.md §3); hier fuer die 6 Muss-Fixtures.
+# Die synthetische Langparagraph-Fixture ist bewusst NICHT enthalten (kein Rechtstext).
+dokumente:
+  - datei: de/ustg_p19.xml
+    typ: de_gesetz
+    gesetz: UStG
+    gueltig_ab: "2025-01-01"
+    rechtsstand_abruf: "2026-07-05"
+    quelle_url: https://www.gesetze-im-internet.de/ustg/
+    domaene: [steuerrecht]
+  - datei: de/markeng_p42.xml
+    typ: de_gesetz
+    gesetz: MarkenG
+    gueltig_ab: "2025-01-01"
+    rechtsstand_abruf: "2026-07-05"
+    quelle_url: https://www.gesetze-im-internet.de/markeng/
+    domaene: [markenrecht]
+  - datei: eu/dsgvo_art28.xml
+    typ: eu_verordnung
+    celex: "32016R0679"
+    gueltig_ab: "2018-05-25"
+    rechtsstand_abruf: "2026-07-05"
+    quelle_url: https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32016R0679
+    domaene: [dsgvo]
+  - datei: eu/ai_act_art6_anhang3.xml
+    typ: eu_verordnung
+    celex: "32024R1689"
+    gueltig_ab: "2026-02-17"
+    rechtsstand_abruf: "2026-07-05"
+    quelle_url: https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32024R1689
+    domaene: [eu_ai_act]
+  - datei: eu/data_act_art5.xml
+    typ: eu_verordnung
+    celex: "32023R2854"
+    gueltig_ab: "2025-09-12"
+    rechtsstand_abruf: "2026-07-05"
+    quelle_url: https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32023R2854
+    domaene: [data_act]
+  - datei: eu/umv_art46.xml
+    typ: eu_verordnung
+    celex: "32017R1001"
+    gueltig_ab: "2017-10-01"
+    rechtsstand_abruf: "2026-07-05"
+    quelle_url: https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32017R1001
+    domaene: [markenrecht]
