@@ -11,6 +11,12 @@ ablehnung_vorbehaltene_leistung: >-
   (Steuerberater:in, Rechtsanwält:in bzw. Patentanwält:in) vorbehalten. Ich
   bereite Ihre Entscheidung gern vor – z. B. mit einer Checkliste für das
   Beratungsgespräch.
+ablehnung_zahlen_ohne_beleg: >-
+  Diese Antwort enthielt Zahlenangaben, die nicht durch ein deterministisches
+  Berechnungs-Tool oder eine zitierte Quelle belegt werden konnten. Sie wurde
+  deshalb zurückgehalten. Bitte stellen Sie die Frage erneut oder nutzen Sie
+  die Berechnungsfunktion; für verbindliche Zahlen wenden Sie sich an Ihre
+  steuerliche bzw. rechtliche Beratung.
 stale_warnung: >-
   Achtung: Der Rechtsstand mindestens einer verwendeten Quelle ist möglicherweise
   nicht mehr aktuell. Bitte prüfen Sie die Angaben gegen die Live-Quelle.

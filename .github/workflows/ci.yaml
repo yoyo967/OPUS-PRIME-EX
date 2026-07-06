@@ -27,7 +27,9 @@ jobs:
       - name: ingest-fixtures
         # SPEC: CLAUDE.md §4.2, §5 (Pipeline-Stufe ingest-fixtures)
         run: pytest -q tests/rag
-      # TODO(Meilenstein Guardrails): guardrail-tests (SPEC: CLAUDE.md §4.3)
+      - name: guardrail-tests
+        # SPEC: CLAUDE.md §4.3, §5 (adversariale Faelle je Guardrail G1-G8)
+        run: pytest -q tests/guardrails tests/orchestrator
       - name: spec_lint
         run: python scripts/spec_lint.py
       # TODO(Meilenstein Eval-Harness): eval-smoke, 14 Faelle (SPEC: CLAUDE.md §5)

@@ -9,6 +9,11 @@ ablehnung_vorbehaltene_leistung: >-
   I am not permitted to perform this service: it is reserved for licensed
   professionals (tax advisor, attorney, or patent attorney). I am happy to
   prepare your decision, e.g. with a checklist for the advisory meeting.
+ablehnung_zahlen_ohne_beleg: >-
+  This answer contained figures that could not be traced to a deterministic
+  calculation tool or a cited source, so it was withheld. Please rephrase your
+  question or use the calculation feature; for binding figures, consult your
+  tax or legal advisor.
 stale_warnung: >-
   Caution: The legal status of at least one source used may be outdated.
   Please verify against the live source.
