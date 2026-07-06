@@ -1,0 +1,36 @@
+# Live-Korpus-Quellen fuer den echten Ingest (scripts/ingest.py --live).
+# Slugs am 2026-07-06 real gegen gesetze-im-internet.de verifiziert.
+# gii-URL-Muster: https://www.gesetze-im-internet.de/{slug}/xml.zip
+#
+# Erstfokus SHK/Heizung-Sanitaer Berlin, KMU-Handwerk (PROJECT_INSTRUCTIONS v1.2 §7 O1):
+# Steuer-, Gewerbe-, Finanz- und Markenrecht der Prio-1-Quellen zuerst.
+#
+# HINWEIS gueltig_ab: hier eine konservative Fassungs-Untergrenze fuer den
+# Metadaten-/Rechtsstand-Filter. Das exakte per-Fassung-Datum stammt in einem
+# vollstaendigen Ingest aus den gii-Metadaten (ausfertigung-/standangabe) - offene
+# Verfeinerung, nicht blockierend fuer den Betrieb.
+# SPEC: KNOWLEDGE_ARCHITECTURE.md §2 Prio 1 (gesetze-im-internet.de), §3 (Rechtsstand)
+
+gii_gesetze:
+  - {slug: ustg_1980, gesetz: UStG,   gueltig_ab: "2025-01-01", domaene: [steuerrecht],
+     quelle_url: "https://www.gesetze-im-internet.de/ustg_1980/"}
+  - {slug: estg,      gesetz: EStG,   gueltig_ab: "2024-01-01", domaene: [steuerrecht],
+     quelle_url: "https://www.gesetze-im-internet.de/estg/"}
+  - {slug: gewstg,    gesetz: GewStG, gueltig_ab: "2024-01-01", domaene: [steuerrecht],
+     quelle_url: "https://www.gesetze-im-internet.de/gewstg/"}
+  - {slug: ao_1977,   gesetz: AO,     gueltig_ab: "2024-01-01", domaene: [steuerrecht],
+     quelle_url: "https://www.gesetze-im-internet.de/ao_1977/"}
+  - {slug: gewo,      gesetz: GewO,   gueltig_ab: "2024-01-01", domaene: [gewerberecht],
+     quelle_url: "https://www.gesetze-im-internet.de/gewo/"}
+  - {slug: hgb,       gesetz: HGB,    gueltig_ab: "2024-01-01", domaene: [gewerberecht, finanzen],
+     quelle_url: "https://www.gesetze-im-internet.de/hgb/"}
+  - {slug: gmbhg,     gesetz: GmbHG,  gueltig_ab: "2024-01-01", domaene: [gewerberecht],
+     quelle_url: "https://www.gesetze-im-internet.de/gmbhg/"}
+  - {slug: markeng,   gesetz: MarkenG, gueltig_ab: "2025-01-01", domaene: [markenrecht],
+     quelle_url: "https://www.gesetze-im-internet.de/markeng/"}
+
+# EU-Verordnungen (EUR-Lex): AUSGESETZT bis der Formex-Adapter verifiziert ist.
+# Probe 2026-07-06: normalize_eurlex ergab auf der echten DSGVO 0 Artikel - das
+# reale EUR-Lex-Formex-Format weicht vom modellierten Subset ab (OPEN_QUESTIONS #11).
+# Erst reales Formex-Tag-Mapping in src/rag/sources/eurlex.py, dann hier aktivieren.
+eurlex_verordnungen: []

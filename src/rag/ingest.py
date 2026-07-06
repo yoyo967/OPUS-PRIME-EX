@@ -14,6 +14,7 @@ from __future__ import annotations
 import argparse
 import re
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -22,6 +23,7 @@ import yaml
 
 from src.rag.chunker import Chunk, chunk_de_gesetz, chunk_eu_verordnung
 from src.rag.persistence import save_corpus
+from src.rag.sources.gii import chunks_from_gii, extract_gii_from_zip, fetch_gii
 from src.rag.verweisgraph import extrahiere_verweise
 from src.shared.exceptions import ToolInputError
 
@@ -29,6 +31,7 @@ _REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 _DEFAULT_MANIFEST = _REPO_ROOT / "data" / "fixtures" / "ingest_manifest.yaml"
 _DEFAULT_QUELLE = _REPO_ROOT / "data" / "fixtures"
 _DEFAULT_OUT = _REPO_ROOT / "korpus" / "snapshot.jsonl"
+_DEFAULT_QUELLEN = _REPO_ROOT / "config" / "korpus_quellen.yaml"
 _COVERAGE_MATRIX = _REPO_ROOT / "review" / "coverage_matrix.yaml"
 
 # CELEX -> in der Coverage-Matrix / Normzitaten verwendete Kurzbezeichnungen.
@@ -99,6 +102,42 @@ def run_ingest(
     return IngestResult(len(chunks), kanten, str(out_path)), chunks
 
 
+def run_live_ingest(
+    quellen_path: Path = _DEFAULT_QUELLEN,
+    out_path: Path = _DEFAULT_OUT,
+    fetch: Callable[[str], bytes] = fetch_gii,
+    rechtsstand_abruf: str = "2026-07-06",
+) -> tuple[IngestResult, list[Chunk], list[tuple[str, str]]]:
+    """Fetch the live gii sources, chunk, build the Verweisgraph, persist.
+
+    fetch is injectable (tests pass a fake -> kein Netz). Eine fehlschlagende
+    Quelle (z. B. 404-Slug) stoppt den Lauf nicht, sondern wird gemeldet.
+
+    # SPEC: KNOWLEDGE_ARCHITECTURE.md §2 Prio 1 (Live-Quellen), §5 (Verweisgraph)
+    """
+    cfg: dict[str, Any] = yaml.safe_load(quellen_path.read_text(encoding="utf-8"))
+    chunks: list[Chunk] = []
+    fehler: list[tuple[str, str]] = []
+    for quelle in cfg.get("gii_gesetze", []) or []:
+        slug = str(quelle["slug"])
+        try:
+            raw = extract_gii_from_zip(fetch(slug))
+            chunks += chunks_from_gii(
+                raw,
+                gesetz=str(quelle["gesetz"]),
+                gueltig_ab=str(quelle["gueltig_ab"]),
+                rechtsstand_abruf=rechtsstand_abruf,
+                quelle_url=str(quelle["quelle_url"]),
+                domaene=tuple(quelle["domaene"]),
+            )
+        except Exception as exc:  # eine Quelle darf den Lauf nicht killen
+            fehler.append((slug, f"{type(exc).__name__}: {exc}"))
+    chunks = extrahiere_verweise(chunks)
+    save_corpus(chunks, out_path)
+    kanten = sum(len(c.verweist_auf) for c in chunks)
+    return IngestResult(len(chunks), kanten, str(out_path)), chunks, fehler
+
+
 def _norm_indexed(norm: str, chunks: list[Chunk]) -> bool:
     """Best-effort match of a Muss-Norm string against the indexed corpus."""
     norm_tokens = set(_NUM.findall(norm))
@@ -140,9 +179,18 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--quelle", type=Path, default=_DEFAULT_QUELLE)
     parser.add_argument("--out", type=Path, default=_DEFAULT_OUT)
     parser.add_argument("--coverage", action="store_true", help="Coverage-Report ausgeben")
+    parser.add_argument(
+        "--live", action="store_true",
+        help="Live-Korpus aus config/korpus_quellen.yaml (Netz) statt der Fixtures",
+    )
     args = parser.parse_args(argv)
 
-    result, chunks = run_ingest(args.manifest, args.quelle, args.out)
+    if args.live:
+        result, chunks, fehler = run_live_ingest(out_path=args.out)
+        for slug, meldung in fehler:
+            print(f"[ingest] uebersprungen: {slug} -> {meldung}")
+    else:
+        result, chunks = run_ingest(args.manifest, args.quelle, args.out)
     print(
         f"[ingest] {result.anzahl_chunks} Chunks, {result.anzahl_verweis_kanten} "
         f"Verweis-Kanten -> {result.snapshot_pfad}"

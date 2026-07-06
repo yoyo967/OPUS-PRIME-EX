@@ -49,7 +49,15 @@ _ROUTE_MODELL = {
 
 
 def build_store() -> InMemoryVectorStore:
-    """Fixture-Korpus laden (BM25-only bis Live-Korpus + Embedding-Modell da sind)."""
+    """Korpus laden: bevorzugt den Live-Snapshot (echte Gesetze), sonst die Fixtures.
+
+    Erzeuge den Live-Snapshot mit:  python scripts/ingest.py --live
+    """
+    snapshot = _ROOT / "korpus" / "snapshot.jsonl"
+    if snapshot.exists():
+        from src.rag.persistence import load_corpus
+
+        return InMemoryVectorStore(load_corpus(snapshot))
     _, chunks = run_ingest()
     return InMemoryVectorStore(chunks)
 
