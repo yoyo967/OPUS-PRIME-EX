@@ -13,6 +13,9 @@
 **Bring your own Anthropic API key.** Clone, add your key, run — the corpus is built
 from public primary sources (Federal law + EUR-Lex) at ingest time.
 
+**Project status:** see [STATUS.md](STATUS.md) for an honest snapshot (what works,
+coverage, open items) · recent changes in [CHANGELOG.md](CHANGELOG.md).
+
 🇬🇧 English below · 🇩🇪 [Deutsch weiter unten](#-deutsch)
 
 ---
