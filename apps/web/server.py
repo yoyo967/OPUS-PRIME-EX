@@ -29,6 +29,7 @@ from typing import Any
 _ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(_ROOT))
 
+from src.gateway.config import list_models, resolve_model  # noqa: E402
 from src.orchestrator.orchestrator import run  # noqa: E402
 from src.rag.ingest import run_ingest  # noqa: E402
 from src.rag.retrieval import build_rag_suche  # noqa: E402
@@ -81,15 +82,24 @@ def _fehlertext(exc: Exception) -> str:
     return f"Modellaufruf momentan nicht moeglich ({type(exc).__name__})."
 
 
-def verarbeite_frage(frage: str, store: InMemoryVectorStore, llm: Any | None) -> dict[str, Any]:
-    """Eine Frage durch die Pipeline; gibt Antwort + sichtbare Pipeline-Details."""
+def verarbeite_frage(
+    frage: str,
+    store: InMemoryVectorStore,
+    llm: Any | None,
+    modell_anzeige: str | None = None,
+) -> dict[str, Any]:
+    """Eine Frage durch die Pipeline; gibt Antwort + sichtbare Pipeline-Details.
+
+    modell_anzeige: Label des explizit gewaehlten Modells (Hybrid Anthropic <-> lokal);
+    ueberschreibt die routenbasierte Modellanzeige, falls gesetzt.
+    """
     klassifikation = classify(frage)
     route, score = route_for(klassifikation)
     rag_suche = build_rag_suche(store)
     ergebnis: dict[str, Any] = {
         "frage": frage,
         "route": route.name,
-        "modell": _ROUTE_MODELL.get(route.name, route.name),
+        "modell": modell_anzeige or _ROUTE_MODELL.get(route.name, route.name),
         "domaenen": list(klassifikation.domaenen),
         "risiko_score": score,
         "quellen": [],
@@ -109,7 +119,8 @@ def verarbeite_frage(frage: str, store: InMemoryVectorStore, llm: Any | None) ->
         antwort = run(frage, klassifikation, llm, rag_suche)
         ergebnis["antwort"] = antwort.text
         ergebnis["route"] = antwort.route.name
-        ergebnis["modell"] = _ROUTE_MODELL.get(antwort.route.name, antwort.route.name)
+        if not modell_anzeige:
+            ergebnis["modell"] = _ROUTE_MODELL.get(antwort.route.name, antwort.route.name)
         ergebnis["risiko_score"] = antwort.risiko_score
         ergebnis["quellen"] = list(antwort.quellen_ids)
         ergebnis["guardrails"] = [
@@ -128,6 +139,23 @@ def _build_llm() -> Any | None:
     from src.gateway.llm_client import build_default_client
 
     return build_default_client()
+
+
+def _llm_for(model_id: str | None, default_llm: Any | None) -> tuple[Any | None, str | None]:
+    """LLM-Client fuer eine Anfrage: explizite Modellwahl (Anthropic/Gemma) oder Default.
+
+    Ein gewaehltes lokales Gemma-Modell laeuft ohne API-Key; ein Anthropic-Modell ohne Key
+    schlaegt erst beim Aufruf fehl (nutzerfreundlich in _fehlertext gemappt).
+    """
+    if not model_id:
+        return default_llm, None
+    try:
+        profil = resolve_model(model_id)
+    except Exception:
+        return default_llm, None  # unbekannte Modell-ID -> Default-Routing
+    from src.gateway.llm_client import build_llm_client
+
+    return build_llm_client(model_id), profil.label
 
 
 def _load_env(pfad: Path) -> None:
@@ -150,10 +178,29 @@ class _Handler(http.server.BaseHTTPRequestHandler):
         self.send_response(code)
         self.send_header("Content-Type", content_type)
         self.send_header("Content-Length", str(len(body)))
+        # CORS: lokale OPUS-DECK-UI (anderer Port) darf den Agenten aufrufen (localhost-only).
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.end_headers()
         self.wfile.write(body)
 
+    def do_OPTIONS(self) -> None:  # noqa: N802  (CORS-Preflight)
+        self._send(204, b"", "text/plain")
+
+    def _send_json(self, obj: Any, code: int = 200) -> None:
+        body = json.dumps(obj, ensure_ascii=False).encode("utf-8")
+        self._send(code, body, "application/json; charset=utf-8")
+
     def do_GET(self) -> None:  # noqa: N802  (http.server-Konvention)
+        if self.path.rstrip("/") == "/api/models":
+            self._send_json(
+                {"modelle": [
+                    {"id": m.id, "label": m.label, "provider": m.provider}
+                    for m in list_models()
+                ]}
+            )
+            return
         if self.path not in ("/", "/index.html"):
             self._send(404, b"not found", "text/plain; charset=utf-8")
             return
@@ -168,15 +215,17 @@ class _Handler(http.server.BaseHTTPRequestHandler):
         try:
             payload = json.loads(self.rfile.read(laenge) or b"{}")
             frage = str(payload.get("frage", "")).strip()
+            model_id = payload.get("model_id")
+            model_id = str(model_id).strip() if model_id else None
         except (ValueError, TypeError):
-            self._send(400, b'{"fehler":"ungueltige Anfrage"}', "application/json")
+            self._send_json({"fehler": "ungueltige Anfrage"}, 400)
             return
         if not frage:
-            self._send(400, b'{"fehler":"leere Frage"}', "application/json")
+            self._send_json({"fehler": "leere Frage"}, 400)
             return
-        ergebnis = verarbeite_frage(frage, self.store, self.llm)
-        body = json.dumps(ergebnis, ensure_ascii=False).encode("utf-8")
-        self._send(200, body, "application/json; charset=utf-8")
+        llm, label = _llm_for(model_id, self.llm)
+        ergebnis = verarbeite_frage(frage, self.store, llm, modell_anzeige=label)
+        self._send_json(ergebnis)
 
     def log_message(self, format: str, *args: Any) -> None:  # noqa: A002
         pass  # ruhige Konsole

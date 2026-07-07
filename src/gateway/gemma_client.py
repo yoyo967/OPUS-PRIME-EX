@@ -22,10 +22,13 @@ from src.router.router import Route
 from src.shared.exceptions import ToolInputError
 
 _DEFAULT_HOST = "http://localhost:11434"
+# Lokale CPU-Inferenz ist langsam (ein 4B-Modell kann fuer eine lange Antwort > 2 min
+# brauchen); grosszuegiges Timeout, damit der Aufruf nicht faelschlich abbricht.
+_TIMEOUT_S = 900
 
 
 def _default_opener(req: urllib.request.Request) -> Any:
-    return urllib.request.urlopen(req, timeout=120)  # noqa: S310  # nur localhost-Ollama
+    return urllib.request.urlopen(req, timeout=_TIMEOUT_S)  # noqa: S310  # nur localhost-Ollama
 
 
 class GemmaLLMClient:
