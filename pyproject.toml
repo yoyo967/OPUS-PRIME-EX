@@ -47,6 +47,11 @@ bmf = [
 embeddings = [
     "sentence-transformers>=2.2",
 ]
+# MCP-Server: exponiert geteilte Faehigkeiten fuer beliebige MCP-Clients (Claude Code,
+# OPUS DECK, weitere Agenten). Optional: nur zum Ausfuehren von src/mcp_server/server.py.
+mcp = [
+    "mcp>=1.9",
+]
 
 [project.urls]
 Homepage = "https://github.com/yoyo967/OPUS-PRIME-EX"
@@ -57,6 +62,7 @@ Issues = "https://github.com/yoyo967/OPUS-PRIME-EX/issues"
 # Bring-your-own-key CLIs (ANTHROPIC_API_KEY via .env oder Umgebung).
 opus-prime-ex-serve = "apps.web.server:main"
 opus-prime-ex-ingest = "src.rag.ingest:main"
+opus-prime-ex-mcp = "src.mcp_server.server:main"
 
 [tool.setuptools.packages.find]
 include = ["src*", "apps*", "evals*"]
@@ -84,3 +90,16 @@ files = ["src", "apps", "scripts", "evals/harness"]
 # das je nach Installationszustand unbenutzt waere).
 module = ["sentence_transformers", "sentence_transformers.*"]
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# mcp = optionales Extra [mcp], lazy importiert in src/mcp_server/server.py.
+# Robust ob installiert oder nicht.
+module = ["mcp", "mcp.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# Der FastMCP-Dekorator @server.tool() ist je nach Installationszustand des optionalen
+# [mcp]-Extras mal typisiert, mal Any -> untyped-decorator hier abschalten, damit die
+# Gates ohne (CI) UND mit installiertem SDK gruen bleiben (statt zustandsabhaengigem inline-ignore).
+module = ["src.mcp_server.server"]
+disable_error_code = ["untyped-decorator"]
