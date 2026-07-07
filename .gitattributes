@@ -1,0 +1,9 @@
+# Textdateien: konsistente LF-Normalisierung im Repo, plattformunabhaengig.
+* text=auto eol=lf
+
+# Binaerdateien: NIE EOL-konvertieren (sonst Korruption bei core.autocrlf=true).
+*.pdf binary
+*.zip binary
+*.png binary
+*.jpg binary
+*.ico binary
