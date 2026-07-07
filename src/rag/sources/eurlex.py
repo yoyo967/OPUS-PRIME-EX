@@ -16,6 +16,7 @@ The fetch step is behind an injectable opener (testable offline).
 
 from __future__ import annotations
 
+import hashlib
 import io
 import re
 import urllib.request
@@ -31,6 +32,13 @@ _DOCTYPE = re.compile(r"<!DOCTYPE[^>]*>", re.IGNORECASE)
 _WS = re.compile(r"\s+")
 _NUM = re.compile(r"(\d+[a-z]?)")
 _ANHANG_NR = re.compile(r"([IVXLCDM]+|\d+)", re.IGNORECASE)
+# SCC-Anhang (32021D0914): Standardvertragsklauseln als GR.SEQ mit TITLE "Klausel N";
+# Klausel 8/9/10 zerfallen in MODUL-Untergruppen.
+# Kein \b nach der Nummer: Titel wie "Klausel 1Zweck..." haben keine Wortgrenze
+# zwischen Ziffer und Name. KEIN IGNORECASE bei der Nummer, sonst frisst [a-z]? den
+# Grossbuchstaben des Namens ("1Z" statt "1"). Titel beginnen konsistent mit "Klausel".
+_KLAUSEL_TITLE = re.compile(r"^Klausel\s+(\d+[a-z]?)\s*(.*)", re.DOTALL)
+_MODUL_TITLE = re.compile(r"^(MODUL\s+\w+)", re.IGNORECASE)
 
 # CELLAR content negotiation: Formex-4 ZIP, deutsche Sprachfassung.
 _FMX_HEADERS = {
@@ -160,3 +168,79 @@ def chunks_from_eurlex(
         domaene=domaene,
         sprache=sprache,
     )
+
+
+def _gruppen_titel(gr: ET.Element) -> str:
+    return _collapse(gr.find("TITLE"))
+
+
+def _gruppen_koerper(gr: ET.Element) -> str:
+    """Full text of a GR.SEQ minus its own TITLE prefix."""
+    voll = _collapse(gr)
+    titel = _gruppen_titel(gr)
+    return voll[len(titel):].strip() if voll.startswith(titel) else voll
+
+
+def chunks_from_scc(
+    raw_xml: str,
+    celex: str,
+    gueltig_ab: str,
+    rechtsstand_abruf: str,
+    quelle_url: str,
+    domaene: tuple[str, ...],
+    sprache: str = "de",
+) -> list[Chunk]:
+    """Parse the SCC decision annex (32021D0914): 1 Chunk = 1 Klausel.
+
+    Der Verordnungs-Parser greift hier nicht (kein ARTICLE/CONSID; die
+    Standardvertragsklauseln sind GR.SEQ-Gruppen mit TITLE "Klausel N"). Klausel 8/9/10
+    zerfallen in MODUL-Untergruppen (Verantwortlicher->Verantwortlicher etc.) und werden
+    je Modul zu einem eigenen, kohaerenten Chunk (einige bewusst >1.200 Tokens, da eine
+    Modul-Klausel eine sinnvolle Einheit ist).
+    """
+    root = _strip_ns(ET.fromstring(_DOCTYPE.sub("", raw_xml)))
+    einheiten: list[tuple[str, str, str]] = []  # (einheit, ueberschrift, text)
+    for gr in root.iter("GR.SEQ"):
+        match = _KLAUSEL_TITLE.match(_gruppen_titel(gr))
+        if not match:
+            continue
+        nr, name = match.group(1), match.group(2).strip()
+        module = [g for g in gr.iter("GR.SEQ") if _MODUL_TITLE.match(_gruppen_titel(g))]
+        if module:
+            for mo in module:
+                label = _MODUL_TITLE.match(_gruppen_titel(mo))
+                assert label is not None
+                einheiten.append(
+                    (f"Klausel {nr} ({label.group(1).title()})", name, _gruppen_koerper(mo))
+                )
+        else:
+            einheiten.append((f"Klausel {nr}", name, _gruppen_koerper(gr)))
+
+    chunks: list[Chunk] = []
+    for einheit, ueberschrift, text in einheiten:
+        if not text:
+            continue
+        key = re.sub(r"[^a-z0-9]+", "", einheit.lower())
+        chunks.append(
+            Chunk(
+                chunk_id=f"eu-{celex.lower()}-{gueltig_ab}-{key}",
+                quelle_typ="eu_verordnung",
+                jurisdiktion="EU",
+                gesetz=None,
+                celex=celex,
+                einheit=einheit,
+                ueberschrift=ueberschrift,
+                gueltig_ab=gueltig_ab,
+                gueltig_bis=None,
+                rechtsstand_abruf=rechtsstand_abruf,
+                quelle_url=quelle_url,
+                text=text,
+                hash="sha256:" + hashlib.sha256(text.encode("utf-8")).hexdigest(),
+                typ="norm",
+                domaene=domaene,
+                sprache=sprache,
+            )
+        )
+    if not chunks:
+        raise ToolInputError(f"SCC-Parser fand keine Klauseln ({celex}).")
+    return chunks

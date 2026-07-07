@@ -21,7 +21,7 @@ Rechtsinhalte und Disclaimer steht vor jedem Go-Live aus.
 | **Retrieval** | Hybrid BM25 + optionale Dense-Embeddings, Verweisgraph, Norm-Lookup-Boost, 12k-Budget, Priorität Norm > Verwaltung |
 | **Guardrails** | G1–G8 aktiv; G5 redigiert Art.-9-Daten technisch **vor** dem Modell; G3 validiert jede §/Art.-Fundstelle gegen den Korpus |
 | **Korpus** | Live-Ingest aus 13 deutschen Gesetzen (gii) + 5 EU-Verordnungen (EUR-Lex Formex-4). ~4.500 Chunks, ~7.600 Verweiskanten |
-| **Coverage** | **112 / 124 Muss-Normen** (Steuer 23/25, Gewerbe 19/20, Finanzen 7/11, DSGVO 18/20, AI-Act 16/17, Data-Act 8/8, Marken 21/23) |
+| **Coverage** | **113 / 124 Muss-Normen** (Steuer 23/25, Gewerbe 19/20, Finanzen 7/11, DSGVO 19/20, AI-Act 16/17, Data-Act 8/8, Marken 21/23) |
 | **Quell-Adapter** | gii (deutsche Gesetze), EUR-Lex (EU-Verordnungen), BMF (Verwaltungsauffassung, Infrastruktur fertig) |
 | **Tools** | steuer_rechner, fristen_kalender, dokument_generator, aenderungs_radar — deterministisch, Einreichung hart gesperrt |
 | **Qualität** | 202 Tests; vier Gates grün (`ruff`, `mypy --strict`, `pytest`, `spec_lint`); CI-Pipeline auf jedem Push/PR |
@@ -60,8 +60,10 @@ gii-/EUR-Lex-Einträge:**
 - OECD-MA/DBA, IDW S6, IAS 1 — Sekundär-/Lizenzquellen.
 - EDSA-Leitlinien, GPAI Code of Practice, DPMA/EUIPO-Guidelines — Soft Law.
 - Nizza-Klassifikation (WIPO) — Lizenzfrage.
-- SCC-Durchführungsbeschluss 2021/914 — EU-*Decision* (anderes Formex-Schema).
 - SGB IV (§ 7a) — bewusst weggelassen (zu groß für eine einzelne Norm).
+
+*(Erledigt 2026-07-07: SCC-Durchführungsbeschluss 2021/914 — eigener Klausel-Parser,
+DSGVO 18 → 19.)*
 
 ---
 

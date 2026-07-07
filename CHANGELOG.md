@@ -49,6 +49,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **EU-Verordnung VO (EU) 608/2013** (Grenzbeschlagnahme bei Produktpiraterie) im
   Markenrecht-Korpus; Adapter live verifiziert (40 Artikel). Markenrecht 20 → 21/23,
   Gesamt-Coverage **106 → 107/124**.
+- **SCC-Parser (Durchführungsbeschluss (EU) 2021/914):** eigener Parser für die
+  Standardvertragsklauseln — die SCC ist ein EU-*Beschluss* ohne `ARTICLE`/`CONSID`
+  (Klauseln als `GR.SEQ`-Gruppen). 1 Chunk = 1 Klausel, Klausel 8/9/10 nach Modulen
+  gesplittet (25 kohärente Chunks, live verifiziert). Per `parser: scc` in der Config
+  geroutet. DSGVO 18 → 19/20, Gesamt-Coverage **112 → 113/124**.
 - **Bring-your-own-key:** jede Entwicklerin nutzt ihren eigenen `ANTHROPIC_API_KEY`
   (`.env`, gitignored); stdlib-Web-UI bindet nur an `127.0.0.1:8848`.
 - **CI-Härtung:** Der `unit`-Job der GitHub-Actions-Pipeline führt jetzt auch

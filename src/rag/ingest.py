@@ -26,6 +26,7 @@ from src.rag.persistence import save_corpus
 from src.rag.sources.bmf import chunks_from_bmf, extract_bmf_text, fetch_bmf
 from src.rag.sources.eurlex import (
     chunks_from_eurlex,
+    chunks_from_scc,
     extract_formex_from_zip,
     fetch_eurlex,
 )
@@ -47,6 +48,7 @@ _CELEX_ALIAS = {
     "32024R1689": ("2024/1689", "AI Act"),
     "32023R2854": ("2023/2854", "Data Act"),
     "32013R0608": ("608/2013",),
+    "32021D0914": ("2021/914",),
 }
 _NUM = re.compile(r"\d+[a-z]?")
 
@@ -153,8 +155,10 @@ def run_live_ingest(
             fehler.append((slug, f"{type(exc).__name__}: {exc}"))
     for quelle in cfg.get("eurlex_verordnungen", []) or []:
         celex = str(quelle["celex"])
+        # Decisions mit abweichendem Formex (z. B. SCC) brauchen einen eigenen Parser.
+        parser = chunks_from_scc if quelle.get("parser") == "scc" else chunks_from_eurlex
         try:
-            chunks += chunks_from_eurlex(
+            chunks += parser(
                 fetch_eu(celex),
                 celex=celex,
                 gueltig_ab=str(quelle["gueltig_ab"]),

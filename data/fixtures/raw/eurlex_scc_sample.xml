@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MINI-SAMPLE im Stil des SCC-Anhangs (32021D0914), KEIN amtlicher Text.
+     Prueft den SCC-Parser: GR.SEQ-Gruppen mit TITLE "Klausel N", Nummer klebt am
+     Namen ("Klausel 1Zweck..."), Klausel mit MODUL-Untergruppen -> je Modul ein Chunk. -->
+<CONTENTS>
+  <GR.SEQ>
+    <TITLE><TI>STANDARDVERTRAGSKLAUSELN</TI></TITLE>
+    <GR.SEQ>
+      <TITLE><TI>Klausel 1Zweck und Anwendungsbereich</TI></TITLE>
+      <P>Mit diesen Standardvertragsklauseln sollen geeignete Garantien gewaehrleistet werden.</P>
+    </GR.SEQ>
+    <GR.SEQ>
+      <TITLE><TI>Klausel 8Datenschutzgarantien</TI></TITLE>
+      <GR.SEQ>
+        <TITLE><TI>MODUL EINS: Verantwortlicher an Verantwortlichen</TI></TITLE>
+        <P>Der Datenexporteur sichert dem Datenimporteur die Einhaltung der Grundsaetze zu.</P>
+      </GR.SEQ>
+      <GR.SEQ>
+        <TITLE><TI>MODUL ZWEI: Verantwortlicher an Auftragsverarbeiter</TI></TITLE>
+        <P>Der Datenimporteur verarbeitet die Daten nur auf dokumentierte Weisung.</P>
+      </GR.SEQ>
+    </GR.SEQ>
+  </GR.SEQ>
+</CONTENTS>
