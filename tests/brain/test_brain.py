@@ -48,6 +48,48 @@ class TestBrainStore:
             BrainStore(tmp_path).read("raw/gibt-es-nicht.md")
 
 
+class TestWikiReview:
+    def test_propose_schreibt_nicht_ins_wiki(self, tmp_path: Path) -> None:
+        store = BrainStore(tmp_path)
+        p = store.propose_wiki("Kleinunternehmer", "# Kleinunternehmer\nGrenze 25.000 Euro.")
+        assert p.id and p.ziel == "wiki/kleinunternehmer.md"
+        assert store.liste("wiki") == []  # Wiki bleibt unveraendert (nur Vorschlag)
+        assert len(store.list_proposals()) == 1
+
+    def test_read_proposal_hat_diff(self, tmp_path: Path) -> None:
+        store = BrainStore(tmp_path)
+        pid = store.propose_wiki("Thema", "Neue Zeile").id
+        p = store.read_proposal(pid)
+        assert "Neue Zeile" in p.inhalt
+        assert "+Neue Zeile" in p.diff  # unified diff gegen leere aktuelle Seite
+
+    def test_approve_uebernimmt_ins_wiki(self, tmp_path: Path) -> None:
+        store = BrainStore(tmp_path)
+        pid = store.propose_wiki("Kleinunternehmer", "Grenze 25.000 Euro.", quellen=["raw/x.md"]).id
+        doc = store.approve_proposal(pid)
+        assert doc.schicht == "wiki" and doc.id == "wiki/kleinunternehmer.md"
+        assert "25.000 Euro" in store.read(doc.id).text
+        assert store.read(doc.id).meta.get("quellen") == ["raw/x.md"]
+        assert store.list_proposals() == []  # Vorschlag nach Freigabe entfernt
+
+    def test_reject_verwirft(self, tmp_path: Path) -> None:
+        store = BrainStore(tmp_path)
+        pid = store.propose_wiki("T", "x").id
+        store.reject_proposal(pid)
+        assert store.list_proposals() == [] and store.liste("wiki") == []
+
+    def test_leerer_vorschlag_fehler(self, tmp_path: Path) -> None:
+        with pytest.raises(ToolInputError, match="Leerer Wiki-Vorschlag"):
+            BrainStore(tmp_path).propose_wiki("t", "   ")
+
+    def test_approvte_seite_ist_durchsuchbar(self, tmp_path: Path) -> None:
+        store = BrainStore(tmp_path)
+        store.approve_proposal(store.propose_wiki("Kleinunternehmer", "Umsatzsteuer Grenze").id)
+        index = build_brain_index(store.alle())
+        treffer = brain_search(index, "Kleinunternehmer Umsatzsteuer", k=3)
+        assert treffer and treffer[0]["schicht"] == "wiki"
+
+
 class TestBrainRetrieval:
     def test_search_findet_relevantes_dokument(self, tmp_path: Path) -> None:
         store = BrainStore(tmp_path)

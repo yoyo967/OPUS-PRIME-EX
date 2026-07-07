@@ -40,6 +40,9 @@ brain/
 
 ## MCP-Zugang (so nutzen Agenten das Gehirn)
 
-Server `second-brain` (stdio) — Tools: `brain_search(query,k)`, `brain_read(id)`,
-`brain_list(schicht?)`, `brain_add_raw(titel,inhalt,tags?)`. (Wiki-Write/`propose_wiki`
-folgt in B2, review-gated.)
+Server `second-brain` (stdio) — Agent-Tools:
+`brain_search(query,k)`, `brain_read(id)`, `brain_list(schicht?)`, `brain_add_raw(titel,inhalt,tags?)`,
+`brain_propose_wiki(seite,inhalt,quellen?)`, `brain_list_proposals()`, `brain_read_proposal(id)`.
+**Agenten duerfen nur VORSCHLAGEN + lesen.** Die Freigabe (`approve_proposal`/`reject_proposal`) ist
+eine **MENSCH-Aktion** (OPUS DECK) und bewusst NICHT als Agent-Tool exponiert — das Review-Gate ist
+vom Agenten nicht umgehbar.

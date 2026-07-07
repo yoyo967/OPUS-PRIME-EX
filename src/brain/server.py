@@ -66,6 +66,31 @@ def build_server(root: Path | None = None) -> Any:
         _reindex()
         return {"id": d.id, "titel": d.titel}
 
+    # Wiki-Pflege: Agenten duerfen nur VORSCHLAGEN + lesen. Freigabe (approve/reject) ist
+    # eine MENSCH-Aktion (OPUS DECK ruft store.approve_proposal direkt) und ist bewusst
+    # NICHT als Agent-Tool exponiert -> Review-Gate kann vom Agenten nicht umgangen werden.
+    @server.tool()
+    def brain_propose_wiki(
+        seite: str, inhalt: str, quellen: list[str] | None = None
+    ) -> dict[str, Any]:
+        """Wiki-Seite als VORSCHLAG einreichen (review-gated; kein direkter Write)."""
+        p = store.propose_wiki(seite, inhalt, quellen)
+        return {"id": p.id, "ziel": p.ziel, "titel": p.titel, "diff": p.diff}
+
+    @server.tool()
+    def brain_list_proposals() -> list[dict[str, Any]]:
+        """Offene Wiki-Vorschlaege auflisten (zur menschlichen Review)."""
+        return [
+            {"id": p.id, "ziel": p.ziel, "titel": p.titel, "wer": p.wer}
+            for p in store.list_proposals()
+        ]
+
+    @server.tool()
+    def brain_read_proposal(proposal_id: str) -> dict[str, Any]:
+        """Einen Wiki-Vorschlag inkl. Diff lesen."""
+        p = store.read_proposal(proposal_id)
+        return {"id": p.id, "ziel": p.ziel, "titel": p.titel, "inhalt": p.inhalt, "diff": p.diff}
+
     return server
 
 

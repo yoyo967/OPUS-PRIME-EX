@@ -20,3 +20,4 @@ brain/raw/*
 brain/wiki/*
 !brain/raw/.gitkeep
 !brain/wiki/.gitkeep
+brain/.proposals/
