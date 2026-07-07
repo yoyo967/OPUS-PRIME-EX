@@ -52,6 +52,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Inkrafttretens-Datum je Paragraf liefert.
 
 ### Fixed
+- **Coverage-Matcher zählte Ganz-Gesetz-Verweise nicht:** Muss-Normen, die ein
+  ganzes Gesetz / eine ganze Verordnung ohne §/Artikel referenzieren (z. B. „UmwG
+  (Grundzüge Verschmelzung)", „Anhang III VO (EU) 2024/1689"), konnten nie als
+  indexiert gezählt werden, obwohl das Gesetz im Korpus lag. `_norm_indexed`
+  erkennt solche Ganzverweise jetzt über Gesetz/CELEX-Präsenz (wortgrenzen-genau,
+  keine False-Positives). Gezählte Coverage dadurch **104 → 106/124**
+  (Gewerberecht 15/20, EU AI Act 16/17).
 - **EUR-Lex-Adapter:** Umstellung auf CELLAR-Content-Negotiation (Formex-4-ZIP,
   `Accept: application/zip;mtype=fmx4`). Die frühere `/TXT/XML/`-URL lieferte nur
   CELLAR-Metadaten (NOTICE), nicht den Rechtsakt. Live gegen die DSGVO verifiziert:

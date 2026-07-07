@@ -162,8 +162,30 @@ def run_live_ingest(
     return IngestResult(len(chunks), kanten, str(out_path)), chunks, fehler
 
 
+_EINHEIT_IM_NORM = re.compile(r"§|\bArt(?:\.|ikel)?\b")
+
+
 def _norm_indexed(norm: str, chunks: list[Chunk]) -> bool:
-    """Best-effort match of a Muss-Norm string against the indexed corpus."""
+    """Best-effort match of a Muss-Norm string against the indexed corpus.
+
+    Zwei Faelle:
+    - Norm nennt eine konkrete Einheit (§/Artikel): Treffer nur, wenn ein Chunk
+      dieselbe Nummer UND dasselbe Gesetz/CELEX hat.
+    - Norm verweist auf ein GANZES Gesetz/eine ganze Verordnung ohne §/Artikel
+      (z. B. "UmwG (Grundzuege Verschmelzung)", "VO (EU) 608/2013"): gilt als
+      abgedeckt, sobald ueberhaupt ein Chunk dieses Gesetzes/CELEX vorliegt.
+      Ohne diesen Zweig blieben solche Verweise dauerhaft ungezaehlt, obwohl das
+      Gesetz im Korpus liegt.
+    """
+    ganzverweis = _EINHEIT_IM_NORM.search(norm) is None
+    if ganzverweis:
+        for chunk in chunks:
+            if chunk.gesetz and re.search(rf"\b{re.escape(chunk.gesetz)}\b", norm):
+                return True
+            if chunk.celex and any(alias in norm for alias in _CELEX_ALIAS.get(chunk.celex, ())):
+                return True
+        return False
+
     norm_tokens = set(_NUM.findall(norm))
     for chunk in chunks:
         nummer_match = _NUM.search(chunk.einheit)

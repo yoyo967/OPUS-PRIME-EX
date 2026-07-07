@@ -92,6 +92,18 @@ class TestCoverage:
         # Der Grossteil bleibt pending (nur 6 Fixtures) - ehrlich abgebildet
         assert steuer.gesamt > steuer.indexed
 
+    def test_ganzgesetz_verweis_ohne_paragraf_zaehlt(self) -> None:
+        # "UmwG (Grundzuege Verschmelzung)" nennt keine konkrete Einheit ->
+        # muss zaehlen, sobald irgendein UmwG-Chunk vorliegt (Coverage-Matcher-Fix).
+        umwg = replace(_norm("§ 1", "umwg1", "Verschmelzung."), gesetz="UmwG",
+                       domaene=("gewerberecht",))
+        berichte = {b.domaene: b for b in coverage_report([umwg])}
+        gew = berichte["gewerberecht"]
+        assert not any("UmwG" in f for f in gew.fehlende)
+        # Kein False-Positive: ein nicht vorhandener Ganzverweis bleibt offen.
+        finanzen = berichte["finanzen"]
+        assert any("GoBD" in f for f in finanzen.fehlende)
+
     def test_alle_domaenen_im_report(self, tmp_path: Path) -> None:
         _, chunks = run_ingest(out_path=tmp_path / "s.jsonl")
         domaenen = {b.domaene for b in coverage_report(chunks)}
