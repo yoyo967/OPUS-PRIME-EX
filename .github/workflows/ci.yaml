@@ -17,7 +17,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: install
-        run: pip install -e ".[dev,bmf]"
+        run: pip install -e ".[dev,bmf,mcp]"
       - name: lint
         run: ruff check .
       - name: typecheck
@@ -25,7 +25,7 @@ jobs:
       - name: unit
         # SPEC: CLAUDE.md §5 (unit). Alle nicht separat benannten Stufen: Tools,
         # Router/Klassifikation, API-Gateway, Web-Server und der Eval-Harness selbst.
-        run: pytest -q tests/tools tests/router tests/gateway tests/web tests/evals tests/mcp tests/brain
+        run: pytest -q tests/tools tests/router tests/gateway tests/web tests/evals tests/mcp tests/mcp_client tests/brain
       - name: ingest-fixtures
         # SPEC: CLAUDE.md §4.2, §5 (Pipeline-Stufe ingest-fixtures)
         run: pytest -q tests/rag

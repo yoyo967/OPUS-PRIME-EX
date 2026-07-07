@@ -11,6 +11,7 @@ Start:  python scripts/brain_serve.py   (Konsolen-Skript: second-brain-mcp)
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from typing import Any
 
@@ -22,7 +23,10 @@ _DEFAULT_ROOT = Path(__file__).resolve().parent.parent.parent / "brain"
 
 
 def build_server(root: Path | None = None) -> Any:
-    """Construct the FastMCP 'second-brain' server. Requires the optional 'mcp' extra."""
+    """Construct the FastMCP 'second-brain' server. Requires the optional 'mcp' extra.
+
+    Root-Reihenfolge: explizites Argument > BRAIN_ROOT-Env > Default brain/.
+    """
     try:
         from mcp.server.fastmcp import FastMCP
     except ImportError as exc:  # optionales Extra [mcp]
@@ -30,7 +34,8 @@ def build_server(root: Path | None = None) -> Any:
             'Der Second-Brain-MCP-Server benoetigt das Extra "mcp" (pip install ".[mcp]").'
         ) from exc
 
-    store = BrainStore(root or _DEFAULT_ROOT)
+    aktive_root = root or Path(os.environ.get("BRAIN_ROOT") or _DEFAULT_ROOT)
+    store = BrainStore(aktive_root)
     zustand: dict[str, Any] = {"index": build_brain_index(store.alle())}
 
     def _reindex() -> None:
