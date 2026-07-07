@@ -1,6 +1,7 @@
 # AGENT_ARCHITECTURE.md
-<!-- Datei 4/8 · Projekt OPUS PRIME EX · Version 1.1 · Stand: 2026-07-05 -->
+<!-- Datei 4/8 · Projekt OPUS PRIME EX · Version 1.2 · Stand: 2026-07-06 -->
 <!-- v1.1: Markenrecht als Domäne 7 — Routing-Beispiele, fristen_kalender (Marken-Fristen), dokument_generator (Marken-Dossier), G2-Beispiel ergänzt. -->
+<!-- v1.2: G5 um technische Redaktion ergänzt (nicht mehr nur Hinweis) — erledigt OPEN_QUESTIONS #3 / Legal-Review #4. -->
 
 # Technische Architektur OPUS PRIME EX
 
@@ -96,7 +97,7 @@ Alle Tools sind deterministisch bzw. datenbankgestützt; das LLM orchestriert nu
 | G2 | RDG/StBerG-Scope-Filter | Klassifikator erkennt Anfragen nach vorbehaltenen Leistungen („reich meine UStVA ein“, „vertritt mich beim Finanzamt“, „melde meine Marke beim DPMA/EUIPO an“, „lege Widerspruch gegen diese Marke ein“) → höfliche Ablehnung + Eskalationsempfehlung, Template-basiert |
 | G3 | Zitat-Validator | Deterministischer Abgleich aller Fundstellen im Output gegen gelieferte RAG-Chunks; Fail → 1 Korrektur-Turn → sonst Unsicherheits-Kennzeichnung |
 | G4 | Zahlen-Provenienz | Regex/Parser extrahiert Beträge & Fristen aus dem Output und matcht gegen Tool-Outputs; freie LLM-Zahlen mit Rechtsfolge → Block & Retry |
-| G5 | PII-Filter (Eingang) | Erkennung besonderer Kategorien (Art. 9 DSGVO) und überschüssiger personenbezogener Daten → Hinweis zur Datenminimierung, Pseudonymisierung im Kontext |
+| G5 | PII-Filter (Eingang) | Erkennung besonderer Kategorien (Art. 9 DSGVO) und überschüssiger personenbezogener Daten. **Technische Durchsetzung (v1.2):** erkannte Art.-9-Signalwörter werden vor Retrieval/Modell-Kontext redigiert (Platzhalter statt Klartext), sodass keine besonderen Kategorien verarbeitet werden (Designziel PROJECT_INSTRUCTIONS §5.7) — plus Hinweis zur Datenminimierung an den Nutzer |
 | G6 | Stale-Warnung | `stale`-Flag aus Wissensbasis → sichtbarer Aktualitätshinweis in der Antwort |
 | G7 | Jurisdiktions-Gate | Fragen außerhalb DE/EU → Kennzeichnung als Orientierung + Eskalation |
 | G8 | Audit-Trail | Vollständiges Logging (Anfrage-Hash, Route, Tools, Quellen-IDs, Guardrail-Ereignisse) für Nachvollziehbarkeit; Aufbewahrung gem. Löschkonzept |

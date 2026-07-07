@@ -23,7 +23,7 @@ from src.guardrails.post import (
     validate_zahlen_g4,
     validate_zitate_g3,
 )
-from src.guardrails.pre import check_jurisdiktion_g7, check_pii_g5, check_scope_g2
+from src.guardrails.pre import check_jurisdiktion_g7, check_scope_g2, redigiere_pii_g5
 from src.rag.chunker import Chunk
 from src.router.router import Klassifikation, Route, route_for
 from src.shared.texts import text as i18n_text
@@ -108,7 +108,8 @@ def run(
         events.append(g1)
         return _final(text_out, ())
 
-    g5 = check_pii_g5(anfrage)
+    # G5: Art.-9-Daten technisch redigieren, bevor Text ins Retrieval/Modell geht.
+    anfrage_modell, g5 = redigiere_pii_g5(anfrage)
     if g5 is not None:
         events.append(g5)
     g7 = check_jurisdiktion_g7(jurisdiktion)
@@ -120,18 +121,18 @@ def run(
     # eine Antwort mit Normzitat freigegeben wird (SPEC: AGENT_ARCHITECTURE.md §3.1).
     chunks: list[Chunk] = []
     if not klassifikation.ist_smalltalk:
-        chunks = rag_suche(anfrage, klassifikation.domaenen)
+        chunks = rag_suche(anfrage_modell, klassifikation.domaenen)
         tools_benutzt.append("rag_suche")
     tools_benutzt.extend(f"steuer_rechner:{r.art}" for r in tool_results)
 
     # --- Modell + Korrektur-Loop (G3/G4) --------------------------------------
-    allowed = collect_allowed_numbers(anfrage, tool_results, chunks)
+    allowed = collect_allowed_numbers(anfrage_modell, tool_results, chunks)
     korrektur_hinweis: str | None = None
     antwort_text = ""
     unbelegte: list[str] = []
     freie: list[str] = []
     for versuch in range(MAX_KORREKTUR_TURNS + 1):
-        antwort_text = llm.generate(route, anfrage, chunks, korrektur_hinweis)
+        antwort_text = llm.generate(route, anfrage_modell, chunks, korrektur_hinweis)
         unbelegte, g3 = validate_zitate_g3(antwort_text, chunks)
         freie, g4 = validate_zahlen_g4(antwort_text, allowed)
         if g3 is None and g4 is None:

@@ -124,6 +124,28 @@ class TestPipeline:
         assert antwort.quellen_ids == ()
         assert i18n_text("pflicht_disclaimer") not in antwort.text
 
+    def test_g5_redaktion_erreicht_modell_nicht_im_klartext(self) -> None:
+        gesehen: list[str] = []
+
+        class _CaptureLLM:
+            def generate(
+                self, route: Route, anfrage: str, chunks: Sequence[Chunk],
+                korrektur_hinweis: str | None,
+            ) -> str:
+                gesehen.append(anfrage)
+                return "Nach § 19 UStG gilt Folgendes."
+
+        antwort = run(
+            "Unsere Mitarbeiterin M hat eine Krebs-Diagnose - wie ist die "
+            "Steuer im Kalenderjahr?",
+            _klass(), _CaptureLLM(), _rag,
+        )
+        assert gesehen  # Modell wurde aufgerufen
+        assert "diagnose" not in gesehen[0].lower()  # redigiert bevor es das Modell sah
+        assert ("G5", "redigiert") in [
+            (e.guardrail_id, e.aktion) for e in antwort.guardrail_events
+        ]
+
     def test_audit_record_vollstaendig(self) -> None:
         llm = FakeLLM(["Nach § 19 UStG gilt Folgendes."])
         antwort = run(

@@ -9,6 +9,9 @@
      entschieden = SHK Berlin), CLAUDE.md v1.2 (§3 temperature-Parametrisierung). Reine Doku/Governance —
      KEIN Prompt-/Code-Twin geändert, prompts/system_prompt_v1.2.md-Hash bleibt gültig. OPEN_QUESTIONS #2/#7/#10
      erledigt. Gatekeeper-Nachtrag: review/gate_report.md, Abschnitt "Nachtrag v1.2". -->
+<!-- v1.3 (2026-07-06): AGENT_ARCHITECTURE v1.2 — G5 technische Redaktion (redigiere_pii_g5, im Orchestrator
+     aktiv; config/guardrails.yaml modus: redaktion). Erledigt OPEN_QUESTIONS #3 / Legal-Review #4.
+     Prompt-Hash unverändert. Gatekeeper-Nachtrag: review/gate_report.md "Nachtrag v1.3". -->
 
 # Manifest aller Projekt-Artefakte
 

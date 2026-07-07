@@ -77,3 +77,20 @@ Ab diesem Commit gilt `spec/` (inkl. `prompts/system_prompt_v1.1.md`, `review/*`
 - spec_lint bleibt grün (Prompt-Hash, Tool-Sektionen, Guardrail-Tests unverändert).
 
 **Owner-Freigabe v1.2:** Yahya Yildirim, 2026-07-06. **Stand eingefroren** ab dem Commit dieses Nachtrags.
+
+---
+
+## Nachtrag v1.3 — G5 technische Redaktion (OPEN_QUESTIONS #3, 2026-07-06)
+
+**Auslöser:** Umsetzung von Legal-Review #4 / OPEN_QUESTIONS #3 im Zuge der Bug-/Feature-Runde. G5 war bislang nur hinweisgebend; PROJECT_INSTRUCTIONS §5.7 verlangt aber das Designziel „keine Verarbeitung von Art.-9-Daten".
+
+| Prüfpunkt | Ergebnis |
+|---|---|
+| Spec-Änderung | AGENT_ARCHITECTURE.md §5 G5 auf **v1.2**: technische Redaktion ergänzt (Platzhalter statt Klartext vor Retrieval/Modell), zusätzlich Nutzerhinweis. |
+| Implementierung | `redigiere_pii_g5` (src/guardrails/pre.py) redigiert Art.-9-Signalwörter; der Orchestrator nutzt die redigierte Anfrage (`anfrage_modell`) für Retrieval, Zahlen-Provenienz und Modell — die Original-Anfrage geht nur in G2 (Scope) und den gehashten Audit-Eintrag. |
+| Konfiguration | config/guardrails.yaml `g5_pii_filter.modus: redaktion`. |
+| Tests | Redaktions-Tests in tests/guardrails (G5) + tests/orchestrator (redigierte Anfrage erreicht das Modell nicht im Klartext). |
+| Prompt | **unverändert** → SHA-256 in spec_hashes.json weiterhin gültig, kein Prompt-Re-Freeze. |
+| spec_lint | grün (G5 weiterhin testabgedeckt). |
+
+**Owner-Freigabe v1.3:** im Rahmen des erteilten grünen Lichts für die Bug-/Feature-Runde (2026-07-06). **Stand eingefroren** ab dem Commit dieses Nachtrags.

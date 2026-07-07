@@ -15,7 +15,12 @@ from src.guardrails.post import (
     validate_zahlen_g4,
     validate_zitate_g3,
 )
-from src.guardrails.pre import check_jurisdiktion_g7, check_pii_g5, check_scope_g2
+from src.guardrails.pre import (
+    check_jurisdiktion_g7,
+    check_pii_g5,
+    check_scope_g2,
+    redigiere_pii_g5,
+)
 from src.rag.chunker import Chunk
 
 DISCLAIMER = "Hinweis: Diese Antwort ist eine allgemeine Rechtsinformation."
@@ -135,6 +140,21 @@ class TestG5PiiFilter:
 
     def test_g5_neutrale_frage_ohne_hinweis(self) -> None:
         assert check_pii_g5("Wie hoch ist der GewSt-Hebesatz in Berlin?") is None
+
+    def test_g5_redaktion_entfernt_art9_klartext(self) -> None:
+        # Technische Durchsetzung: Gesundheitsdaten werden vor Modell redigiert
+        text, event = redigiere_pii_g5(
+            "Mitarbeiter M hat eine Krebs-Diagnose; wie behandeln wir die BEM-Kosten?"
+        )
+        assert "diagnose" not in text.lower()
+        assert "[Art.-9-Daten redigiert]" in text
+        assert "BEM-Kosten" in text  # der eigentliche Sachverhalt bleibt erhalten
+        assert event is not None and event.aktion == "redigiert"
+
+    def test_g5_redaktion_neutrale_frage_unveraendert(self) -> None:
+        frage = "Wie hoch ist der GewSt-Hebesatz in Berlin?"
+        text, event = redigiere_pii_g5(frage)
+        assert text == frage and event is None
 
 
 class TestG6StaleWarnung:

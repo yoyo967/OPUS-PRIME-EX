@@ -78,6 +78,33 @@ def check_pii_g5(anfrage: str) -> GuardrailEvent | None:
     return None
 
 
+def redigiere_pii_g5(anfrage: str) -> tuple[str, GuardrailEvent | None]:
+    """G5 (Durchsetzung): redigiert Art.-9-Signalwoerter, bevor Text ins Modell geht.
+
+    Ersetzt erkannte Signalwoerter durch einen Platzhalter, sodass besondere
+    Kategorien personenbezogener Daten (Art. 9 DSGVO) nicht in Retrieval-/Modell-
+    Kontext gelangen - Umsetzung des Designziels aus PROJECT_INSTRUCTIONS §5.7
+    (nicht mehr nur hinweisgebend). Gibt (redigierter Text, Event|None) zurueck.
+
+    # SPEC: AGENT_ARCHITECTURE.md §5 G5 (technische Redaktion); PROJECT_INSTRUCTIONS §5.7
+    """
+    lowered = anfrage.lower()
+    treffer = [k for k in _G5_ART9_KEYWORDS if k in lowered]
+    if not treffer:
+        return anfrage, None
+    redigiert = anfrage
+    for keyword in treffer:
+        redigiert = re.sub(
+            re.escape(keyword), "[Art.-9-Daten redigiert]", redigiert, flags=re.IGNORECASE
+        )
+    event = GuardrailEvent(
+        guardrail_id="G5",
+        aktion="redigiert",
+        detail=f"Art.-9-Signalwoerter redigiert: {', '.join(treffer)}",
+    )
+    return redigiert, event
+
+
 def check_jurisdiktion_g7(jurisdiktion: str) -> GuardrailEvent | None:
     """G7: non-DE/EU questions -> orientation label + escalation recommendation."""
     if jurisdiktion.upper() not in _G7_ERLAUBT:
