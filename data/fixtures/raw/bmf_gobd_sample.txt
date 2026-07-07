@@ -1,0 +1,33 @@
+MINI-SAMPLE im Stil eines BMF-Schreibens (Randnummern-Struktur), KEIN amtlicher
+Text. Prueft den BMF-Normalizer: Segmentierung nach "Rz. N", Gruppierung auf
+300-800 Tokens mit Overlap. Inhalt bewusst generisch/verkuerzt.
+
+BMF-Schreiben GoBD (Muster) - Grundsaetze zur ordnungsmaessigen Fuehrung und
+Aufbewahrung von Buechern, Aufzeichnungen und Unterlagen in elektronischer Form
+sowie zum Datenzugriff.
+
+Rz. 1 Die GoBD gelten fuer die Buchfuehrung und die Aufzeichnungen, die fuer die
+Besteuerung von Bedeutung sind. Sie konkretisieren die Anforderungen der
+Finanzverwaltung an eine ordnungsmaessige Buchfuehrung bei Einsatz von IT-Systemen.
+
+Rz. 2 Buecher und sonstige erforderliche Aufzeichnungen koennen nach den
+Grundsaetzen ordnungsmaessiger Buchfuehrung auch auf Datentraegern gefuehrt werden,
+soweit diese Form der Buchfuehrung den Grundsaetzen der Nachvollziehbarkeit und
+Nachpruefbarkeit entspricht.
+
+Rz. 3 Die Ordnungsmaessigkeit elektronischer Buecher ist nach den gleichen
+Grundsaetzen zu beurteilen wie die Ordnungsmaessigkeit bei manuell gefuehrten
+Buechern. Massgeblich ist der Grundsatz der Nachvollziehbarkeit und der Grundsatz
+der Vollstaendigkeit.
+
+Rz. 4 Jeder Geschaeftsvorfall ist zeitnah, das heisst moeglichst unmittelbar nach
+seiner Entstehung, in einer Grundaufzeichnung oder in einem Grundbuch zu erfassen.
+Kasseneinnahmen und Kassenausgaben sind taeglich festzuhalten.
+
+Rz. 5 Die Aufbewahrungspflicht betraegt fuer Buchungsbelege in der Regel zehn Jahre.
+Die Aufbewahrungsfrist beginnt mit dem Schluss des Kalenderjahres, in dem die letzte
+Eintragung in das Buch gemacht oder der Beleg entstanden ist.
+
+Rz. 6 Bei der Aufbewahrung ist sicherzustellen, dass die Unterlagen waehrend der
+Dauer der Aufbewahrungsfrist jederzeit verfuegbar sind, unverzueglich lesbar gemacht
+und maschinell ausgewertet werden koennen.

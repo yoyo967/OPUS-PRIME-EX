@@ -16,6 +16,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **BMF-Adapter (Kern):** neuer Quelltyp für BMF-Schreiben (Verwaltungsauffassung,
+  `quelle_typ="bmf"`) — `src/rag/sources/bmf.py`. Chunking nach Randnummern
+  (300–800 Tokens, 15 % Overlap gemäß KNOWLEDGE_ARCHITECTURE §5). BMF-Fundstellen
+  sind bewusst Sekundärquellen: im Retrieval unter Normen priorisiert (bereits in
+  `retrieval.py` verdrahtet) und vom Zitat-Validator G3 nicht als Primärzitat
+  geprüft. Offline testbar mit Fixture; die PDF-Extraktion folgt als Netz-Grenze.
 - **Öffentliche OSS-Grundlage:** MIT-Lizenz, README (DE/EN), `CONTRIBUTING.md`,
   `SECURITY.md`, `CODE_OF_CONDUCT.md`, GitHub Issue-/PR-Templates.
 - **Korpus-Abdeckung erweitert:** fünf weitere Gesetze in `config/korpus_quellen.yaml`
