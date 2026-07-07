@@ -42,6 +42,11 @@ dev = [
 bmf = [
     "pypdf>=4.0",
 ]
+# Dense-Embeddings (lokales Modell) fuer das Hybrid-Retrieval. Optional: BM25-only
+# laeuft ohne. Aktivierung ueber config/embeddings.yaml (src/rag/embeddings.py).
+embeddings = [
+    "sentence-transformers>=2.2",
+]
 
 [project.urls]
 Homepage = "https://github.com/yoyo967/OPUS-PRIME-EX"

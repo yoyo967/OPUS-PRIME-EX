@@ -52,14 +52,20 @@ def build_store() -> InMemoryVectorStore:
     """Korpus laden: bevorzugt den Live-Snapshot (echte Gesetze), sonst die Fixtures.
 
     Erzeuge den Live-Snapshot mit:  python scripts/ingest.py --live
+
+    Dense-Embeddings werden nur genutzt, wenn config/embeddings.yaml sie aktiviert
+    (sonst reines BM25, dependency-frei).
     """
+    from src.rag.embeddings import build_embedder, load_embedding_config
+
+    embedder = build_embedder(load_embedding_config())
     snapshot = _ROOT / "korpus" / "snapshot.jsonl"
     if snapshot.exists():
         from src.rag.persistence import load_corpus
 
-        return InMemoryVectorStore(load_corpus(snapshot))
+        return InMemoryVectorStore(load_corpus(snapshot), embedder=embedder)
     _, chunks = run_ingest()
-    return InMemoryVectorStore(chunks)
+    return InMemoryVectorStore(chunks, embedder=embedder)
 
 
 def _fehlertext(exc: Exception) -> str:

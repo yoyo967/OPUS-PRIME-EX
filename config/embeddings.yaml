@@ -1,0 +1,23 @@
+# Dense-Embeddings fuer das Hybrid-Retrieval (BM25 + Dense, 0.5/0.5).
+#
+# STANDARD: deaktiviert. BM25-only laeuft dependency-frei und liefert bereits
+# brauchbare Treffer; Dense-Embeddings verbessern die semantische Trefferqualitaet
+# (gegen reine Stichwort-Ueberschneidung), kosten aber eine Schwergewichts-
+# Abhaengigkeit + einmaligen Modell-Download.
+#
+# DATENSCHUTZ (EU-first/DSGVO): Das Modell laeuft LOKAL auf dem Betreiber-Rechner;
+# es verlassen keine Anfrage-/Dokumenttexte die Maschine (kein Drittlandtransfer,
+# keine Auftragsverarbeitung fuer das Embedding). Das ist bewusst staerker als ein
+# "EU-gehosteter" Embedding-Dienst.
+#
+# Aktivieren:
+#   1) pip install ".[embeddings]"
+#   2) enabled: true   (und ggf. modell anpassen)
+#   3) Korpus neu einlesen, damit die Vektoren gebaut werden.
+
+enabled: false
+
+# Symmetrisches, mehrsprachiges Modell (inkl. Deutsch), CPU-tauglich (~120 MB).
+# Hoehere Qualitaet (mehr Rechenlast): paraphrase-multilingual-mpnet-base-v2 oder
+# intfloat/multilingual-e5-base (e5 braucht "query:"/"passage:"-Praefixe).
+modell: "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"

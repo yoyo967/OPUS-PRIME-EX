@@ -16,6 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Dense-Embeddings (lokal, DSGVO-sauber):** konkrete Embedder-Implementierung für
+  das bereits vorhandene Hybrid-Retrieval (BM25 + Dense) — `src/rag/embeddings.py`.
+  `SentenceTransformerEmbedder` (lazy geladen, optionales Extra `[embeddings]`) +
+  `build_embedder`-Fabrik, per `config/embeddings.yaml` schaltbar (Standard: aus,
+  damit BM25-only dependency-frei bleibt). **EU-first/DSGVO:** die Inferenz läuft
+  **lokal** — kein Anfrage-/Dokumenttext verlässt die Maschine (stärker als ein
+  „EU-gehosteter" Dienst). `build_store` nutzt den Embedder automatisch, wenn aktiviert.
 - **BMF-Adapter:** neuer Quelltyp für BMF-Schreiben (Verwaltungsauffassung,
   `quelle_typ="bmf"`) — `src/rag/sources/bmf.py`. Chunking nach Randnummern
   (300–800 Tokens, 15 % Overlap gemäß KNOWLEDGE_ARCHITECTURE §5). BMF-Fundstellen
