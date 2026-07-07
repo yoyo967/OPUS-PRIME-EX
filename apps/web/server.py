@@ -25,10 +25,13 @@ import socketserver
 import sys
 from pathlib import Path
 from typing import Any
+from urllib.parse import parse_qs, urlparse
 
 _ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(_ROOT))
 
+from src.brain.retrieval import brain_search, build_brain_index  # noqa: E402
+from src.brain.store import BrainStore  # noqa: E402
 from src.gateway.config import list_models, resolve_model  # noqa: E402
 from src.orchestrator.orchestrator import run  # noqa: E402
 from src.rag.ingest import run_ingest  # noqa: E402
@@ -36,8 +39,10 @@ from src.rag.retrieval import build_rag_suche  # noqa: E402
 from src.rag.store import InMemoryVectorStore  # noqa: E402
 from src.router.classifier import classify  # noqa: E402
 from src.router.router import route_for  # noqa: E402
+from src.shared.exceptions import ToolInputError  # noqa: E402
 
 _INDEX = Path(__file__).resolve().parent / "index.html"
+_BRAIN_ROOT = _ROOT / "brain"
 _HOST = "127.0.0.1"
 _PORT = 8848
 
@@ -173,6 +178,12 @@ def _load_env(pfad: Path) -> None:
 class _Handler(http.server.BaseHTTPRequestHandler):
     store: InMemoryVectorStore
     llm: Any | None
+    brain: BrainStore
+    brain_index: InMemoryVectorStore
+
+    @classmethod
+    def _brain_reindex(cls) -> None:
+        cls.brain_index = build_brain_index(cls.brain.alle())
 
     def _send(self, code: int, body: bytes, content_type: str) -> None:
         self.send_response(code)
@@ -193,7 +204,10 @@ class _Handler(http.server.BaseHTTPRequestHandler):
         self._send(code, body, "application/json; charset=utf-8")
 
     def do_GET(self) -> None:  # noqa: N802  (http.server-Konvention)
-        if self.path.rstrip("/") == "/api/models":
+        parsed = urlparse(self.path)
+        pfad = parsed.path.rstrip("/")
+        q = parse_qs(parsed.query)
+        if pfad == "/api/models":
             self._send_json(
                 {"modelle": [
                     {"id": m.id, "label": m.label, "provider": m.provider}
@@ -201,31 +215,91 @@ class _Handler(http.server.BaseHTTPRequestHandler):
                 ]}
             )
             return
+        if pfad.startswith("/api/brain/") and self._brain_get(pfad, q):
+            return
         if self.path not in ("/", "/index.html"):
             self._send(404, b"not found", "text/plain; charset=utf-8")
             return
         html = _INDEX.read_text(encoding="utf-8").encode("utf-8")
         self._send(200, html, "text/html; charset=utf-8")
 
+    def _brain_get(self, pfad: str, q: dict[str, list[str]]) -> bool:
+        """Second-Brain-Lese-Endpoints (search/list/proposals/proposal). True wenn behandelt."""
+        if pfad == "/api/brain/search":
+            query = (q.get("q") or [""])[0]
+            k = int((q.get("k") or ["5"])[0])
+            self._send_json({"treffer": brain_search(self.brain_index, query, k)})
+        elif pfad == "/api/brain/list":
+            schicht = (q.get("schicht") or [""])[0] or None
+            self._send_json({"docs": [
+                {"id": d.id, "schicht": d.schicht, "titel": d.titel}
+                for d in self.brain.liste(schicht)
+            ]})
+        elif pfad == "/api/brain/proposals":
+            self._send_json({"proposals": [
+                {"id": p.id, "ziel": p.ziel, "titel": p.titel, "wer": p.wer}
+                for p in self.brain.list_proposals()
+            ]})
+        elif pfad == "/api/brain/proposal":
+            try:
+                p = self.brain.read_proposal((q.get("id") or [""])[0])
+            except ToolInputError as exc:
+                self._send_json({"fehler": str(exc)}, 404)
+                return True
+            self._send_json({"id": p.id, "ziel": p.ziel, "titel": p.titel,
+                             "inhalt": p.inhalt, "diff": p.diff})
+        else:
+            return False
+        return True
+
     def do_POST(self) -> None:  # noqa: N802
-        if self.path != "/api/frage":
+        pfad = urlparse(self.path).path.rstrip("/")
+        if pfad not in ("/api/frage", "/api/brain/add_raw", "/api/brain/approve",
+                        "/api/brain/reject"):
             self._send(404, b"not found", "text/plain; charset=utf-8")
             return
         laenge = int(self.headers.get("Content-Length", "0"))
         try:
             payload = json.loads(self.rfile.read(laenge) or b"{}")
-            frage = str(payload.get("frage", "")).strip()
-            model_id = payload.get("model_id")
-            model_id = str(model_id).strip() if model_id else None
         except (ValueError, TypeError):
             self._send_json({"fehler": "ungueltige Anfrage"}, 400)
             return
+        if pfad == "/api/frage":
+            self._post_frage(payload)
+        else:
+            self._brain_post(pfad, payload)
+
+    def _post_frage(self, payload: dict[str, Any]) -> None:
+        frage = str(payload.get("frage", "")).strip()
+        model_id = payload.get("model_id")
+        model_id = str(model_id).strip() if model_id else None
         if not frage:
             self._send_json({"fehler": "leere Frage"}, 400)
             return
         llm, label = _llm_for(model_id, self.llm)
         ergebnis = verarbeite_frage(frage, self.store, llm, modell_anzeige=label)
         self._send_json(ergebnis)
+
+    def _brain_post(self, pfad: str, payload: dict[str, Any]) -> None:
+        """Second-Brain-Schreib-Endpoints. approve/reject = MENSCH-Aktion (nur ueber die UI)."""
+        try:
+            if pfad == "/api/brain/add_raw":
+                d = self.brain.add_raw(
+                    str(payload.get("titel") or "Notiz"),
+                    str(payload.get("inhalt", "")),
+                    payload.get("tags"),
+                )
+                self._brain_reindex()
+                self._send_json({"id": d.id, "titel": d.titel})
+            elif pfad == "/api/brain/approve":
+                d = self.brain.approve_proposal(str(payload.get("id", "")))
+                self._brain_reindex()
+                self._send_json({"id": d.id, "titel": d.titel})
+            else:  # /api/brain/reject
+                self.brain.reject_proposal(str(payload.get("id", "")))
+                self._send_json({"ok": True})
+        except ToolInputError as exc:
+            self._send_json({"fehler": str(exc)}, 400)
 
     def log_message(self, format: str, *args: Any) -> None:  # noqa: A002
         pass  # ruhige Konsole
@@ -235,9 +309,12 @@ def main() -> int:
     _load_env(_ROOT / ".env")
     _Handler.store = build_store()
     _Handler.llm = _build_llm()
+    _Handler.brain = BrainStore(_BRAIN_ROOT)
+    _Handler.brain_index = build_brain_index(_Handler.brain.alle())
     zustand = "mit API-Key (Live-Antworten)" if _Handler.llm else "OHNE Key (nur Pipeline sichtbar)"
     print(f"[web] OPUS PRIME EX Referenz-UI - {zustand}")
     print(f"[web] Korpus: {len(_Handler.store.chunks)} Chunks (Fixtures, BM25-only)")
+    print(f"[web] Second Brain: {len(_Handler.brain.alle())} Dokumente ({_BRAIN_ROOT})")
     print(f"[web] -> http://{_HOST}:{_PORT}   (Strg+C zum Beenden)")
     with socketserver.ThreadingTCPServer((_HOST, _PORT), _Handler) as httpd:
         try:
