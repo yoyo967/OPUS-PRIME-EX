@@ -23,6 +23,7 @@ import urllib.request
 import xml.etree.ElementTree as ET
 import zipfile
 from collections.abc import Callable
+from datetime import datetime
 from typing import Any
 
 from src.rag.chunker import Chunk, chunk_de_gesetz
@@ -32,6 +33,8 @@ _DOCTYPE = re.compile(r"<!DOCTYPE[^>]*>", re.IGNORECASE)
 _ENBEZ_PARAGRAF = re.compile(r"^§\s*\d+[a-z]?")
 _ABSATZ = re.compile(r"^\((\d+[a-z]?)\)\s*(.*)$", re.DOTALL)
 _WS = re.compile(r"\s+")
+# Root <dokumente builddate="YYYYMMDD">: der Stand/Build der Quelle bei gii.
+_BUILDDATE = re.compile(r"<dokumente\b[^>]*\bbuilddate=\"(\d{8})\"")
 
 
 def gii_xml_url(slug: str) -> str:
@@ -52,6 +55,23 @@ def fetch_gii(slug: str, opener: Callable[[str], Any] = _default_opener) -> byte
     with opener(gii_xml_url(slug)) as resp:
         data: bytes = resp.read()
     return data
+
+
+def gii_builddate(raw_xml: str) -> str | None:
+    """Stand/Build-Datum der Quelle aus dem Root <dokumente builddate="YYYYMMDD">.
+
+    Dies ist der *Stand der Quelle* (wann gii die Datei zuletzt gebaut hat) und wird
+    als ``rechtsstand_abruf`` verwendet. Es ist NICHT das Inkrafttretens-Datum der
+    einzelnen Norm (``gueltig_ab``) — das liefert das gii-Basis-XML nicht verlaesslich
+    je Paragraf. Bei fehlendem/ungueltigem Datum: None (Aufrufer nutzt Fallback).
+    """
+    match = _BUILDDATE.search(raw_xml)
+    if match is None:
+        return None
+    try:
+        return datetime.strptime(match.group(1), "%Y%m%d").date().isoformat()
+    except ValueError:
+        return None
 
 
 def extract_gii_from_zip(data: bytes) -> str:
@@ -120,12 +140,18 @@ def chunks_from_gii(
     quelle_url: str,
     domaene: tuple[str, ...],
 ) -> list[Chunk]:
-    """Full adapter path: raw gii XML -> normalized -> chunked."""
+    """Full adapter path: raw gii XML -> normalized -> chunked.
+
+    ``rechtsstand_abruf`` wird bevorzugt aus dem echten Quell-``builddate`` gesetzt
+    (Stand der gii-Datei); der uebergebene Wert dient nur als Fallback. So spiegelt
+    G6 (Stale-Warnung) den tatsaechlichen Quellenstand statt des Ingest-Laufdatums.
+    """
+    stand = gii_builddate(raw_xml) or rechtsstand_abruf
     return chunk_de_gesetz(
         normalize_gii(raw_xml),
         gesetz=gesetz,
         gueltig_ab=gueltig_ab,
-        rechtsstand_abruf=rechtsstand_abruf,
+        rechtsstand_abruf=stand,
         quelle_url=quelle_url,
         domaene=domaene,
     )

@@ -17,6 +17,7 @@ from src.rag.sources.gii import (
     chunks_from_gii,
     extract_gii_from_zip,
     fetch_gii,
+    gii_builddate,
     gii_xml_url,
     normalize_gii,
 )
@@ -109,16 +110,31 @@ class TestNormalisierung:
         assert "DOCTYPE" not in normalize_gii(_raw())
 
 
+class TestBuilddate:
+    def test_builddate_aus_root(self) -> None:
+        # Fixture-Root: <dokumente builddate="20260705" ...>
+        assert gii_builddate(_raw()) == "2026-07-05"
+
+    def test_builddate_fehlt_gibt_none(self) -> None:
+        assert gii_builddate("<dokumente doknr='X'/>") is None
+
+    def test_builddate_ungueltig_gibt_none(self) -> None:
+        # 8 Ziffern, aber kein gueltiges Datum -> Fallback statt Muell-Datum
+        assert gii_builddate('<dokumente builddate="20261399"/>') is None
+
+
 class TestEndToEnd:
     def test_gii_zip_bis_chunks(self) -> None:
         # fetch(fake) -> extract -> normalize -> chunk, wie im Live-Ingest
         zip_data = _zip_bytes(_raw())
         raw = extract_gii_from_zip(zip_data)
         chunks = chunks_from_gii(
-            raw, gesetz="UStG", gueltig_ab="2025-01-01", rechtsstand_abruf="2026-07-05",
+            raw, gesetz="UStG", gueltig_ab="2025-01-01", rechtsstand_abruf="1999-01-01",
             quelle_url="https://www.gesetze-im-internet.de/ustg/", domaene=("steuerrecht",),
         )
         assert [c.einheit for c in chunks] == ["§ 19", "§ 19a"]
+        # Echter Quell-builddate hat Vorrang vor dem uebergebenen Fallback
+        assert chunks[0].rechtsstand_abruf == "2026-07-05"
         p19 = chunks[0]
         assert p19.chunk_id == "de-ustg-2025-01-01-p19"
         assert p19.ueberschrift == "Besteuerung der Kleinunternehmer"

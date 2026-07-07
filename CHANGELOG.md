@@ -36,6 +36,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   auch dann der richtigen Domäne zu, wenn kein Schlagwort matcht.
 - **Retrieval-Boost für explizite Zitate:** exakte Treffer auf Gesetz/CELEX und
   Einheit (§/Art.) werden im hybriden Ranking gezielt hochgewichtet.
+- **`rechtsstand_abruf` aus echtem Quell-Stand:** der gii-Adapter liest das
+  `builddate` des Rechtsakts (Root `<dokumente builddate="YYYYMMDD">`) und stempelt
+  es als Rechtsstand auf die Chunks, statt das Ingest-Laufdatum zu verwenden. G6
+  (Stale-Warnung) spiegelt damit den tatsächlichen Quellenstand. `builddate` wird
+  echt validiert (ungültige Werte fallen auf den Config-Wert zurück); `gueltig_ab`
+  bleibt bewusst config-basiert, da das gii-Basis-XML kein verlässliches
+  Inkrafttretens-Datum je Paragraf liefert.
 
 ### Fixed
 - **EUR-Lex-Adapter:** Umstellung auf CELLAR-Content-Negotiation (Formex-4-ZIP,
