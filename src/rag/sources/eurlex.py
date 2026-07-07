@@ -25,7 +25,12 @@ import zipfile
 from collections.abc import Callable
 from typing import Any
 
-from src.rag.chunker import Chunk, chunk_eu_verordnung
+from src.rag.chunker import (
+    MAX_TOKENS_PER_CHUNK,
+    Chunk,
+    chunk_eu_verordnung,
+    estimate_tokens,
+)
 from src.shared.exceptions import ToolInputError
 
 _DOCTYPE = re.compile(r"<!DOCTYPE[^>]*>", re.IGNORECASE)
@@ -39,6 +44,8 @@ _ANHANG_NR = re.compile(r"([IVXLCDM]+|\d+)", re.IGNORECASE)
 # Grossbuchstaben des Namens ("1Z" statt "1"). Titel beginnen konsistent mit "Klausel".
 _KLAUSEL_TITLE = re.compile(r"^Klausel\s+(\d+[a-z]?)\s*(.*)", re.DOTALL)
 _MODUL_TITLE = re.compile(r"^(MODUL\s+\w+)", re.IGNORECASE)
+# Unterklausel innerhalb eines Moduls: "8.1. Zweckbindung".
+_SUBKLAUSEL_TITLE = re.compile(r"^(\d+\.\d+[a-z]?)\.?\s*(.*)", re.DOTALL)
 
 # CELLAR content negotiation: Formex-4 ZIP, deutsche Sprachfassung.
 _FMX_HEADERS = {
@@ -194,9 +201,9 @@ def chunks_from_scc(
 
     Der Verordnungs-Parser greift hier nicht (kein ARTICLE/CONSID; die
     Standardvertragsklauseln sind GR.SEQ-Gruppen mit TITLE "Klausel N"). Klausel 8/9/10
-    zerfallen in MODUL-Untergruppen (Verantwortlicher->Verantwortlicher etc.) und werden
-    je Modul zu einem eigenen, kohaerenten Chunk (einige bewusst >1.200 Tokens, da eine
-    Modul-Klausel eine sinnvolle Einheit ist).
+    zerfallen in MODUL-Untergruppen (Verantwortlicher->Verantwortlicher etc.) -> je Modul
+    ein Chunk; grosse Module (>1.200 Tokens) werden zusaetzlich auf Unterklausel-Ebene
+    (8.1, 8.2, ...) gesplittet, damit ein Chunk eine feine, kohaerente Einheit bleibt.
     """
     root = _strip_ns(ET.fromstring(_DOCTYPE.sub("", raw_xml)))
     einheiten: list[tuple[str, str, str]] = []  # (einheit, ueberschrift, text)
@@ -206,15 +213,27 @@ def chunks_from_scc(
             continue
         nr, name = match.group(1), match.group(2).strip()
         module = [g for g in gr.iter("GR.SEQ") if _MODUL_TITLE.match(_gruppen_titel(g))]
-        if module:
-            for mo in module:
-                label = _MODUL_TITLE.match(_gruppen_titel(mo))
-                assert label is not None
-                einheiten.append(
-                    (f"Klausel {nr} ({label.group(1).title()})", name, _gruppen_koerper(mo))
-                )
-        else:
+        if not module:
             einheiten.append((f"Klausel {nr}", name, _gruppen_koerper(gr)))
+            continue
+        for mo in module:
+            label = _MODUL_TITLE.match(_gruppen_titel(mo))
+            assert label is not None
+            mlabel = label.group(1).title()
+            koerper = _gruppen_koerper(mo)
+            subs = [g for g in mo.iter("GR.SEQ") if _SUBKLAUSEL_TITLE.match(_gruppen_titel(g))]
+            # Grosse Module (>1.200 Tokens) auf Unterklausel-Ebene splitten (analog
+            # KNOWLEDGE_ARCHITECTURE §5 Absatz-Split); kleine Module bleiben ganz.
+            if subs and estimate_tokens(koerper) > MAX_TOKENS_PER_CHUNK:
+                for sub in subs:
+                    sm = _SUBKLAUSEL_TITLE.match(_gruppen_titel(sub))
+                    assert sm is not None
+                    einheiten.append(
+                        (f"Klausel {nr} ({mlabel}) {sm.group(1)}",
+                         sm.group(2).strip(), _gruppen_koerper(sub))
+                    )
+            else:
+                einheiten.append((f"Klausel {nr} ({mlabel})", name, koerper))
 
     chunks: list[Chunk] = []
     for einheit, ueberschrift, text in einheiten:

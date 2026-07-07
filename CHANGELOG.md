@@ -51,9 +51,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Gesamt-Coverage **106 → 107/124**.
 - **SCC-Parser (Durchführungsbeschluss (EU) 2021/914):** eigener Parser für die
   Standardvertragsklauseln — die SCC ist ein EU-*Beschluss* ohne `ARTICLE`/`CONSID`
-  (Klauseln als `GR.SEQ`-Gruppen). 1 Chunk = 1 Klausel, Klausel 8/9/10 nach Modulen
-  gesplittet (25 kohärente Chunks, live verifiziert). Per `parser: scc` in der Config
-  geroutet. DSGVO 18 → 19/20, Gesamt-Coverage **112 → 113/124**.
+  (Klauseln als `GR.SEQ`-Gruppen). 1 Chunk = 1 Klausel; große Modul-Klauseln (8/9/10)
+  werden nach Modulen **und** — bei >1.200 Tokens — nach Unterklauseln (8.1, 8.2, …)
+  gesplittet, sodass kein Chunk das Token-Budget sprengt (49 kohärente Chunks, max
+  ~1.100 Tokens, live verifiziert). Per `parser: scc` in der Config geroutet.
+  DSGVO 18 → 19/20, Gesamt-Coverage **112 → 113/124**.
 - **Bring-your-own-key:** jede Entwicklerin nutzt ihren eigenen `ANTHROPIC_API_KEY`
   (`.env`, gitignored); stdlib-Web-UI bindet nur an `127.0.0.1:8848`.
 - **CI-Härtung:** Der `unit`-Job der GitHub-Actions-Pipeline führt jetzt auch
