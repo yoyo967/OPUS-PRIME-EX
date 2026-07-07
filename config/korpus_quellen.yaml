@@ -54,3 +54,7 @@ eurlex_verordnungen:
      quelle_url: "https://eur-lex.europa.eu/eli/reg/2023/2854/oj"}
   - {celex: "32017R1001", titel: UMV,         gueltig_ab: "2017-10-01", domaene: [markenrecht],
      quelle_url: "https://eur-lex.europa.eu/eli/reg/2017/1001/oj"}
+  # Ergaenzung 2026-07-07 (Coverage-Block): Grenzbeschlagnahme bei Produktpiraterie.
+  # Adapter live gegen 32013R0608 verifiziert (40 Artikel geparst).
+  - {celex: "32013R0608", titel: "VO 608/2013", gueltig_ab: "2014-01-01", domaene: [markenrecht],
+     quelle_url: "https://eur-lex.europa.eu/eli/reg/2013/608/oj"}

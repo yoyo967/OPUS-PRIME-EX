@@ -25,6 +25,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Verbleibende Lücken sind bewusst Nicht-Gesetzes-Quellen (DBA/OECD-MA, BMF-Schreiben
   wie GoBD/AfA-Tabellen, IDW/IFRS, EDSA-Leitlinien, Nizza-Klassifikation), die eigene
   Adapter bräuchten, sowie das für eine einzelne Norm zu große SGB IV.
+- **EU-Verordnung VO (EU) 608/2013** (Grenzbeschlagnahme bei Produktpiraterie) im
+  Markenrecht-Korpus; Adapter live verifiziert (40 Artikel). Markenrecht 20 → 21/23,
+  Gesamt-Coverage **106 → 107/124**.
 - **Bring-your-own-key:** jede Entwicklerin nutzt ihren eigenen `ANTHROPIC_API_KEY`
   (`.env`, gitignored); stdlib-Web-UI bindet nur an `127.0.0.1:8848`.
 - **CI-Härtung:** Der `unit`-Job der GitHub-Actions-Pipeline führt jetzt auch
