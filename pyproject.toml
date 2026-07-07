@@ -37,6 +37,11 @@ dev = [
     "ruff>=0.4",
     "types-PyYAML",
 ]
+# BMF-Schreiben-Adapter (PDF-Extraktion). Optional: der Kern laeuft ohne pypdf,
+# nur der Live-Ingest von BMF-PDFs braucht es (src/rag/sources/bmf.py).
+bmf = [
+    "pypdf>=4.0",
+]
 
 [project.urls]
 Homepage = "https://github.com/yoyo967/OPUS-PRIME-EX"

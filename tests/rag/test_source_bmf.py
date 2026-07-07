@@ -14,6 +14,8 @@ import pytest
 from src.rag.sources.bmf import (
     MAX_TOKENS,
     chunks_from_bmf,
+    extract_bmf_text,
+    fetch_bmf,
     segmente_nach_randnummer,
 )
 from src.shared.exceptions import ToolInputError
@@ -103,3 +105,43 @@ class TestChunking:
                 rechtsstand_abruf="2026-07-07", quelle_url="https://x",
                 domaene=("finanzen",),
             )
+
+
+class TestFetchUndExtraktion:
+    _PDF = _SAMPLE.parent / "bmf_mini.pdf"
+
+    def test_fetch_mit_fake_opener(self) -> None:
+        gesehen: list[str] = []
+
+        class _Resp:
+            def __enter__(self) -> _Resp:
+                return self
+
+            def __exit__(self, *exc: object) -> None:
+                return None
+
+            def read(self) -> bytes:
+                return b"%PDF-1.4 fake"
+
+        def opener(url: str) -> object:
+            gesehen.append(url)
+            return _Resp()
+
+        out = fetch_bmf("https://bmf.example/gobd.pdf", opener=opener)
+        assert out.startswith(b"%PDF") and gesehen == ["https://bmf.example/gobd.pdf"]
+
+    def test_extract_text_aus_echtem_pdf(self) -> None:
+        # bmf_mini.pdf: echtes (winziges) PDF mit Text-Layer, deterministisch offline
+        pytest.importorskip("pypdf")
+        text = extract_bmf_text(self._PDF.read_bytes())
+        assert "Rz. 1" in text and "Rz. 2" in text
+
+    def test_extract_dann_chunk_end_to_end(self) -> None:
+        pytest.importorskip("pypdf")
+        text = extract_bmf_text(self._PDF.read_bytes())
+        chunks = chunks_from_bmf(
+            text, quelle_kuerzel="GoBD", titel="GoBD (Mini)", gueltig_ab="2019-11-28",
+            rechtsstand_abruf="2026-07-07", quelle_url="https://x", domaene=("finanzen",),
+        )
+        assert chunks and chunks[0].quelle_typ == "bmf"
+        assert "Rz. 1" in chunks[0].text

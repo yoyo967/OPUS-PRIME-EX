@@ -58,3 +58,12 @@ eurlex_verordnungen:
   # Adapter live gegen 32013R0608 verifiziert (40 Artikel geparst).
   - {celex: "32013R0608", titel: "VO 608/2013", gueltig_ab: "2014-01-01", domaene: [markenrecht],
      quelle_url: "https://eur-lex.europa.eu/eli/reg/2013/608/oj"}
+
+# BMF-Schreiben (Verwaltungsauffassung, quelle_typ=bmf). Adapter: src/rag/sources/bmf.py
+# (PDF via optionalem Extra 'pypdf'). BEWUSST LEER: BMF-Portal-Deep-Links sind instabil
+# (das volle GoBD-Schreiben 2019 ist inzwischen archiviert/404; Spec §2 sieht dafuer einen
+# Web-Monitor vor). Sobald eine funktionierende, RANDNUMMER-strukturierte PDF-URL vorliegt,
+# hier eintragen; der Live-Ingest ueberspringt fehlschlagende Quellen tolerant. Beispiel:
+#   - {kuerzel: GoBD, titel: "GoBD (BMF-Schreiben)", gueltig_ab: "2019-11-28",
+#      domaene: [finanzen], url: "https://www.bundesfinanzministerium.de/.../2019-11-28-GoBD.pdf?__blob=publicationFile"}
+bmf_schreiben: []

@@ -16,12 +16,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- **BMF-Adapter (Kern):** neuer Quelltyp für BMF-Schreiben (Verwaltungsauffassung,
+- **BMF-Adapter:** neuer Quelltyp für BMF-Schreiben (Verwaltungsauffassung,
   `quelle_typ="bmf"`) — `src/rag/sources/bmf.py`. Chunking nach Randnummern
   (300–800 Tokens, 15 % Overlap gemäß KNOWLEDGE_ARCHITECTURE §5). BMF-Fundstellen
   sind bewusst Sekundärquellen: im Retrieval unter Normen priorisiert (bereits in
   `retrieval.py` verdrahtet) und vom Zitat-Validator G3 nicht als Primärzitat
-  geprüft. Offline testbar mit Fixture; die PDF-Extraktion folgt als Netz-Grenze.
+  geprüft. PDF-Extraktion über das optionale Extra `pypdf` (`pip install ".[bmf]"`);
+  Live-Ingest-Loop in `run_live_ingest` (tolerant gegen Fehlschläge). Verifiziert:
+  Extraktion gegen ein echtes Mini-PDF (offline) sowie Fetch+Extraktion gegen ein
+  reales BMF-PDF (live, HTTP 200).
+  **Ehrliche Einschränkung:** `bmf_schreiben` ist in der Config bewusst leer — BMF-
+  Portal-Deep-Links sind instabil (das volle GoBD-Schreiben 2019 ist archiviert/404;
+  das aktuell erreichbare Änderungs-PDF ist Prosa, nicht Randnummer-strukturiert).
+  Die Infrastruktur ist fertig; eine geeignete, stabile Quell-URL muss eingetragen
+  werden (Spec §2 sieht dafür einen Web-Monitor vor). Coverage daher unverändert.
 - **Öffentliche OSS-Grundlage:** MIT-Lizenz, README (DE/EN), `CONTRIBUTING.md`,
   `SECURITY.md`, `CODE_OF_CONDUCT.md`, GitHub Issue-/PR-Templates.
 - **Korpus-Abdeckung erweitert:** fünf weitere Gesetze in `config/korpus_quellen.yaml`

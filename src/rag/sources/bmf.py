@@ -18,10 +18,21 @@ werden Chunks nach Randnummern gebildet. Chunking-Vertrag laut Spec:
 from __future__ import annotations
 
 import hashlib
+import io
 import re
+import urllib.request
+from collections.abc import Callable
+from typing import Any
 
 from src.rag.chunker import Chunk, estimate_tokens
 from src.shared.exceptions import ToolInputError
+
+# BMF-Server liefern PDFs; ein Browser-naher Header vermeidet 403/406.
+_HEADERS = {
+    "User-Agent": "Mozilla/5.0 OPUS-PRIME-EX/1.0",
+    "Accept": "application/pdf,*/*",
+    "Accept-Language": "de-DE,de;q=0.9",
+}
 
 # SPEC: KNOWLEDGE_ARCHITECTURE.md §5 (300-800 Tokens je BMF-Chunk, 15 % Overlap).
 MIN_TOKENS = 300
@@ -38,6 +49,40 @@ _WS = re.compile(r"\s+")
 
 def _text_hash(text: str) -> str:
     return "sha256:" + hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def _default_opener(url: str) -> Any:
+    return urllib.request.urlopen(  # noqa: S310  # nur bekannte https-BMF-URLs
+        urllib.request.Request(url, headers=_HEADERS)
+    )
+
+
+def fetch_bmf(url: str, opener: Callable[[str], Any] = _default_opener) -> bytes:
+    """Download a BMF-Schreiben PDF. Opener injectable (tests pass a fake).
+
+    NETWORK BOUNDARY: nur im Live-Ingest genutzt. BMF-URLs sind instabil (die
+    Portalstruktur aendert sich; Spec §2 sieht dafuer einen Web-Monitor vor) — der
+    Live-Ingest behandelt einen Fehlschlag daher tolerant (ueberspringt die Quelle).
+    """
+    with opener(url) as resp:
+        data: bytes = resp.read()
+    return data
+
+
+def extract_bmf_text(pdf_bytes: bytes) -> str:
+    """Extract the text layer of a BMF PDF. Requires the optional 'pypdf' extra.
+
+    Die Randnummer-Erkennung haengt am Text-Layer des jeweiligen PDFs; Dokumente
+    ohne sauberen Text-Layer (Scans) liefern keine verwertbaren Randnummern.
+    """
+    try:
+        import pypdf
+    except ImportError as exc:  # optionales Extra, siehe pyproject [bmf]
+        raise ToolInputError(
+            'BMF-PDF-Extraktion benoetigt "pypdf" (pip install ".[bmf]").'
+        ) from exc
+    reader = pypdf.PdfReader(io.BytesIO(pdf_bytes))
+    return "\n".join((seite.extract_text() or "") for seite in reader.pages)
 
 
 def segmente_nach_randnummer(raw_text: str) -> list[tuple[str, str]]:

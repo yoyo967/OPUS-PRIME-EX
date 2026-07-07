@@ -69,3 +69,38 @@ class TestRunLiveIngest:
         )
         assert chunks  # die gute Quelle ist trotzdem ingestiert
         assert len(fehler) == 1 and fehler[0][0] == "kaputt"
+
+
+class TestBmfIngest:
+    def _cfg(self, tmp_path: Path) -> Path:
+        cfg = {
+            "bmf_schreiben": [
+                {
+                    "kuerzel": "GoBD", "titel": "GoBD (Test)",
+                    "gueltig_ab": "2019-11-28", "domaene": ["finanzen"],
+                    "url": "https://bmf.example/gobd.pdf",
+                }
+            ]
+        }
+        pfad = tmp_path / "quellen.yaml"
+        pfad.write_text(yaml.safe_dump(cfg), encoding="utf-8")
+        return pfad
+
+    def test_bmf_schreiben_wird_ingestiert(self, tmp_path: Path) -> None:
+        _result, chunks, fehler = run_live_ingest(
+            quellen_path=self._cfg(tmp_path), out_path=tmp_path / "s.jsonl",
+            fetch_bmf_text=lambda _url: "Rz. 1 Erste Regel.\nRz. 2 Zweite Regel.",
+        )
+        assert fehler == []
+        assert chunks and all(c.quelle_typ == "bmf" for c in chunks)
+        assert chunks[0].gesetz == "GoBD"
+
+    def test_bmf_fehlschlag_tolerant(self, tmp_path: Path) -> None:
+        def _boom(_url: str) -> str:
+            raise RuntimeError("HTTP 404")
+
+        _result, chunks, fehler = run_live_ingest(
+            quellen_path=self._cfg(tmp_path), out_path=tmp_path / "s.jsonl",
+            fetch_bmf_text=_boom,
+        )
+        assert chunks == [] and len(fehler) == 1 and fehler[0][0] == "GoBD"

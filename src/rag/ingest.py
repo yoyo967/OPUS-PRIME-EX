@@ -23,6 +23,7 @@ import yaml
 
 from src.rag.chunker import Chunk, chunk_de_gesetz, chunk_eu_verordnung
 from src.rag.persistence import save_corpus
+from src.rag.sources.bmf import chunks_from_bmf, extract_bmf_text, fetch_bmf
 from src.rag.sources.eurlex import (
     chunks_from_eurlex,
     extract_formex_from_zip,
@@ -113,11 +114,17 @@ def _default_fetch_eu(celex: str) -> str:
     return extract_formex_from_zip(fetch_eurlex(celex))
 
 
+def _default_fetch_bmf(url: str) -> str:
+    """Fetch + extract the text layer of a BMF PDF (network + optional pypdf)."""
+    return extract_bmf_text(fetch_bmf(url))
+
+
 def run_live_ingest(
     quellen_path: Path = _DEFAULT_QUELLEN,
     out_path: Path = _DEFAULT_OUT,
     fetch: Callable[[str], bytes] = fetch_gii,
     fetch_eu: Callable[[str], str] = _default_fetch_eu,
+    fetch_bmf_text: Callable[[str], str] = _default_fetch_bmf,
     rechtsstand_abruf: str = "2026-07-06",
 ) -> tuple[IngestResult, list[Chunk], list[tuple[str, str]]]:
     """Fetch the live gii + EUR-Lex sources, chunk, build the Verweisgraph, persist.
@@ -157,6 +164,20 @@ def run_live_ingest(
             )
         except Exception as exc:
             fehler.append((celex, f"{type(exc).__name__}: {exc}"))
+    for quelle in cfg.get("bmf_schreiben", []) or []:
+        kuerzel = str(quelle["kuerzel"])
+        try:
+            chunks += chunks_from_bmf(
+                fetch_bmf_text(str(quelle["url"])),
+                quelle_kuerzel=kuerzel,
+                titel=str(quelle["titel"]),
+                gueltig_ab=str(quelle["gueltig_ab"]),
+                rechtsstand_abruf=rechtsstand_abruf,
+                quelle_url=str(quelle["url"]),
+                domaene=tuple(quelle["domaene"]),
+            )
+        except Exception as exc:  # BMF-URLs sind instabil -> tolerant ueberspringen
+            fehler.append((kuerzel, f"{type(exc).__name__}: {exc}"))
     chunks = extrahiere_verweise(chunks)
     save_corpus(chunks, out_path)
     kanten = sum(len(c.verweist_auf) for c in chunks)
