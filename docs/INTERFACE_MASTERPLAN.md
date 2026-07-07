@@ -340,11 +340,15 @@ E2E (Playwright) · a11y-Check · spec_lint · CI grün vor Merge.
 
 ---
 
-## 13. Offene Entscheidungen (Owner)
+## 13. Entscheidungen (Owner)
 
-1. **Repo/Name:** neues Repo `opus-deck`? Name final (OPUS DECK / BRIDGE / HAVEN / ATRIUM)?
-2. **Fundament:** Theia bestätigen (empfohlen) oder VS-Code-Fork (mehr Ökosystem, mehr Last)?
-3. **Desktop vs. Web zuerst:** beides aus Theia möglich — welche Zielgruppe zuerst?
+**Entschieden (Owner Yahya, 2026-07-07):**
+1. ✅ **Fundament: Eclipse Theia** (bestätigt) — nächster Schritt Theia-Spike + Branding.
+2. ✅ **Repo/Name: neues Repo `opus-deck`** (Arbeitstitel OPUS DECK); OPUS PRIME EX bleibt
+   eigenes Repo und wird als ACP-Agent eingebunden.
+3. ✅ **Web zuerst** — Browser-App (Cloud Run, EU); Desktop später aus derselben Theia-Codebase.
+
+**Noch offen:**
 4. **Hosting-Modell:** Self-hosted (on-prem/EU-Cloud) vs. SaaS-Multi-Tenant zuerst?
 5. **Erste Fremd-Agenten:** welche ACP-Agenten neben OPUS PRIME EX (Claude Code, Gemini CLI …)?
 6. **Monetarisierung:** intern (Tooling) vs. Produkt (Billing/Marktplatz) — beeinflusst P7/P8.
