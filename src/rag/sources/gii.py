@@ -111,7 +111,9 @@ def normalize_gii(raw_xml: str) -> str:
         enbez = (norm.findtext("metadaten/enbez") or "").strip()
         titel = norm.findtext("metadaten/titel")
         content = norm.find("textdaten/text/Content")
-        if not _ENBEZ_PARAGRAF.match(enbez) or titel is None or content is None:
+        # Ueberschrift (titel) ist optional: viele aeltere Paragraphen (z. B. HGB § 1-7)
+        # haben Inhalt, aber keine amtliche Ueberschrift. §-Nummer + Inhalt genuegen.
+        if not _ENBEZ_PARAGRAF.match(enbez) or content is None:
             continue
         absaetze = _absaetze(content)
         if not absaetze:
@@ -122,7 +124,7 @@ def normalize_gii(raw_xml: str) -> str:
         meta = ET.SubElement(n_el, "metadaten")
         ET.SubElement(meta, "jurabk").text = jurabk
         ET.SubElement(meta, "enbez").text = enbez
-        ET.SubElement(meta, "titel").text = titel.strip()
+        ET.SubElement(meta, "titel").text = (titel or "").strip()
         textdaten = ET.SubElement(n_el, "textdaten")
         text_el = ET.SubElement(textdaten, "text")
         for nr, absatz_text in absaetze:

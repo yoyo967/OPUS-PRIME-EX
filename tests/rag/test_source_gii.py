@@ -109,6 +109,20 @@ class TestNormalisierung:
         # Roh enthaelt <!DOCTYPE ...> - normalize darf nicht daran scheitern
         assert "DOCTYPE" not in normalize_gii(_raw())
 
+    def test_paragraf_ohne_ueberschrift_bleibt_erhalten(self) -> None:
+        # Regression: § 1 HGB u. v. a. haben Inhalt, aber kein <titel>. Frueher
+        # wurden sie faelschlich verworfen (nur wegen fehlender Ueberschrift).
+        roh = (
+            '<dokumente builddate="20260101"><norm><metadaten><jurabk>HGB</jurabk>'
+            "<enbez>§ 1</enbez></metadaten><textdaten><text format='XML'><Content>"
+            "<P>(1) Kaufmann ist, wer ein Handelsgewerbe betreibt.</P>"
+            "</Content></text></textdaten></norm></dokumente>"
+        )
+        root = ET.fromstring(normalize_gii(roh))
+        normen = root.findall("norm")
+        assert [n.findtext("metadaten/enbez") for n in normen] == ["§ 1"]
+        assert normen[0].findtext("metadaten/titel") == ""  # leere Ueberschrift ok
+
 
 class TestBuilddate:
     def test_builddate_aus_root(self) -> None:

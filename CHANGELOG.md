@@ -55,6 +55,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Inkrafttretens-Datum je Paragraf liefert.
 
 ### Fixed
+- **gii-Adapter verwarf Paragraphen ohne amtliche Überschrift:** viele (v. a. ältere)
+  Paragraphen wie HGB § 1–7/§ 18/§ 29/§ 161 oder EStG § 35 haben Inhalt, aber kein
+  `<titel>`-Element. `normalize_gii` und `chunk_de_gesetz` verwarfen jede Norm mit
+  fehlender Überschrift — die §§ fehlten still im Korpus (ein Nutzer hätte zu § 1 HGB
+  nichts erhalten). Jetzt genügen §-Nummer + Inhalt; die Überschrift ist optional.
+  **241 zuvor verschluckte Chunks zurückgeholt**, Coverage **107 → 112/124**
+  (Gewerberecht 19/20, Steuerrecht 23/25).
 - **Coverage-Matcher zählte Ganz-Gesetz-Verweise nicht:** Muss-Normen, die ein
   ganzes Gesetz / eine ganze Verordnung ohne §/Artikel referenzieren (z. B. „UmwG
   (Grundzüge Verschmelzung)", „Anhang III VO (EU) 2024/1689"), konnten nie als

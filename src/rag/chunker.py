@@ -105,9 +105,10 @@ def chunk_de_gesetz(
     chunks: list[Chunk] = []
     for norm in root.iter("norm"):
         enbez = norm.findtext("metadaten/enbez")
-        titel = norm.findtext("metadaten/titel")
-        if not enbez or titel is None:
+        if not enbez:
             continue
+        # Ueberschrift optional (aeltere §§ ohne amtliche Ueberschrift, z. B. HGB § 1).
+        titel = norm.findtext("metadaten/titel") or ""
         absaetze = [
             (absatz.get("nr", str(i + 1)), "".join(absatz.itertext()).strip())
             for i, absatz in enumerate(norm.findall("textdaten/text/absatz"))
