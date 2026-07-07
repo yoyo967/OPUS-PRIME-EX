@@ -12,6 +12,10 @@
 <!-- v1.3 (2026-07-06): AGENT_ARCHITECTURE v1.2 — G5 technische Redaktion (redigiere_pii_g5, im Orchestrator
      aktiv; config/guardrails.yaml modus: redaktion). Erledigt OPEN_QUESTIONS #3 / Legal-Review #4.
      Prompt-Hash unverändert. Gatekeeper-Nachtrag: review/gate_report.md "Nachtrag v1.3". -->
+<!-- v1.4 (Owner-Entscheid 2026-07-07): AGENT_ARCHITECTURE v1.3 — §2 Modell-Katalog & Hybrid-Wahl
+     (config/models.yaml catalog: alle Claude-Modelle + lokales Gemma 4 via Ollama; src/gateway/
+     gemma_client.py + config.ModelProfile + llm_client.build_llm_client). EU-first/DSGVO. Prompt-/Tool-/
+     Guardrail-Twin unveraendert -> Prompt-Hash gueltig. Gatekeeper-Nachtrag: gate_report "Nachtrag v1.4". -->
 
 # Manifest aller Projekt-Artefakte
 

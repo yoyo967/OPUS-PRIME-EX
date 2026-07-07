@@ -51,6 +51,66 @@ class RetryConfig:
     backoff_factor: float
 
 
+@dataclass(frozen=True)
+class ModelProfile:
+    """A user-selectable model and its request profile (Hybrid Anthropic <-> lokal).
+
+    provider: "anthropic" | "gemma". Fuer anthropic steuern endpoint/thinking/temperature/
+    fallback_model den Request; fuer gemma laeuft das Modell lokal ueber Ollama.
+    # SPEC: AGENT_ARCHITECTURE.md §2 (Modell-Katalog, Provider-Abstraktion), §7 (Kosten)
+    """
+
+    id: str
+    label: str
+    provider: str
+    endpoint: str = "standard"  # anthropic: standard | beta
+    thinking: str | None = None  # anthropic: "adaptive" | None
+    temperature: float | None = None
+    max_tokens: int = 4096
+    fallback_model: str | None = None
+
+
+def _profile_from(eintrag: dict[str, Any]) -> ModelProfile:
+    temp_raw = eintrag.get("temperature")
+    return ModelProfile(
+        id=str(eintrag["id"]),
+        label=str(eintrag.get("label", eintrag["id"])),
+        provider=str(eintrag["provider"]),
+        endpoint=str(eintrag.get("endpoint", "standard")),
+        thinking=(str(eintrag["thinking"]) if eintrag.get("thinking") else None),
+        temperature=(None if temp_raw is None else float(temp_raw)),
+        max_tokens=int(eintrag.get("max_tokens", 4096)),
+        fallback_model=(
+            str(eintrag["fallback_model"]) if eintrag.get("fallback_model") else None
+        ),
+    )
+
+
+def list_models(models_path: Path = _MODELS_PATH) -> list[ModelProfile]:
+    """Return the user-selectable model catalog (order preserved)."""
+    raw = _load_raw(str(models_path))
+    return [_profile_from(e) for e in raw.get("catalog", []) or []]
+
+
+def default_model_id(models_path: Path = _MODELS_PATH) -> str:
+    """Return the id of the default model (falls back to the first catalog entry)."""
+    raw = _load_raw(str(models_path))
+    if raw.get("default_model"):
+        return str(raw["default_model"])
+    katalog = raw.get("catalog") or []
+    if not katalog:
+        raise ParameterNotFoundError("models.yaml hat weder default_model noch catalog.")
+    return str(katalog[0]["id"])
+
+
+def resolve_model(model_id: str, models_path: Path = _MODELS_PATH) -> ModelProfile:
+    """Return the ModelProfile for a chosen model id."""
+    for profil in list_models(models_path):
+        if profil.id == model_id:
+            return profil
+    raise ParameterNotFoundError(f"Unbekanntes Modell '{model_id}' (nicht im Katalog).")
+
+
 @lru_cache(maxsize=1)
 def _load_raw(path: str) -> dict[str, Any]:
     with Path(path).open(encoding="utf-8") as handle:

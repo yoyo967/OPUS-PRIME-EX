@@ -1,7 +1,8 @@
 # AGENT_ARCHITECTURE.md
-<!-- Datei 4/8 · Projekt OPUS PRIME EX · Version 1.2 · Stand: 2026-07-06 -->
+<!-- Datei 4/8 · Projekt OPUS PRIME EX · Version 1.3 · Stand: 2026-07-07 -->
 <!-- v1.1: Markenrecht als Domäne 7 — Routing-Beispiele, fristen_kalender (Marken-Fristen), dokument_generator (Marken-Dossier), G2-Beispiel ergänzt. -->
 <!-- v1.2: G5 um technische Redaktion ergänzt (nicht mehr nur Hinweis) — erledigt OPEN_QUESTIONS #3 / Legal-Review #4. -->
+<!-- v1.3 (Owner-Entscheid 2026-07-07): §2 Modell-Katalog & Hybrid-Wahl — User-waehlbares Modell (alle Claude-Modelle + lokales Gemma 4 via Ollama), Provider-Abstraktion (AnthropicLLMClient-Profil + GemmaLLMClient), EU-first/DSGVO. Kein Prompt-/Tool-/Guardrail-Twin geaendert -> Prompt-Hash gueltig. -->
 
 # Technische Architektur OPUS PRIME EX
 
@@ -44,6 +45,21 @@ Alle Komponenten laufen in EU-Regionen; Modellzugriff über die Anthropic API (M
 - Der Risiko-Score (0–100) wird deterministisch aus Klassifikationsmerkmalen berechnet (Betragsschwellen genannt? Betriebsprüfung/Strafrecht-Keywords? mehrere Domänen? Fristen mit Rechtsverlust?) – nicht vom LLM „gefühlt“.
 - **Eskalation nach oben ist immer erlaubt** (Sonnet kann an Fable übergeben, wenn Tool-Loop Widersprüche findet), **Deeskalation nie** innerhalb einer Anfrage.
 - Jede Antwort loggt Route + Score für das Eval-Harness.
+
+**Modell-Katalog & Hybrid-Wahl (v1.3, Owner-Entscheid 2026-07-07):** Zusätzlich zum
+risikobasierten A/B/C-Routing können Nutzer:innen ein Modell **explizit wählen**; die Wahl
+überschreibt das Route-Modell. Der Katalog (`config/models.yaml` → `catalog`) trennt Modell
+von Route über Provider-Profile:
+- **Provider `anthropic`** — alle aktuellen Claude-Modelle (Opus 4.8, Sonnet 5, Fable 5,
+  Haiku 4.5), je mit Request-Profil (endpoint `standard`/`beta`, `thinking`, `temperature`,
+  `fallback_model`). Implementiert in `AnthropicLLMClient` (Profil-Pfad).
+- **Provider `gemma`** — lokales **Gemma 4** über Ollama (`GemmaLLMClient`, `http://localhost:11434`):
+  **keine API-Kosten, keine Datenweitergabe** (EU-first/DSGVO, analog zu den lokalen Embeddings).
+  Voraussetzung: laufendes Ollama + gezogenes Modell. Qualität ist gegen das Golden Set zu
+  messen, bevor Gemma für echte Rechtsauskünfte vertraut wird (DoD-Gate ≥ 95 %).
+Die Auswahl erfolgt über `build_llm_client(model_id)`; der zurückgegebene Client erfüllt
+dasselbe Orchestrator-`LLMClient`-Protokoll unabhängig vom Provider. Ohne Wahl greift
+`default_model` bzw. das A/B/C-Routing wie bisher.
 
 ## 3. Tool-Definitionen
 

@@ -94,3 +94,19 @@ Ab diesem Commit gilt `spec/` (inkl. `prompts/system_prompt_v1.1.md`, `review/*`
 | spec_lint | grün (G5 weiterhin testabgedeckt). |
 
 **Owner-Freigabe v1.3:** im Rahmen des erteilten grünen Lichts für die Bug-/Feature-Runde (2026-07-06). **Stand eingefroren** ab dem Commit dieses Nachtrags.
+
+---
+
+## Nachtrag v1.4 — Modell-Katalog & Hybrid-Wahl (Owner-Entscheid 2026-07-07)
+
+| Feld | Ergebnis |
+|------|----------|
+| Änderung | AGENT_ARCHITECTURE §2 (v1.3): User-wählbarer Modell-Katalog, Modell entkoppelt von Route. `config/models.yaml` `catalog` (alle Claude-Modelle + lokales Gemma 4). Neu: `src/gateway/gemma_client.py` (GemmaLLMClient über Ollama, injizierbarer Opener), `config.ModelProfile`/`list_models`/`resolve_model`/`default_model_id`, `AnthropicLLMClient` Profil-Pfad, `build_llm_client(model_id)`-Fabrik. |
+| Rationale | Hybrid Anthropic ↔ lokal. Lokales Gemma: keine API-Kosten, kein Datenabfluss (EU-first/DSGVO, analog lokale Embeddings). Owner-Vorgabe: alle Anthropic-Modelle zur Wahl + Gemma 4; Start CPU/32 GB, GPU (GCP) später. |
+| Tests | tests/gateway: Katalog, Anthropic-Profil-Pfad (Opus/Fable/Haiku), GemmaLLMClient (Fake-Opener + Fehlerpfad), Fabrik (gemma → GemmaLLMClient, Orchestrator-Protokoll). 227 Tests grün. |
+| Guardrails | unverändert — Modellwechsel läuft durch dieselbe Pipeline (Routing/Retrieval/Guardrails G1–G8); Gemma-Antworten werden identisch geprüft. |
+| Prompt | **unverändert** → SHA-256 in spec_hashes.json weiterhin gültig, kein Re-Freeze. |
+| spec_lint | grün. |
+| Offen | Qualität von Gemma gegen das Golden Set messen (DoD-Gate ≥ 95 %) vor Vertrauen für echte Rechtsauskünfte; menschliche RA/StB-Abnahme bleibt Pflicht (modellunabhängig). |
+
+**Owner-Freigabe v1.4:** im Rahmen des erteilten grünen Lichts für die Modell-Hybrid-Funktion (2026-07-07).

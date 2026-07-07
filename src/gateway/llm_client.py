@@ -22,7 +22,15 @@ from __future__ import annotations
 from collections.abc import Sequence
 from typing import Any, Protocol
 
-from src.gateway.config import RouteConfig, retry_config, route_config
+from src.gateway.config import (
+    ModelProfile,
+    RouteConfig,
+    default_model_id,
+    resolve_model,
+    retry_config,
+    route_config,
+)
+from src.gateway.gemma_client import GemmaLLMClient, build_gemma_client
 from src.gateway.prompt_builder import build_system, build_user_message
 from src.rag.chunker import Chunk
 from src.router.router import Route
@@ -69,9 +77,16 @@ class AnthropicLLMClient:
     Implements the structural protocol expected by src.orchestrator (generate()).
     """
 
-    def __init__(self, client: AnthropicClient, sprache: str = "de") -> None:
+    def __init__(
+        self,
+        client: AnthropicClient,
+        sprache: str = "de",
+        modell_profil: ModelProfile | None = None,
+    ) -> None:
         self._client = client
         self._sprache = sprache
+        # Ist ein Profil gesetzt (User-Modellwahl), ueberschreibt es das Route-Modell.
+        self._profil = modell_profil
 
     def generate(
         self,
@@ -80,16 +95,40 @@ class AnthropicLLMClient:
         chunks: Sequence[Chunk],
         korrektur_hinweis: str | None,
     ) -> str:
-        cfg = route_config(route)
         system = build_system()
         user = build_user_message(anfrage, chunks, korrektur_hinweis)
         messages = [{"role": "user", "content": user}]
 
+        if self._profil is not None:
+            return self._generate_profil(self._profil, system, messages)
+
+        cfg = route_config(route)
         if route is Route.B_KOMPLEX:
             return self._generate_fable(cfg, system, messages)
         if route is Route.A_STANDARD:
             return self._generate_sonnet(cfg, system, messages)
         return self._generate_haiku(cfg, system, messages)
+
+    def _generate_profil(
+        self, profil: ModelProfile, system: str, messages: list[dict[str, str]]
+    ) -> str:
+        """Generate with an explicitly chosen model (any Claude model in the catalog)."""
+        kwargs: dict[str, Any] = {
+            "model": profil.id,
+            "max_tokens": profil.max_tokens,
+            "system": system,
+            "messages": messages,
+        }
+        if profil.thinking:
+            kwargs["thinking"] = {"type": profil.thinking}
+        if profil.temperature is not None:
+            kwargs["temperature"] = profil.temperature
+        if profil.endpoint == "beta":
+            if profil.fallback_model:
+                kwargs["betas"] = [_FALLBACK_BETA]
+                kwargs["fallbacks"] = [{"model": profil.fallback_model}]
+            return _extract_text(self._client.beta.messages.create(**kwargs), self._sprache)
+        return _extract_text(self._client.messages.create(**kwargs), self._sprache)
 
     def _generate_haiku(
         self, cfg: RouteConfig, system: str, messages: list[dict[str, str]]
@@ -133,10 +172,10 @@ class AnthropicLLMClient:
         return _extract_text(self._client.beta.messages.create(**kwargs), self._sprache)
 
 
-def build_default_client() -> AnthropicLLMClient:
-    """Construct the production client from ANTHROPIC_API_KEY + retry config.
+def _build_anthropic_client(profil: ModelProfile | None) -> AnthropicLLMClient:
+    """Construct the Anthropic client from ANTHROPIC_API_KEY + retry config.
 
-    Imported lazily so the module (and its tests) load without the anthropic package.
+    anthropic wird lazy importiert, damit Modul/Tests ohne das Paket laufen.
     # SPEC: CLAUDE.md §3 (Secrets: environment variables only)
     """
     import anthropic
@@ -147,4 +186,24 @@ def build_default_client() -> AnthropicLLMClient:
     sdk_client: AnthropicClient = anthropic.Anthropic(  # type: ignore[assignment]
         max_retries=retries.max_attempts
     )
-    return AnthropicLLMClient(sdk_client)
+    return AnthropicLLMClient(sdk_client, modell_profil=profil)
+
+
+def build_default_client() -> AnthropicLLMClient:
+    """Route-basierter Anthropic-Client (Rueckwaertskompatibilitaet, kein Modell-Override)."""
+    return _build_anthropic_client(None)
+
+
+def build_llm_client(
+    model_id: str | None = None,
+) -> AnthropicLLMClient | GemmaLLMClient:
+    """Return the LLMClient for a user-chosen model id (Hybrid Anthropic <-> lokal).
+
+    Ohne model_id greift das Katalog-Default-Modell. Der zurueckgegebene Client erfuellt
+    das Orchestrator-LLMClient-Protokoll (generate()) unabhaengig vom Provider.
+    # SPEC: AGENT_ARCHITECTURE.md §2 (Modell-Katalog, User-Wahl); §8 (EU-first/DSGVO)
+    """
+    profil = resolve_model(model_id or default_model_id())
+    if profil.provider == "gemma":
+        return build_gemma_client(profil)
+    return _build_anthropic_client(profil)

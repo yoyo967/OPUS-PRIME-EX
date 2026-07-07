@@ -8,11 +8,20 @@ per-route request parameters that were checked against the live API in Meilenste
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from typing import Any
 
-from src.gateway.config import route_config
-from src.gateway.llm_client import AnthropicLLMClient
+import pytest
+
+from src.gateway.config import (
+    default_model_id,
+    list_models,
+    resolve_model,
+    route_config,
+)
+from src.gateway.gemma_client import GemmaLLMClient
+from src.gateway.llm_client import AnthropicLLMClient, build_llm_client
 from src.gateway.prompt_builder import (
     build_system,
     build_user_message,
@@ -20,6 +29,7 @@ from src.gateway.prompt_builder import (
 )
 from src.rag.chunker import Chunk
 from src.router.router import Route
+from src.shared.exceptions import ParameterNotFoundError, ToolInputError
 from src.shared.texts import text as i18n_text
 
 
@@ -166,4 +176,102 @@ class TestAnthropicLLMClient:
         from src.orchestrator.orchestrator import LLMClient
 
         client: LLMClient = AnthropicLLMClient(_FakeClient())
+        assert callable(client.generate)
+
+
+class TestModelCatalog:
+    def test_katalog_enthaelt_anthropic_und_gemma(self) -> None:
+        provider = {m.id: m.provider for m in list_models()}
+        assert provider["claude-sonnet-5"] == "anthropic"
+        assert provider["claude-opus-4-8"] == "anthropic"
+        assert provider["gemma4:e4b"] == "gemma"
+
+    def test_default_model(self) -> None:
+        assert default_model_id() == "claude-sonnet-5"
+
+    def test_resolve_unbekannt_faellt(self) -> None:
+        with pytest.raises(ParameterNotFoundError):
+            resolve_model("gibt-es-nicht")
+
+
+class TestAnthropicProfil:
+    """User-Modellwahl ueberschreibt das Route-Modell (beliebiges Claude-Modell)."""
+
+    def test_opus_standard_mit_thinking(self) -> None:
+        fake = _FakeClient(text="x")
+        client = AnthropicLLMClient(fake, modell_profil=resolve_model("claude-opus-4-8"))
+        client.generate(Route.C_TRIAGE, "Frage?", [], None)  # Route bewusst egal
+        kwargs = fake.messages.calls[0]
+        assert kwargs["model"] == "claude-opus-4-8"
+        assert kwargs["thinking"] == {"type": "adaptive"}
+        assert fake.beta.messages.calls == []
+
+    def test_fable_beta_mit_fallback(self) -> None:
+        fake = _FakeClient()
+        client = AnthropicLLMClient(fake, modell_profil=resolve_model("claude-fable-5"))
+        client.generate(Route.A_STANDARD, "Frage?", [], None)
+        assert fake.messages.calls == []
+        kwargs = fake.beta.messages.calls[0]
+        assert kwargs["model"] == "claude-fable-5"
+        assert kwargs["fallbacks"] == [{"model": "claude-opus-4-8"}]
+
+    def test_haiku_mit_temperature(self) -> None:
+        fake = _FakeClient()
+        client = AnthropicLLMClient(
+            fake, modell_profil=resolve_model("claude-haiku-4-5-20251001")
+        )
+        client.generate(Route.A_STANDARD, "Frage?", [], None)
+        assert fake.messages.calls[0]["temperature"] == 0.0
+
+
+class _FakeOllamaResp:
+    def __init__(self, payload: dict[str, Any]) -> None:
+        self._payload = payload
+
+    def __enter__(self) -> _FakeOllamaResp:
+        return self
+
+    def __exit__(self, *exc: object) -> None:
+        return None
+
+    def read(self) -> bytes:
+        return json.dumps(self._payload).encode("utf-8")
+
+
+class TestGemmaClient:
+    def test_ruft_ollama_und_liefert_content(self) -> None:
+        erfasst: dict[str, Any] = {}
+
+        def opener(req: Any) -> _FakeOllamaResp:
+            erfasst["body"] = json.loads(req.data.decode("utf-8"))
+            return _FakeOllamaResp(
+                {"message": {"role": "assistant", "content": "Nach § 19 UStG ..."}}
+            )
+
+        client = GemmaLLMClient(resolve_model("gemma4:e4b"), opener=opener)
+        out = client.generate(Route.A_STANDARD, "Frage?", [_chunk()], None)
+        assert out == "Nach § 19 UStG ..."
+        body = erfasst["body"]
+        assert body["model"] == "gemma4:e4b"
+        assert body["stream"] is False
+        assert body["messages"][0]["role"] == "system"
+        assert body["messages"][1]["role"] == "user"
+
+    def test_fehler_liefert_klare_meldung(self) -> None:
+        def boom(req: Any) -> Any:
+            raise ConnectionRefusedError()
+
+        client = GemmaLLMClient(resolve_model("gemma4:e4b"), opener=boom)
+        with pytest.raises(ToolInputError, match="nicht erreichbar"):
+            client.generate(Route.A_STANDARD, "Frage?", [], None)
+
+
+class TestClientFactory:
+    def test_gemma_id_liefert_gemma_client(self) -> None:
+        assert isinstance(build_llm_client("gemma4:26b"), GemmaLLMClient)
+
+    def test_gemma_client_erfuellt_orchestrator_protokoll(self) -> None:
+        from src.orchestrator.orchestrator import LLMClient
+
+        client: LLMClient = build_llm_client("gemma4:e4b")
         assert callable(client.generate)
