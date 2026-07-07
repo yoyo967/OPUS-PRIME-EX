@@ -77,3 +77,10 @@ select = ["E", "F", "I", "UP", "B"]
 python_version = "3.12"
 strict = true
 files = ["src", "apps", "scripts", "evals/harness"]
+
+[[tool.mypy.overrides]]
+# sentence-transformers = optionales Extra [embeddings] ohne Type-Stubs, lazy importiert
+# in src/rag/embeddings.py. Robust ob installiert oder nicht (kein inline type:ignore,
+# das je nach Installationszustand unbenutzt waere).
+module = ["sentence_transformers", "sentence_transformers.*"]
+ignore_missing_imports = true

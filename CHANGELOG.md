@@ -23,6 +23,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   damit BM25-only dependency-frei bleibt). **EU-first/DSGVO:** die Inferenz läuft
   **lokal** — kein Anfrage-/Dokumenttext verlässt die Maschine (stärker als ein
   „EU-gehosteter" Dienst). `build_store` nutzt den Embedder automatisch, wenn aktiviert.
+  **Live verifiziert (2026-07-07):** reales MiniLM-Modell (384-dim) geladen, echte
+  Korpus-Chunks eingebettet, semantische Dense-Treffer bestätigt, die reines BM25
+  verfehlt — z. B. „aufheben" → § 14b UStG *Aufbewahrung*, „Kaufmann/Handelsregister"
+  → § 1 + § 29 HGB, „Stammkapital GmbH" → § 5 GmbHG. mypy ist über eine
+  `sentence_transformers`-Override robust — grün, ob das Extra installiert ist oder nicht.
 - **BMF-Adapter:** neuer Quelltyp für BMF-Schreiben (Verwaltungsauffassung,
   `quelle_typ="bmf"`) — `src/rag/sources/bmf.py`. Chunking nach Randnummern
   (300–800 Tokens, 15 % Overlap gemäß KNOWLEDGE_ARCHITECTURE §5). BMF-Fundstellen

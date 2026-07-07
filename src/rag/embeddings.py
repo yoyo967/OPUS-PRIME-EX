@@ -44,9 +44,7 @@ class SentenceTransformerEmbedder:
     def _ensure_model(self) -> Any:
         if self._model is None:
             try:
-                from sentence_transformers import (  # type: ignore[import-not-found]
-                    SentenceTransformer,
-                )
+                from sentence_transformers import SentenceTransformer
             except ImportError as exc:  # optionales Extra [embeddings]
                 raise ToolInputError(
                     'Dense-Embeddings benoetigen "sentence-transformers" '
