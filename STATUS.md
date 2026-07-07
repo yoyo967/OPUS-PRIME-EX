@@ -46,7 +46,9 @@ Coverage in Summe: **97 → 112 / 124**.
 **Externe Blocker (kein Code löst das):**
 - **API-Guthaben** für die erste echte Live-Antwort (Account-Sache).
 - **Menschliche RA/StB-Abnahme** der Rechtsinhalte + Disclaimer-Freigabe vor Go-Live
-  (spec/OPEN_QUESTIONS #6/#9) — Pflicht.
+  (spec/OPEN_QUESTIONS #6/#9) — Pflicht. **Instrument bereit:** das strukturierte
+  Go-Live-Gate [review/human_signoff_checklist.md](review/human_signoff_checklist.md)
+  ist zum Abarbeiten + Unterschreiben durch eine Berufsträger:in vorbereitet.
 - **EU-gehostetes Embedding-Modell** (Infra-Entscheidung; verbessert Retrieval gegen
   BM25-Rauschen).
 
