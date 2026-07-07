@@ -23,7 +23,9 @@ jobs:
       - name: typecheck
         run: mypy
       - name: unit
-        run: pytest -q tests/tools
+        # SPEC: CLAUDE.md §5 (unit). Alle nicht separat benannten Stufen: Tools,
+        # Router/Klassifikation, API-Gateway, Web-Server und der Eval-Harness selbst.
+        run: pytest -q tests/tools tests/router tests/gateway tests/web tests/evals
       - name: ingest-fixtures
         # SPEC: CLAUDE.md §4.2, §5 (Pipeline-Stufe ingest-fixtures)
         run: pytest -q tests/rag
