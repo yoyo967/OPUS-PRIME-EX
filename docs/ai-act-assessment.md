@@ -8,6 +8,13 @@
      Rechtsgrundlage: VO (EU) 2024/1689 (EUR-Lex CELEX 32024R1689); Artikel-/
      Anhangbezuege beim RAG-Ingest gegen die konsolidierte Fassung verifizieren. -->
 
+> **A5-Bezug (BSI-Prüfrahmen).** Diese AI-Act-Klassifizierung ist die rechtliche Einordnung;
+> ihre **technisch prüfbare Umsetzung** wird im systemweiten A5-Mapping geführt:
+> `opus-deck/spec/A5_COMPLIANCE.md` (ADR-0006). OPUS PRIME EX' Kontrollen (Guardrails G1–G8,
+> deterministic-first, RA/StB-Sign-off, Vier-Gates-CI, EU-first/DSGVO) speisen dort v. a. die
+> Blöcke *Vertrauenswürdigkeit & Qualität*, *Sicherheit & Datenschutz* und *Governance*. A5 = BSI
+> Community Draft (06.07.2026), OSCAL-maschinenlesbar, Raster für AI Act + Cyber Resilience Act.
+
 ## 1. System und Einsatzkontext
 
 OPUS PRIME EX ist ein KI-gestützter **Rechts- und Steuerinformations-Assistent**
