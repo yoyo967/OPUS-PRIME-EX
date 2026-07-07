@@ -18,6 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - **Öffentliche OSS-Grundlage:** MIT-Lizenz, README (DE/EN), `CONTRIBUTING.md`,
   `SECURITY.md`, `CODE_OF_CONDUCT.md`, GitHub Issue-/PR-Templates.
+- **Korpus-Abdeckung erweitert:** fünf weitere Gesetze in `config/korpus_quellen.yaml`
+  (KStG, InsO, GwG, BDSG, UmwG; Slugs live gegen gesetze-im-internet.de verifiziert).
+  Schließt sieben gezählte Muss-Normen der Coverage-Matrix — voller Live-Ingest
+  **97/124 → 104/124** (Steuerrecht 22/25, Gewerberecht 14/20, DSGVO 18/20).
+  Verbleibende Lücken sind bewusst Nicht-Gesetzes-Quellen (DBA/OECD-MA, BMF-Schreiben
+  wie GoBD/AfA-Tabellen, IDW/IFRS, EDSA-Leitlinien, Nizza-Klassifikation), die eigene
+  Adapter bräuchten, sowie das für eine einzelne Norm zu große SGB IV.
 - **Bring-your-own-key:** jede Entwicklerin nutzt ihren eigenen `ANTHROPIC_API_KEY`
   (`.env`, gitignored); stdlib-Web-UI bindet nur an `127.0.0.1:8848`.
 - **CI-Härtung:** Der `unit`-Job der GitHub-Actions-Pipeline führt jetzt auch

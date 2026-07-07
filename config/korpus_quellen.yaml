@@ -28,6 +28,19 @@ gii_gesetze:
      quelle_url: "https://www.gesetze-im-internet.de/gmbhg/"}
   - {slug: markeng,   gesetz: MarkenG, gueltig_ab: "2025-01-01", domaene: [markenrecht],
      quelle_url: "https://www.gesetze-im-internet.de/markeng/"}
+  # Ergaenzung 2026-07-07 (Coverage-Block): Slugs live gegen gii verifiziert (HTTP 200).
+  # Schliessen Muss-Normen der Coverage-Matrix: KStG (§ 8 Abs. 3, § 8b), InsO (§ 15a,
+  # § 17), GwG (§ 20), BDSG (§ 26, § 38), UmwG (Grundzuege Verschmelzung).
+  - {slug: kstg_1977, gesetz: KStG,   gueltig_ab: "2024-01-01", domaene: [steuerrecht],
+     quelle_url: "https://www.gesetze-im-internet.de/kstg_1977/"}
+  - {slug: inso,      gesetz: InsO,   gueltig_ab: "2024-01-01", domaene: [gewerberecht],
+     quelle_url: "https://www.gesetze-im-internet.de/inso/"}
+  - {slug: gwg_2017,  gesetz: GwG,    gueltig_ab: "2024-01-01", domaene: [gewerberecht],
+     quelle_url: "https://www.gesetze-im-internet.de/gwg_2017/"}
+  - {slug: bdsg_2018, gesetz: BDSG,   gueltig_ab: "2024-01-01", domaene: [dsgvo],
+     quelle_url: "https://www.gesetze-im-internet.de/bdsg_2018/"}
+  - {slug: umwg_1995, gesetz: UmwG,   gueltig_ab: "2023-01-01", domaene: [gewerberecht],
+     quelle_url: "https://www.gesetze-im-internet.de/umwg_1995/"}
 
 # EU-Verordnungen (EUR-Lex Formex-4 via CELLAR). Adapter am 2026-07-07 gegen die
 # echte DSGVO verifiziert (99 Artikel, 173 Erwaegungsgruende; OPEN_QUESTIONS #11
