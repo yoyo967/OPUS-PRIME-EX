@@ -143,6 +143,23 @@ class TestKompositionBudget:
         assert len(chunks) <= 2
 
 
+class TestZitatGesetzBoost:
+    def _p147(self, gesetz: str, cid: str) -> Chunk:
+        return Chunk(
+            chunk_id=cid, quelle_typ="gesetz", jurisdiktion="DE", gesetz=gesetz,
+            celex=None, einheit="§ 147", ueberschrift="Aufbewahrung", gueltig_ab="2024-01-01",
+            gueltig_bis=None, rechtsstand_abruf="2026-07-06", quelle_url="https://x",
+            text="Aufbewahrungspflichten Unterlagen Jahre.", hash="sha256:x",
+            typ="norm", domaene=("steuerrecht",),
+        )
+
+    def test_genanntes_gesetz_rankt_vor_gleicher_nummer(self) -> None:
+        # § 147 gibt es in AO und HGB; "§ 147 AO" muss die AO-Norm zuerst liefern
+        store = InMemoryVectorStore([self._p147("HGB", "hgb147"), self._p147("AO", "ao147")])
+        chunks = retrieve(store, "Was regelt § 147 AO zur Aufbewahrung?", ("steuerrecht",))
+        assert chunks[0].chunk_id == "ao147"
+
+
 class TestBuildRagSuche:
     def test_liefert_orchestrator_callable(self) -> None:
         store = InMemoryVectorStore(_corpus())

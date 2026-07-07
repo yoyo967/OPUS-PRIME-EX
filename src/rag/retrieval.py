@@ -46,17 +46,29 @@ _PRIO = {
 # Re-Ranking-Bonus fuer Primaerquellen (§4.4 "Bonus fuer Primaerquelle").
 _QUELLE_BONUS = {"gesetz": 0.30, "eu_verordnung": 0.30, "bmf": 0.15, "urteil": 0.10}
 
-_DE_ZITAT = re.compile(r"§\s*(\d+[a-z]?)\s*([A-ZÄÖÜ][A-Za-zÄÖÜäöüß]*G|AO|GewO|UStDV)")
-_EU_ZITAT = re.compile(r"Art\.\s*(\d+[a-z]?).{0,40}?(DSGVO|UMV|VO\s*\(EU\)\s*\d{4}/\d+)")
+_DE_ZITAT = re.compile(
+    r"§\s*(\d+[a-z]?)\s*(?:Abs\.\s*\d+\s*)?([A-ZÄÖÜ][A-Za-zÄÖÜäöüß]*G|AO|GewO|UStDV)?"
+)
+_EU_ZITAT = re.compile(r"Art(?:ikel|\.)\s*(\d+[a-z]?)(?:.{0,40}?(DSGVO|UMV|\d{4}/\d+))?")
+# Kurzbezeichnung -> CELEX, damit ein EU-Zitat den richtigen Rechtsakt boostet.
+_SCOPE_CELEX = {
+    "dsgvo": "32016R0679", "2016/679": "32016R0679",
+    "umv": "32017R1001", "2017/1001": "32017R1001",
+    "2024/1689": "32024R1689", "2023/2854": "32023R2854",
+}
 
 
-def _explizite_zitate(query: str) -> list[str]:
-    """Extract explicit norm references so a direct §-hit is boosted (§4.1)."""
-    treffer: list[str] = []
+def _explizite_zitate(query: str) -> list[tuple[str, str | None]]:
+    """Extract (einheit-prefix, scope) pairs; scope = named law/regulation or None.
+
+    Enables a direct §-hit boost (§4.1) plus a stronger boost when the exact
+    statute is named (e.g. "§ 147 AO" ranks AO above a § 147 in another law).
+    """
+    treffer: list[tuple[str, str | None]] = []
     for m in _DE_ZITAT.finditer(query):
-        treffer.append(f"§ {m.group(1)}")
+        treffer.append((f"§ {m.group(1)}", (m.group(2) or "").lower() or None))
     for m in _EU_ZITAT.finditer(query):
-        treffer.append(f"Art. {m.group(1)}")
+        treffer.append((f"Art. {m.group(1)}", (m.group(2) or "").lower() or None))
     return treffer
 
 
@@ -118,12 +130,17 @@ def retrieve(
     for cid in set(kw_norm) | set(dense_norm):
         fusion[cid] = _W_KEYWORD * kw_norm.get(cid, 0.0) + _W_DENSE * dense_norm.get(cid, 0.0)
 
-    # Direkter Norm-Lookup: explizite Zitate in der Frage stark boosten (§4.1).
-    zitate = _explizite_zitate(query)
-    if zitate:
+    # Direkter Norm-Lookup: explizite Zitate boosten; genanntes Gesetz staerker (§4.1).
+    for einheit_prefix, scope in _explizite_zitate(query):
         for chunk in chunk_by_id.values():
-            if any(chunk.einheit.startswith(z) for z in zitate):
-                fusion[chunk.chunk_id] = fusion.get(chunk.chunk_id, 0.0) + 0.5
+            if not chunk.einheit.startswith(einheit_prefix):
+                continue
+            boost = 0.5
+            if scope is not None:
+                gesetz = (chunk.gesetz or "").lower()
+                if gesetz == scope or (chunk.celex and _SCOPE_CELEX.get(scope) == chunk.celex):
+                    boost += 0.6  # exakter Gesetzes-/Verordnungs-Treffer klar bevorzugt
+            fusion[chunk.chunk_id] = fusion.get(chunk.chunk_id, 0.0) + boost
 
     # Struktur-Expansion: verwiesene Normen der Top-Kandidaten nachladen (§4.3).
     top_ids = sorted(fusion, key=lambda c: fusion[c], reverse=True)[:8]

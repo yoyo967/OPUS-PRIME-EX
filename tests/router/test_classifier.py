@@ -27,6 +27,25 @@ class TestDomaenenerkennung:
         assert k.domaenen == ()
 
 
+class TestZitatDomaenen:
+    def test_gesetz_zitat_ohne_keyword(self) -> None:
+        # "§ 147 AO" nennt kein Domaenen-Schluesselwort, aber die AO -> steuerrecht
+        k = classify("Welche Pflichten ergeben sich aus § 147 AO?")
+        assert "steuerrecht" in k.domaenen
+
+    def test_hgb_zitat(self) -> None:
+        assert "gewerberecht" in classify("Was regelt § 238 HGB?").domaenen
+
+    def test_dsgvo_artikel(self) -> None:
+        assert "dsgvo" in classify("Genügt Art. 28 DSGVO für Auftragsverarbeitung?").domaenen
+
+    def test_ai_act_verordnung(self) -> None:
+        assert "eu_ai_act" in classify("Pflichten nach der VO (EU) 2024/1689?").domaenen
+
+    def test_markeng_ohne_paragraf(self) -> None:
+        assert "markenrecht" in classify("Was steht im MarkenG zur Loeschung?").domaenen
+
+
 class TestFlags:
     def test_definitionsfrage(self) -> None:
         assert classify("Was heißt OSS?").ist_definitionsfrage
