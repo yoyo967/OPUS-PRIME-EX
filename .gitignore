@@ -14,3 +14,9 @@ htmlcov/
 
 # Wissensbasis-Snapshots (gross, reproduzierbar via scripts/ingest.py)
 korpus/
+
+# Second Brain: persoenliches Wissen nicht committen (Schema BRAIN.md + Struktur bleiben)
+brain/raw/*
+brain/wiki/*
+!brain/raw/.gitkeep
+!brain/wiki/.gitkeep

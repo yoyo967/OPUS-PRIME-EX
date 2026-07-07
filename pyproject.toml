@@ -63,6 +63,7 @@ Issues = "https://github.com/yoyo967/OPUS-PRIME-EX/issues"
 opus-prime-ex-serve = "apps.web.server:main"
 opus-prime-ex-ingest = "src.rag.ingest:main"
 opus-prime-ex-mcp = "src.mcp_server.server:main"
+second-brain-mcp = "src.brain.server:main"
 
 [tool.setuptools.packages.find]
 include = ["src*", "apps*", "evals*"]
@@ -101,5 +102,5 @@ ignore_missing_imports = true
 # Der FastMCP-Dekorator @server.tool() ist je nach Installationszustand des optionalen
 # [mcp]-Extras mal typisiert, mal Any -> untyped-decorator hier abschalten, damit die
 # Gates ohne (CI) UND mit installiertem SDK gruen bleiben (statt zustandsabhaengigem inline-ignore).
-module = ["src.mcp_server.server"]
+module = ["src.mcp_server.server", "src.brain.server"]
 disable_error_code = ["untyped-decorator"]
