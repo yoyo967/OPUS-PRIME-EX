@@ -52,6 +52,12 @@ embeddings = [
 mcp = [
     "mcp>=1.9",
 ]
+# Vertex-AI-Provider (Gemini, EU-Region). Optional: der Kern + alle anderen Provider laufen
+# ohne. Nur der Live-Aufruf von Gemini ueber Vertex braucht es (src/gateway/gemini_client.py);
+# ausserdem GCP ADC + aktivierte Vertex-AI-API. Lazy importiert -> Tests laufen ohne das Paket.
+vertex = [
+    "google-cloud-aiplatform>=1.60",
+]
 
 [project.urls]
 Homepage = "https://github.com/yoyo967/OPUS-PRIME-EX"
@@ -96,6 +102,12 @@ ignore_missing_imports = true
 # mcp = optionales Extra [mcp], lazy importiert in src/mcp_server/server.py.
 # Robust ob installiert oder nicht.
 module = ["mcp", "mcp.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# vertexai/google-cloud-aiplatform = optionales Extra [vertex], lazy importiert in
+# src/gateway/gemini_client.py. Robust ob installiert oder nicht.
+module = ["vertexai", "vertexai.*", "google.cloud.aiplatform", "google.cloud.aiplatform.*"]
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]

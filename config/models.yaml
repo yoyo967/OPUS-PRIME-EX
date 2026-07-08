@@ -59,16 +59,26 @@ retry:
 # Entkoppelt das Modell von der Route: Nutzer:innen koennen explizit ein Modell waehlen.
 # Provider:
 #   anthropic  -> Anthropic API (pro-Token-Kosten; endpoint standard|beta, thinking, temperature)
-#   gemma      -> lokales Gemma 4 ueber Ollama (http://localhost:11434) — KEINE API-Kosten,
-#                 keine Datenweitergabe (DSGVO/EU-first, analog zu den lokalen Embeddings).
-# Wird KEIN Modell gewaehlt, greift das risikobasierte A/B/C-Routing (routes:) wie bisher.
+#   gemini     -> Google Gemini ueber Vertex AI, Region EXPLIZIT europe-west3 (EU-first/DSGVO).
+#                 Arbeitstier = Flash; gemini-2.5-pro ist in europe-west3 NICHT verfuegbar (404).
+#                 Live-Aufruf braucht GCP ADC + aktivierte Vertex-AI-API auf leadmachines-prod.
+#   gemma      -> Gemma 4 ueber Ollama. Lokal (http://localhost:11434) = KEINE API-Kosten, keine
+#                 Datenweitergabe; oder remote (Cloud-GPU) via host_env -> Env-Var mit Endpoint-URL.
+# Optionale Felder: region (gemini), host_env (gemma-remote), model_name (provider-nativer Name,
+# falls != id). Wird KEIN Modell gewaehlt, greift das risikobasierte A/B/C-Routing (routes:).
 default_model: "claude-sonnet-5"
 catalog:
   - {id: "claude-opus-4-8",            label: "Claude Opus 4.8",   provider: anthropic, endpoint: standard, thinking: adaptive, max_tokens: 8192}
   - {id: "claude-sonnet-5",            label: "Claude Sonnet 5",   provider: anthropic, endpoint: standard, thinking: adaptive, max_tokens: 4096}
   - {id: "claude-fable-5",             label: "Claude Fable 5",    provider: anthropic, endpoint: beta,     max_tokens: 8192, fallback_model: "claude-opus-4-8"}
   - {id: "claude-haiku-4-5-20251001",  label: "Claude Haiku 4.5",  provider: anthropic, endpoint: standard, temperature: 0.0, max_tokens: 1024}
+  # Gemini via Vertex AI (europe-west3, EU-first). Flash = Arbeitstier; Pro in der Region nicht da.
+  - {id: "gemini-2.5-flash",           label: "Gemini 2.5 Flash (Vertex EU)",      provider: gemini, region: "europe-west3", max_tokens: 4096}
+  - {id: "gemini-2.5-flash-lite",      label: "Gemini 2.5 Flash-Lite (Vertex EU)", provider: gemini, region: "europe-west3", max_tokens: 4096}
   # Lokal (Ollama). E4B laeuft auf CPU/32 GB fluessig; 26B-MoE (nur 3.8B aktiv) passt in 32 GB
-  # RAM, ist besser, aber auf CPU langsamer. GPU (GCP) spaeter fuer die groesseren Varianten.
+  # RAM, ist besser, aber auf CPU langsamer.
   - {id: "gemma4:e4b",                 label: "Gemma 4 E4B (lokal, CPU)", provider: gemma, max_tokens: 4096}
   - {id: "gemma4:26b",                 label: "Gemma 4 26B (lokal)",      provider: gemma, max_tokens: 4096}
+  # Cloud-GPU-Gemma: gleiche Ollama-Schnittstelle, remote (GPU). Host aus $GEMMA_REMOTE_HOST;
+  # ohne gesetzte Env inaktiv (klarer Fehler). GPU-Endpoint kommt im GCP-Deploy-Baustein.
+  - {id: "gemma4:27b-cloud",           label: "Gemma 4 27B (Cloud-GPU)",  provider: gemma, model_name: "gemma4:27b", host_env: "GEMMA_REMOTE_HOST", max_tokens: 4096}

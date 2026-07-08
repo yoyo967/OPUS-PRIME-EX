@@ -19,6 +19,7 @@ so tests run without the package or network.
 
 from __future__ import annotations
 
+import os
 from collections.abc import Sequence
 from typing import Any, Protocol
 
@@ -30,10 +31,16 @@ from src.gateway.config import (
     retry_config,
     route_config,
 )
-from src.gateway.gemma_client import GemmaLLMClient, build_gemma_client
+from src.gateway.gemini_client import GeminiLLMClient, build_gemini_client
+from src.gateway.gemma_client import (
+    _DEFAULT_HOST,
+    GemmaLLMClient,
+    build_gemma_client,
+)
 from src.gateway.prompt_builder import build_system, build_user_message
 from src.rag.chunker import Chunk
 from src.router.router import Route
+from src.shared.exceptions import ParameterNotFoundError
 from src.shared.texts import text as i18n_text
 
 # Beta-Flag fuer server-side Refusal-Fallback (claude-api-Referenz, exakt dieser String).
@@ -194,10 +201,27 @@ def build_default_client() -> AnthropicLLMClient:
     return _build_anthropic_client(None)
 
 
+def _gemma_host(profil: ModelProfile) -> str:
+    """Ollama-Host fuer ein Gemma-Profil: lokal, oder Remote (Cloud-GPU) aus host_env.
+
+    Ist host_env gesetzt, aber die Env-Var leer -> klarer Fehler statt stiller 404
+    (der Cloud-GPU-Endpoint wird im GCP-Deploy-Baustein bereitgestellt).
+    """
+    if not profil.host_env:
+        return _DEFAULT_HOST
+    host = os.environ.get(profil.host_env)
+    if not host:
+        raise ParameterNotFoundError(
+            f"Cloud-Gemma '{profil.id}' braucht einen Remote-Host: setze ${profil.host_env} "
+            f"(GPU-Endpoint). Bis dahin die lokalen Gemma-Modelle nutzen."
+        )
+    return host
+
+
 def build_llm_client(
     model_id: str | None = None,
-) -> AnthropicLLMClient | GemmaLLMClient:
-    """Return the LLMClient for a user-chosen model id (Hybrid Anthropic <-> lokal).
+) -> AnthropicLLMClient | GemmaLLMClient | GeminiLLMClient:
+    """Return the LLMClient for a user-chosen model id (Hybrid Anthropic <-> Vertex-EU <-> lokal).
 
     Ohne model_id greift das Katalog-Default-Modell. Der zurueckgegebene Client erfuellt
     das Orchestrator-LLMClient-Protokoll (generate()) unabhaengig vom Provider.
@@ -205,5 +229,7 @@ def build_llm_client(
     """
     profil = resolve_model(model_id or default_model_id())
     if profil.provider == "gemma":
-        return build_gemma_client(profil)
+        return build_gemma_client(profil, host=_gemma_host(profil))
+    if profil.provider == "gemini":
+        return build_gemini_client(profil)
     return _build_anthropic_client(profil)

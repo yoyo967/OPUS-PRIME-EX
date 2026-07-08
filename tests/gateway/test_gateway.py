@@ -20,6 +20,7 @@ from src.gateway.config import (
     resolve_model,
     route_config,
 )
+from src.gateway.gemini_client import GeminiLLMClient
 from src.gateway.gemma_client import GemmaLLMClient
 from src.gateway.llm_client import AnthropicLLMClient, build_llm_client
 from src.gateway.prompt_builder import (
@@ -266,6 +267,49 @@ class TestGemmaClient:
             client.generate(Route.A_STANDARD, "Frage?", [], None)
 
 
+class TestGeminiCatalog:
+    def test_katalog_enthaelt_gemini_eu_und_cloud_gemma(self) -> None:
+        profile = {m.id: m for m in list_models()}
+        flash = profile["gemini-2.5-flash"]
+        assert flash.provider == "gemini" and flash.region == "europe-west3"
+        cloud = profile["gemma4:27b-cloud"]
+        assert cloud.provider == "gemma"
+        assert cloud.host_env == "GEMMA_REMOTE_HOST"
+        assert cloud.model_name == "gemma4:27b"  # provider-nativer Name != Katalog-id
+
+
+class TestGeminiClient:
+    def test_ruft_caller_mit_model_name_und_liefert_text(self) -> None:
+        erfasst: dict[str, Any] = {}
+
+        def caller(modell: str, system: str, user: str, max_tokens: int) -> str:
+            erfasst.update(modell=modell, system=system, user=user, max_tokens=max_tokens)
+            return "  Nach § 19 UStG ...  "
+
+        client = GeminiLLMClient(resolve_model("gemini-2.5-flash"), caller=caller)
+        out = client.generate(Route.A_STANDARD, "Frage?", [_chunk()], None)
+        assert out == "Nach § 19 UStG ..."  # getrimmt
+        assert erfasst["modell"] == "gemini-2.5-flash"
+        assert erfasst["max_tokens"] == 4096
+        assert "Frage?" in erfasst["user"]
+
+    def test_fehler_liefert_klare_meldung(self) -> None:
+        def boom(modell: str, system: str, user: str, max_tokens: int) -> str:
+            raise RuntimeError("kein ADC")
+
+        client = GeminiLLMClient(resolve_model("gemini-2.5-flash"), caller=boom)
+        with pytest.raises(ToolInputError, match="Vertex/Gemini nicht erreichbar"):
+            client.generate(Route.A_STANDARD, "Frage?", [], None)
+
+    def test_generate_erfuellt_orchestrator_protokoll(self) -> None:
+        from src.orchestrator.orchestrator import LLMClient
+
+        client: LLMClient = GeminiLLMClient(
+            resolve_model("gemini-2.5-flash"), caller=lambda *_: "ok"
+        )
+        assert callable(client.generate)
+
+
 class TestClientFactory:
     def test_gemma_id_liefert_gemma_client(self) -> None:
         assert isinstance(build_llm_client("gemma4:26b"), GemmaLLMClient)
@@ -275,3 +319,19 @@ class TestClientFactory:
 
         client: LLMClient = build_llm_client("gemma4:e4b")
         assert callable(client.generate)
+
+    def test_gemini_id_liefert_gemini_client(self) -> None:
+        assert isinstance(build_llm_client("gemini-2.5-flash"), GeminiLLMClient)
+
+    def test_cloud_gemma_ohne_env_faellt_klar(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.delenv("GEMMA_REMOTE_HOST", raising=False)
+        with pytest.raises(ParameterNotFoundError, match="GEMMA_REMOTE_HOST"):
+            build_llm_client("gemma4:27b-cloud")
+
+    def test_cloud_gemma_mit_env_nutzt_remote_host(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("GEMMA_REMOTE_HOST", "http://gpu.example:11434")
+        client = build_llm_client("gemma4:27b-cloud")
+        assert isinstance(client, GemmaLLMClient)
+        assert client._host == "http://gpu.example:11434"  # Remote-GPU-Endpoint

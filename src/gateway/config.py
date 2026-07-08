@@ -68,6 +68,9 @@ class ModelProfile:
     temperature: float | None = None
     max_tokens: int = 4096
     fallback_model: str | None = None
+    region: str | None = None  # gemini: Vertex-Region (EU-first, z. B. europe-west3)
+    host_env: str | None = None  # gemma: Env-Var mit Remote-Host (Cloud-GPU); leer -> localhost
+    model_name: str | None = None  # provider-nativer Modellname (Default: id)
 
 
 def _profile_from(eintrag: dict[str, Any]) -> ModelProfile:
@@ -83,6 +86,9 @@ def _profile_from(eintrag: dict[str, Any]) -> ModelProfile:
         fallback_model=(
             str(eintrag["fallback_model"]) if eintrag.get("fallback_model") else None
         ),
+        region=(str(eintrag["region"]) if eintrag.get("region") else None),
+        host_env=(str(eintrag["host_env"]) if eintrag.get("host_env") else None),
+        model_name=(str(eintrag["model_name"]) if eintrag.get("model_name") else None),
     )
 
 

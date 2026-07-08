@@ -59,7 +59,7 @@ class GemmaLLMClient:
         if self._profil.temperature is not None:
             optionen["temperature"] = self._profil.temperature
         payload: dict[str, Any] = {
-            "model": self._profil.id,
+            "model": self._profil.model_name or self._profil.id,
             "messages": [
                 {"role": "system", "content": system},
                 {"role": "user", "content": user},
@@ -77,10 +77,11 @@ class GemmaLLMClient:
             with self._opener(req) as resp:
                 daten = json.loads(resp.read().decode("utf-8"))
         except Exception as exc:  # Ollama nicht erreichbar / Modell nicht gezogen
+            name = self._profil.model_name or self._profil.id
             raise ToolInputError(
-                f"Lokales Modell nicht erreichbar ({self._host}). Laeuft Ollama "
-                f"('ollama serve') und ist '{self._profil.id}' gezogen "
-                f"('ollama pull {self._profil.id}')? Ursache: {type(exc).__name__}"
+                f"Gemma-Modell nicht erreichbar ({self._host}). Laeuft Ollama "
+                f"('ollama serve') und ist '{name}' gezogen "
+                f"('ollama pull {name}')? Ursache: {type(exc).__name__}"
             ) from exc
         nachricht = daten.get("message") or {}
         return str(nachricht.get("content", "")).strip()
