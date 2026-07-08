@@ -9,7 +9,9 @@ API-Key/Guthaben; nur die Modellantwort haengt am Key. Faellt der Modellaufruf a
 (kein Guthaben/Key), zeigt die UI die Pipeline trotzdem an und meldet den Grund
 nutzerfreundlich - kein Stacktrace nach aussen (CLAUDE.md §3).
 
-Nur an 127.0.0.1 gebunden (lokal, DSGVO/Least-Privilege).
+Bind: lokal an 127.0.0.1 (DSGVO/Least-Privilege); auf Cloud Run (Env PORT gesetzt) an
+0.0.0.0:$PORT. Der Server hat KEINE eigene Auth -> Zugriffskontrolle ueber die
+Cloud-Run-Exposition (IAM/Identity-Token bzw. vorgelagerter Proxy).
 
 Nutzung:  python apps/web/server.py   ->  http://127.0.0.1:8848
 
@@ -43,8 +45,17 @@ from src.shared.exceptions import ToolInputError  # noqa: E402
 
 _INDEX = Path(__file__).resolve().parent / "index.html"
 _BRAIN_ROOT = _ROOT / "brain"
-_HOST = "127.0.0.1"
-_PORT = 8848
+
+
+def _resolve_bind() -> tuple[str, int]:
+    """Bind-Adresse: lokal 127.0.0.1:8848 (DSGVO/Least-Privilege). Auf Cloud Run setzt die
+    Plattform PORT und erwartet Lauschen auf 0.0.0.0:$PORT -> dann container-weit binden.
+    HOST explizit ueberschreibbar. Der Server selbst hat KEINE Auth; die Zugriffskontrolle
+    liegt auf der Cloud-Run-Exposition (IAM/Identity-Token bzw. vorgelagerter Proxy).
+    """
+    port = int(os.environ.get("PORT", "8848"))
+    host = os.environ.get("HOST") or ("0.0.0.0" if os.environ.get("PORT") else "127.0.0.1")
+    return host, port
 
 # Route -> lesbarer Modellname fuer die UI (Anzeige, nicht Logik).
 _ROUTE_MODELL = {
@@ -315,8 +326,9 @@ def main() -> int:
     print(f"[web] OPUS PRIME EX Referenz-UI - {zustand}")
     print(f"[web] Korpus: {len(_Handler.store.chunks)} Chunks (Fixtures, BM25-only)")
     print(f"[web] Second Brain: {len(_Handler.brain.alle())} Dokumente ({_BRAIN_ROOT})")
-    print(f"[web] -> http://{_HOST}:{_PORT}   (Strg+C zum Beenden)")
-    with socketserver.ThreadingTCPServer((_HOST, _PORT), _Handler) as httpd:
+    host, port = _resolve_bind()
+    print(f"[web] -> http://{host}:{port}   (Strg+C zum Beenden)")
+    with socketserver.ThreadingTCPServer((host, port), _Handler) as httpd:
         try:
             httpd.serve_forever()
         except KeyboardInterrupt:

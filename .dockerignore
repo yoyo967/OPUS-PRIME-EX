@@ -1,0 +1,18 @@
+# Nichts Persoenliches/Grosses/Unnoetiges ins Build-Kontext (Datenresidenz + Kontextgroesse):
+.git
+.github
+.venv
+venv
+**/__pycache__
+**/*.pyc
+.mypy_cache
+.ruff_cache
+.pytest_cache
+tests
+# Persoenliche/gitignorte Daten (bleiben lokal, nie in die Cloud):
+.env
+korpus
+brain/raw
+brain/wiki
+brain/.proposals
+book

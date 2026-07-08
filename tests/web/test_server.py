@@ -7,7 +7,9 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
-from apps.web.server import _fehlertext, verarbeite_frage
+import pytest
+
+from apps.web.server import _fehlertext, _resolve_bind, verarbeite_frage
 from src.rag.chunker import Chunk
 from src.rag.store import InMemoryVectorStore
 
@@ -71,3 +73,22 @@ class TestFehlertext:
 
     def test_generisch(self) -> None:
         assert "nicht moeglich" in _fehlertext(RuntimeError("boom"))
+
+
+class TestResolveBind:
+    """Bind: lokal 127.0.0.1 (DSGVO/Least-Privilege), Cloud Run (PORT gesetzt) 0.0.0.0:$PORT."""
+
+    def test_lokal_ohne_env(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.delenv("PORT", raising=False)
+        monkeypatch.delenv("HOST", raising=False)
+        assert _resolve_bind() == ("127.0.0.1", 8848)
+
+    def test_cloud_run_port_bindet_alle_interfaces(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("PORT", "8080")
+        monkeypatch.delenv("HOST", raising=False)
+        assert _resolve_bind() == ("0.0.0.0", 8080)
+
+    def test_host_override_gewinnt(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("PORT", "8080")
+        monkeypatch.setenv("HOST", "127.0.0.1")
+        assert _resolve_bind() == ("127.0.0.1", 8080)
