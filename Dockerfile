@@ -14,15 +14,19 @@ ENV PYTHONUNBUFFERED=1 \
 
 WORKDIR /app
 
-# Deps aus pyproject (Single Source): pyyaml + anthropic. Manifest zuerst (Layer-Cache).
+# Deps aus pyproject (Single Source) inkl. [vertex] fuer Gemini/Vertex-EU (der live nutzbare
+# Provider). Manifest zuerst (Layer-Cache).
 COPY pyproject.toml README.md ./
-RUN pip install .
+RUN pip install .[vertex]
 
-# Laufzeit-Dateien (per _ROOT-relativem Pfad gelesen -> muessen im Arbeitsverzeichnis liegen)
+# Laufzeit-Dateien (per _ROOT-relativem Pfad gelesen -> muessen im Arbeitsverzeichnis liegen).
+# prompts/ = System-Prompt + Few-Shots (Request-Pfad!); review/ = coverage_matrix (Ingest).
 COPY src ./src
 COPY apps ./apps
 COPY config ./config
 COPY data ./data
+COPY prompts ./prompts
+COPY review ./review
 COPY evals ./evals
 
 # Leeres Gehirn (persoenliche Inhalte bleiben lokal/gitignored)
