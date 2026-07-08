@@ -15,26 +15,36 @@
   `--set-secrets` injiziert. Der Wert wird beim Anlegen aus `.env` gepiped, **nie ausgegeben**.
 - **EU-first:** Region `europe-west3`, Gemini über Vertex AI in derselben Region.
 
-## Live (Stand 2026-07-08)
+## Live (Stand 2026-07-08) — **dauerhaft sicher (privat + Single-Origin-Proxy)**
 
-**Backend** `opus-prime-ex-backend` · `europe-west3` · `leadmachines-prod`
-- URL: `https://opus-prime-ex-backend-805048455261.europe-west3.run.app`
-- Image `:v4`, `--memory=1Gi --max-instances=2 --min-instances=0` (skaliert auf 0).
-- **Exposition (Demo):** `--allow-unauthenticated`, aber POST-Endpoints per **`OPUS_API_TOKEN`**
-  (`X-Opus-Token`) geschützt. Read-Endpoints (`/api/models`, brain-Reads) offen. Ehrlich: der
-  Token liegt client-seitig → **Bremsschwelle + Kostenschutz, kein Vault**; harte Absicherung =
-  IAP/Proxy (offen). `max-instances=2` cappt den Blast-Radius. Anthropic ohne Guthaben; **Gemini
-  (Vertex EU) live**.
+Architektur: der Browser spricht **nur** mit der Workbench (ein Origin). Deren Node-Backend
+(`@opus-deck/api-proxy`) leitet `/api/*` mit **Google-Identity-Token** ans **private** Backend
+weiter. Kein Client-Token, kein CORS, keine oeffentliche LLM-API, kein offenes Terminal im Netz.
 
-**Workbench (OPUS DECK)** `opus-deck-workbench` · `europe-west3`
-- URL (öffentlich): `https://opus-deck-workbench-805048455261.europe-west3.run.app`
-- Image `:v2` (Panels origin-basiert → rufen das Cloud-Backend mit Token). `--port=3333`,
-  `--session-affinity --cpu-boost`, `--max-instances=2`.
-- **End-to-End verifiziert (Browser):** Panels laden 9 Modelle aus der Cloud; `/api/frage` mit
-  `gemini-2.5-flash` liefert echte Antwort **durch die volle Guardrail-Pipeline** — `G4:freie_zahlen`
-  **blockt** unbelegte Rechts-Zahlen (deterministic-first, sichtbar in der UI).
-- ⚠️ **Offene Theia-Workbench** (hat ein Terminal) — für eine Demo vertretbar, **nicht** als
-  Dauer-Exposition; IAP-Härtung ist der nächste Schritt.
+**Backend** `opus-prime-ex-backend` · `europe-west3` · Image `:v5` (Seed-Gehirn)
+- `--no-allow-unauthenticated` → **privat** (unauth → 403). Nur die Workbench-Runtime-SA hat
+  `roles/run.invoker`. `ANTHROPIC_API_KEY` aus Secret Manager. Kein `OPUS_API_TOKEN` mehr.
+
+**Workbench** `opus-deck-workbench` · `europe-west3` · Image `:v5`
+- `--no-allow-unauthenticated` → **privat**. Env `OPUS_BACKEND_URL` = Backend-URL. Panels
+  same-origin (`/api`). `--port=3333 --session-affinity --cpu-boost`.
+
+**Zugriff (owner-authentifiziert, kein oeffentlicher Link):**
+```bash
+gcloud run services proxy opus-deck-workbench --region=europe-west3 --port=8899
+# -> http://localhost:8899 im Browser oeffnen (authentifiziert als dein gcloud-Konto)
+```
+**End-to-End verifiziert (durch den Tunnel):** unauth → 403; Panels laden 9 Modelle; Brain-Seed-
+Suche liefert Treffer; Gemini antwortet durch die Guardrail-Pipeline.
+
+> **Gotcha:** `--no-allow-unauthenticated` beim Redeploy entfernt eine bestehende `allUsers`-
+> Invoker-Bindung aus einem frueheren Public-Deploy; IAM-Propagation dauert ~1 min (kurz noch 200).
+> Pruefen: `gcloud run services get-iam-policy <svc> --region=europe-west3`.
+
+### Offene Haertung (spaeter)
+- Oeffentlicher Zugang mit Login (statt Tunnel) → **Voll-IAP + Load Balancer + agenticum.xyz**
+  (Domain-DNS + OAuth-Consent). Bindet die offene Domain-Aufgabe ein.
+- Dedizierte Least-Privilege-SA fuer die Workbench (statt Default-Editor-SA) — Defense-in-Depth.
 
 ## Build & Deploy (reproduzierbar)
 
