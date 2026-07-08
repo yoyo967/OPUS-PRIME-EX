@@ -28,9 +28,11 @@ COPY data ./data
 COPY prompts ./prompts
 COPY review ./review
 COPY evals ./evals
+COPY scripts ./scripts
 
-# Leeres Gehirn (persoenliche Inhalte bleiben lokal/gitignored)
-RUN mkdir -p brain/raw brain/wiki
+# Gehirn: raw/wiki bleiben leer fuer PERSOENLICHES Wissen (gitignored, nie in die Cloud). Fuer die
+# Demo-Suche NICHT-persoenliche Projekt-Seed-Karten einbacken (committet, Format via BrainStore).
+RUN mkdir -p brain/raw brain/wiki && python scripts/seed_brain.py brain
 
 # Cloud Run setzt PORT (Default hier 8080 fuer lokalen Container-Test)
 ENV PORT=8080
