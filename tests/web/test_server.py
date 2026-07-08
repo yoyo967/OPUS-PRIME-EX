@@ -9,7 +9,7 @@ from collections.abc import Sequence
 
 import pytest
 
-from apps.web.server import _fehlertext, _resolve_bind, verarbeite_frage
+from apps.web.server import _fehlertext, _resolve_bind, _token_ok, verarbeite_frage
 from src.rag.chunker import Chunk
 from src.rag.store import InMemoryVectorStore
 
@@ -92,3 +92,21 @@ class TestResolveBind:
         monkeypatch.setenv("PORT", "8080")
         monkeypatch.setenv("HOST", "127.0.0.1")
         assert _resolve_bind() == ("127.0.0.1", 8080)
+
+
+class TestTokenOk:
+    """POST-Schutz: ohne Token offen (lokal), mit Token muss der Header passen."""
+
+    def test_ohne_token_offen(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.delenv("OPUS_API_TOKEN", raising=False)
+        assert _token_ok(None) is True
+        assert _token_ok("egal") is True
+
+    def test_mit_token_passt(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("OPUS_API_TOKEN", "geheim123")
+        assert _token_ok("geheim123") is True
+
+    def test_mit_token_falsch_oder_fehlt(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("OPUS_API_TOKEN", "geheim123")
+        assert _token_ok("falsch") is False
+        assert _token_ok(None) is False

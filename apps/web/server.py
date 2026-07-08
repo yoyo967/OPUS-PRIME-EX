@@ -57,6 +57,18 @@ def _resolve_bind() -> tuple[str, int]:
     host = os.environ.get("HOST") or ("0.0.0.0" if os.environ.get("PORT") else "127.0.0.1")
     return host, port
 
+
+def _token_ok(header_value: str | None) -> bool:
+    """Schreib-/teure Endpoints (POST) optional per Token schuetzen.
+
+    Ist OPUS_API_TOKEN NICHT gesetzt (lokal), bleibt alles offen wie bisher. Ist es gesetzt
+    (oeffentliche Cloud-Exposition), muss der Header X-Opus-Token exakt passen. Der Token liegt
+    im Browser (client-seitig) -> Bremsschwelle gegen Drive-by-/Bot-Missbrauch + Kostenschutz,
+    KEIN Vault; die harte Absicherung ist IAP/Proxy (siehe docs/deploy_cloud_run.md).
+    """
+    token = os.environ.get("OPUS_API_TOKEN")
+    return not token or header_value == token
+
 # Route -> lesbarer Modellname fuer die UI (Anzeige, nicht Logik).
 _ROUTE_MODELL = {
     "A_STANDARD": "Claude Sonnet 5 (Standard)",
@@ -268,6 +280,9 @@ class _Handler(http.server.BaseHTTPRequestHandler):
         if pfad not in ("/api/frage", "/api/brain/add_raw", "/api/brain/approve",
                         "/api/brain/reject"):
             self._send(404, b"not found", "text/plain; charset=utf-8")
+            return
+        if not _token_ok(self.headers.get("X-Opus-Token")):
+            self._send_json({"fehler": "nicht autorisiert"}, 401)
             return
         laenge = int(self.headers.get("Content-Length", "0"))
         try:
