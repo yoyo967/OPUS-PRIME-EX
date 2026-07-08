@@ -17,13 +17,24 @@
 
 ## Live (Stand 2026-07-08)
 
-- Service: `opus-prime-ex-backend` · Region `europe-west3` · Projekt `leadmachines-prod`
-- URL (privat): `https://opus-prime-ex-backend-805048455261.europe-west3.run.app`
-- Image: `europe-west3-docker.pkg.dev/leadmachines-prod/opus/opus-prime-ex-backend:v2`
-- Revision `…-00002-wvc`, `--memory=1Gi --max-instances=2 --min-instances=0` (skaliert auf 0).
-- **End-to-End verifiziert:** authentifiziert → 9 Modelle; `/api/frage` mit `gemini-2.5-flash`
-  liefert eine echte Antwort **durch die volle Guardrail-Pipeline** (G1/G3 feuern).
-  Anthropic-Modelle: erst live, wenn Guthaben hinterlegt ist (Pipeline läuft trotzdem sichtbar).
+**Backend** `opus-prime-ex-backend` · `europe-west3` · `leadmachines-prod`
+- URL: `https://opus-prime-ex-backend-805048455261.europe-west3.run.app`
+- Image `:v4`, `--memory=1Gi --max-instances=2 --min-instances=0` (skaliert auf 0).
+- **Exposition (Demo):** `--allow-unauthenticated`, aber POST-Endpoints per **`OPUS_API_TOKEN`**
+  (`X-Opus-Token`) geschützt. Read-Endpoints (`/api/models`, brain-Reads) offen. Ehrlich: der
+  Token liegt client-seitig → **Bremsschwelle + Kostenschutz, kein Vault**; harte Absicherung =
+  IAP/Proxy (offen). `max-instances=2` cappt den Blast-Radius. Anthropic ohne Guthaben; **Gemini
+  (Vertex EU) live**.
+
+**Workbench (OPUS DECK)** `opus-deck-workbench` · `europe-west3`
+- URL (öffentlich): `https://opus-deck-workbench-805048455261.europe-west3.run.app`
+- Image `:v2` (Panels origin-basiert → rufen das Cloud-Backend mit Token). `--port=3333`,
+  `--session-affinity --cpu-boost`, `--max-instances=2`.
+- **End-to-End verifiziert (Browser):** Panels laden 9 Modelle aus der Cloud; `/api/frage` mit
+  `gemini-2.5-flash` liefert echte Antwort **durch die volle Guardrail-Pipeline** — `G4:freie_zahlen`
+  **blockt** unbelegte Rechts-Zahlen (deterministic-first, sichtbar in der UI).
+- ⚠️ **Offene Theia-Workbench** (hat ein Terminal) — für eine Demo vertretbar, **nicht** als
+  Dauer-Exposition; IAP-Härtung ist der nächste Schritt.
 
 ## Build & Deploy (reproduzierbar)
 
