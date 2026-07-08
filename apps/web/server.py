@@ -212,10 +212,11 @@ class _Handler(http.server.BaseHTTPRequestHandler):
         self.send_response(code)
         self.send_header("Content-Type", content_type)
         self.send_header("Content-Length", str(len(body)))
-        # CORS: lokale OPUS-DECK-UI (anderer Port) darf den Agenten aufrufen (localhost-only).
+        # CORS: die OPUS-DECK-UI (anderer Origin) darf das Backend aufrufen. X-Opus-Token muss
+        # in Allow-Headers stehen, sonst blockt der Preflight die POSTs mit Token.
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Opus-Token")
         self.end_headers()
         self.wfile.write(body)
 
